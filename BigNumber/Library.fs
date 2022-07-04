@@ -1,5 +1,4 @@
 ﻿namespace BigNumber
 
 module Say =
-    let hello name =
-        printfn "Hello %s" name
+    let hello name = printfn "Hello %s" name
