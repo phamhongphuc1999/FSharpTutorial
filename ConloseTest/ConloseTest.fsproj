@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BigNumber\BigNumber.fsproj" />
+    <ProjectReference Include="..\MyLibrary\MyLibrary.fsproj" />
   </ItemGroup>
 
 </Project>

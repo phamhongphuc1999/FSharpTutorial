@@ -19,6 +19,10 @@ dotnet new console -lang "F#" -o ConsoleTest
 dotnet new classlib -lang "F#" -o BigNumber
 ```
 
+```shell
+dotnet new classlib -lang "F#" -o MyLibrary
+```
+
 2. referent library to console test project
 ```shell
 cd ConsoleTest
@@ -26,6 +30,10 @@ cd ConsoleTest
 
 ```shell
 dotnet add reference ../BigNumber
+```
+
+```shell
+dotnet add reference ../MyLibrary
 ```
 
 3. Run console test
