@@ -36,7 +36,7 @@ dotnet add reference ../BigNumber
 dotnet add reference ../MyLibrary
 ```
 
-3. Run console test
+3. Build and Run console test
 ```shell
 dotnet run
 ```
