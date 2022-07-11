@@ -16,7 +16,7 @@ dotnet new console -lang "F#" -o ConsoleTest
 ```
 
 ```shell
-dotnet new classlib -lang "F#" -o BigNumber
+dotnet new classlib -lang "F#" -o MyNumber
 ```
 
 ```shell
@@ -29,7 +29,7 @@ cd ConsoleTest
 ```
 
 ```shell
-dotnet add reference ../BigNumber
+dotnet add reference ../MyNumber
 ```
 
 ```shell

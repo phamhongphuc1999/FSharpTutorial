@@ -1,6 +1,7 @@
-﻿open MyLibrary.Sort
+﻿open MyNumber.Integer
+open MyNumber.Error
 
-let source = [| 10; 1; 9; 2; 8; 3; 7; 4; 6; 5 |]
+let number1 = UIntNumber("123")
+let number2 = UIntNumber.Parse("321")
 
-let abc = QuickSort<int> source PivotType.HEADER (fun a b -> a < b)
-printfn "%A" abc
+printf "%s" (UIntNumber.Add "1234" "1234")
