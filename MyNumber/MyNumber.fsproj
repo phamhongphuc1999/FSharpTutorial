@@ -4,7 +4,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IntegerNumber.fs" />
     <Compile Include="NumberError.fs" />
+    <Compile Include="./Service/IntegerService.fs" />
+    <Compile Include="./Service/DecimalService.fs" />
+    <Compile Include="IntegerNumber.fs" />
   </ItemGroup>
 </Project>

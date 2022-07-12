@@ -1,3 +1,4 @@
-module MyNumber.Error
+namespace MyNumber
 
-exception NotANumber of string
+module Error =
+    exception NotANumber of string

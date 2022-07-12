@@ -1,7 +1,6 @@
 ﻿open MyNumber.Integer
-open MyNumber.Error
 
-let number1 = UIntNumber("123")
-let number2 = UIntNumber.Parse("321")
+let number1 = UIntNumber("321")
+let number2 = UIntNumber.Parse("123")
 
-printf "%s" (UIntNumber.Add "1234" "1234")
+printfn "%s" ((UIntNumber.Subtract number1 number2).ToString())

@@ -1,72 +1,87 @@
-module MyNumber.Integer
+namespace MyNumber
 
-type UIntNumber(coreNumber: string) =
-    let coreNumber = coreNumber
+open MyNumber.Error
+open MyNumber.Service.Integer
 
-    member this.CoreNumber = coreNumber
+module Integer =
+    type BaseIntegerNumber(coreNumber: string) =
+        let coreNumber = coreNumber
+        override this.ToString() = coreNumber
 
-    static member IsNumber(number: string) =
-        let mutable check = true
-        let len = number.Length
-        let mutable count = 0
+    type UIntNumber(coreNumber: string) =
+        inherit BaseIntegerNumber(coreNumber)
 
-        while (count < len) && check do
-            let unitC = int number[count]
+        do
+            if IsUInt coreNumber then
+                raise (NotANumber("Not A Number"))
 
-            if 48 >= unitC || 57 <= unitC then
-                check <- false
-            else
+        static member IsNumber(number: string) = IsUInt number
+
+        static member Parse(coreNumber: string) = UIntNumber(coreNumber)
+
+        static member Add (number1: UIntNumber) (number2: UIntNumber) =
+            let sNumber1 = number1.ToString()
+            let sNumber2 = number2.ToString()
+            let result = AddIntegerNumber sNumber1 sNumber2
+            UIntNumber(result)
+
+
+        static member Subtract (number1: UIntNumber) (number2: UIntNumber) =
+            let sNumber1 = number1.ToString()
+            let sNumber2 = number2.ToString()
+            let len1 = sNumber1.Length
+            let len2 = sNumber2.Length
+            let mutable result = ""
+            let mutable count = 1
+            let mutable remain = 0
+
+            while (count <= len1) && (count <= len2) do
+                let n1 = int sNumber1[len1 - count] - 48
+                let n2 = int sNumber2[len2 - count] - 48
+
+                if n1 >= n2 + remain then
+                    result <- (string (n1 - n2 - remain)) + result
+                    remain <- 0
+                else
+                    result <- (string (n1 + 10 - n2 - remain)) + result
+                    remain <- 1
+
                 count <- count + 1
 
-        check
+            while count <= len1 do
+                let n1 = int sNumber1[len1 - count] - 48
+
+                if n1 >= remain then
+                    result <- (string (n1 - remain)) + result
+                    remain <- 0
+                else
+                    result <- (string (10 + n1 - remain)) + result
+                    remain <- 1
+
+                count <- count + 1
+
+            UIntNumber(result)
 
 
-    static member Parse(coreNumber: string) = UIntNumber(coreNumber)
+        static member Multiply (number1: UIntNumber) (number2: UIntNumber) = ()
 
-    static member Add (number1: string) (number2: string) =
-        let check =
-            (UIntNumber.IsNumber number1)
-            && (UIntNumber.IsNumber number2)
+        static member Divide (number1: UIntNumber) (number2: UIntNumber) = ()
 
-        if not check then
-            raise (System.ArgumentException("Divisor cannot be zero!"))
+    type IntNumber(coreNumber: string) =
+        inherit BaseIntegerNumber(coreNumber)
 
-        let len1 = number1.Length
-        let len2 = number2.Length
-        let mutable result = ""
-        let mutable count = 1
-        let mutable remain = 0
+        do
+            if IsInt coreNumber then
+                raise (NotANumber("Not A Number"))
 
-        while (count <= len1) && (count <= len2) do
-            let n1 = int number1[len1 - count]
-            let n2 = int number2[len2 - count]
-            let temp = n1 + n2 + remain
-            result <- (string (temp / 10)) + result
-            remain <- temp % 10
-            count <- count + 1
+        static member IsNumber(number: string) = IsInt number
 
-        while count <= len1 do
-            let n1 = int number1[len1 - count]
-            let temp = n1 + remain
-            result <- string (temp / 10) + result
-            remain <- temp % 10
-            count <- count + 1
+        static member Parse(coreNumber: string) = IntNumber(coreNumber)
 
-        while count <= len2 do
-            let n2 = int number2[len2 - count]
-            let temp = n2 + remain
-            result <- string (temp / 10) + result
-            remain <- temp % 10
-            count <- count + 1
+        static member Add (number1: IntNumber) (number2: IntNumber) = ()
 
-        if remain > 0 then
-            result <- (string remain) + result
+        static member Subtract (number1: IntNumber) (number2: IntNumber) = ()
 
-        result
+        static member Multiply (number1: IntNumber) (number2: IntNumber) = ()
 
-
-    static member Subtract (number1: string) (number2: string) = ()
-
-    static member Multiply (number1: string) (number2: string) = ()
-
-    static member Divide (number1: string) (number2: string) = ()
+        static member Divide (number1: IntNumber) (number2: IntNumber) = ()
