@@ -1,0 +1,4 @@
+namespace MyNumber
+
+module DecimalNumber =
+    ()

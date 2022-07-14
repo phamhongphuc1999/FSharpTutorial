@@ -1,38 +1,26 @@
 namespace MyNumber.Service
 
 open MyNumber.Service.UInt
+open System.Text.RegularExpressions
 
 module Int =
-    let FormatInt (number: string) =
-        let mutable sign = 1
-        let mutable realNumber = number
-
-        if number[0] = '-' then
-            sign <- -1
-            realNumber <- number[1..]
-
-        let result = FormatUInt realNumber
-
-        if sign = 1 then
-            result
-        else
-            "-" + result
-
-    let IsInt (number: string) =
-        let firstN = number[0]
-
-        if firstN <> '-'
-           || 48 > int firstN
-           || 57 < int firstN then
-            false
-        else
-            IsUInt number[1..]
-
     let GetUIntNumber (number: string) =
         if number[0] = '-' then
             (-1, number[1..])
         else
             (1, number)
+
+    let FormatInt (number: string) =
+        let (sign, realNumber) = GetUIntNumber number
+        let result = FormatUInt realNumber
+
+        if result = "0" then "0"
+        elif sign = 1 then result
+        else "-" + result
+
+    let IsInt (number: string) =
+        let result = Regex.Match(number, "^[- | 0-9][0-9]*")
+        result.Length = number.Length
 
     let IntCompare (number1: string) (number2: string) =
         let (sign1, realNum1) = number1 |> FormatInt |> GetUIntNumber
@@ -65,7 +53,7 @@ module Int =
                     SubtractUInt realNum2 realNum1
                 else
                     "-" + (SubtractUInt realNum2 realNum1)
-            else if sign1 = -1 then
+            elif sign1 = -1 then
                 "-" + (SubtractUInt realNum1 realNum2)
             else
                 SubtractUInt realNum1 realNum2
