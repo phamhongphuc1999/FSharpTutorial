@@ -1,6 +1,7 @@
-﻿open MyNumber.Integer
+﻿open MyNumber.UIntNumber
+open MyNumber.Service.UInt
 
-let number1 = UIntNumber("321")
-let number2 = UIntNumber.Parse("123")
+// let number1 = UIntNumber("00001000")
+// let number2 = UIntNumber.Parse("00999")
 
-printfn "%s" ((UIntNumber.Subtract number1 number2).ToString())
+printfn "%s" (DivideUInt "35" "7")
