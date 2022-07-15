@@ -11,7 +11,6 @@ module Decimal =
         if realNum[0] = '-' then
             sign <- -1
             realNum <- realNum[1..]
-        printfn "%s" realNum
 
         if realNum[0] = '.' then
             (sign, "0", realNum[1..])
@@ -22,7 +21,11 @@ module Decimal =
                 (sign, realNum[0 .. (len - 2)], "")
             else
                 let parts = realNum.Split([| '.' |])
-                (sign, parts[0], parts[1])
+
+                if parts.Length > 1 then
+                    (sign, parts[0], parts[1])
+                else
+                    (sign, parts[0], "")
 
     let FormatDecimal (number: string) =
         let (sign, intNumber, decimalNumber) = GetIntegerAndDecimal number
@@ -62,9 +65,52 @@ module Decimal =
             let result2 = Regex.Match(number, "-[0-9]*.[0-9]*")
             result2.Length = number.Length
 
-    let DecimalCompare (number1: string) (number2: string) = ()
+    let DecimalCompare (number1: string) (number2: string) =
+        let (sign1, intNumber1, decimalNumber1) =
+            number1 |> FormatDecimal |> GetIntegerAndDecimal
 
-    let AddDecimal (number1: string) (number2: string) = ()
+        let (sign2, intNumber2, decimalNumber2) =
+            number2 |> FormatDecimal |> GetIntegerAndDecimal
+
+        if sign1 = -1 && sign2 = 1 then
+            -1
+        elif sign1 = 1 && sign2 = -1 then
+            1
+        else
+            let temp = UIntCompare intNumber1 intNumber2
+
+            if temp <> 0 then
+                sign1 * temp
+            else
+                let len1 = decimalNumber1.Length
+                let len2 = decimalNumber2.Length
+                let mutable count = 0
+                let mutable check = true
+                let mutable result = 1
+
+                while count < len1 && count < len2 && check do
+                    if decimalNumber1[count] < decimalNumber2[count] then
+                        result <- -1
+                        check <- false
+                    elif decimalNumber1[count] > decimalNumber2[count] then
+                        check <- false
+
+                    count <- count + 1
+
+                if not check then sign1 * result
+                elif count < len1 then sign1
+                elif count < len2 then -sign1
+                else 0
+
+
+    let AddDecimal (number1: string) (number2: string) =
+        let (sign1, intNumber1, decimalNumber1) =
+            number1 |> FormatDecimal |> GetIntegerAndDecimal
+
+        let (sign2, intNumber2, decimalNumber2) =
+            number2 |> FormatDecimal |> GetIntegerAndDecimal
+
+        ()
 
     let SubtractDecimal (number1: string) (number2: string) = ()
 

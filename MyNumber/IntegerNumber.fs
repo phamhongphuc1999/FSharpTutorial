@@ -58,6 +58,17 @@ module UIntNumber =
             let sDivisor = divisor.ToString()
             (DivideUInt sDividend sDivisor) |> UIntNumber
 
+        static member DivideMod (dividend: UIntNumber) (divisor: UIntNumber) =
+            let sDividend = dividend.ToString()
+            let sDivisor = divisor.ToString()
+            (DivideModUInt sDividend sDivisor) |> UIntNumber
+
+        static member RealDivide (dividend: UIntNumber) (divisor: UIntNumber) =
+            let sDividend = dividend.ToString()
+            let sDivisor = divisor.ToString()
+            let (integerPart, decimalPart) = RealDivideUInt sDividend sDivisor
+            (integerPart |> UIntNumber, decimalPart |> UIntNumber)
+
 module IntNumber =
     type IntNumber(coreNumber: string) =
         inherit BaseIntegerNumber(coreNumber)

@@ -51,29 +51,31 @@ module UInt =
             result
 
     let AddUInt (number1: string) (number2: string) =
-        let len1 = (FormatUInt number1).Length
-        let len2 = (FormatUInt number2).Length
+        let fNum1 = FormatUInt number1
+        let fNum2 = FormatUInt number2
+        let len1 = fNum1.Length
+        let len2 = fNum2.Length
         let mutable result = ""
         let mutable count = 1
         let mutable remain = 0
 
         while (count <= len1) && (count <= len2) do
-            let n1 = int number1[len1 - count] - 48
-            let n2 = int number2[len2 - count] - 48
+            let n1 = int fNum1[len1 - count] - 48
+            let n2 = int fNum2[len2 - count] - 48
             let temp = n1 + n2 + remain
             result <- (string (temp % 10)) + result
             remain <- temp / 10
             count <- count + 1
 
         while count <= len1 do
-            let n1 = int number1[len1 - count] - 48
+            let n1 = int fNum1[len1 - count] - 48
             let temp = n1 + remain
             result <- (string (temp % 10)) + result
             remain <- temp / 10
             count <- count + 1
 
         while count <= len2 do
-            let n2 = int number2[len2 - count] - 48
+            let n2 = int fNum2[len2 - count] - 48
             let temp = n2 + remain
             result <- (string (temp % 10)) + result
             remain <- temp / 10
@@ -85,15 +87,17 @@ module UInt =
         result
 
     let SubtractUInt (number1: string) (number2: string) =
-        let len1 = (FormatUInt number1).Length
-        let len2 = (FormatUInt number2).Length
+        let fNum1 = FormatUInt number1
+        let fNum2 = FormatUInt number2
+        let len1 = fNum1.Length
+        let len2 = fNum2.Length
         let mutable result = ""
         let mutable count = 1
         let mutable remain = 0
 
         while (count <= len1) && (count <= len2) do
-            let n1 = int number1[len1 - count] - 48
-            let n2 = int number2[len2 - count] - 48
+            let n1 = int fNum1[len1 - count] - 48
+            let n2 = int fNum2[len2 - count] - 48
 
             if n1 >= n2 + remain then
                 result <- (string (n1 - n2 - remain)) + result
@@ -105,7 +109,7 @@ module UInt =
             count <- count + 1
 
         while count <= len1 do
-            let n1 = int number1[len1 - count] - 48
+            let n1 = int fNum1[len1 - count] - 48
 
             if n1 >= remain then
                 result <- (string (n1 - remain)) + result
@@ -143,4 +147,88 @@ module UInt =
 
             result
 
-    let DivideUInt (dividend: string) (divisor: string) = dividend
+    let DivideUInt (dividend: string) (divisor: string) =
+        if divisor = "0" then
+            raise (System.DivideByZeroException())
+        elif divisor = "1" then
+            dividend
+        else
+            let mutable result = ""
+            let mutable remain = ""
+
+            for cDividend in dividend do
+                remain <- remain + (string cDividend)
+
+                if remain = "0" then
+                    result <- result + "0"
+                    remain <- ""
+                else
+                    let remainCompare = UIntCompare remain divisor
+
+                    if remainCompare = 0 then
+                        result <- result + "1"
+                        remain <- ""
+                    elif remainCompare = -1 then
+                        if result.Length > 0 then
+                            result <- result + "0"
+                    elif remainCompare = 1 then
+                        let mutable count = 1
+                        let mutable total = divisor
+                        let mutable preTotal = ""
+                        let mutable check = -1
+
+                        while count <= 9 && check = -1 do
+                            preTotal <- total
+                            total <- (AddUInt total divisor)
+                            count <- count + 1
+                            check <- UIntCompare total remain
+
+                        if count > 9 then
+                            result <- result + "9"
+                            remain <- (SubtractUInt remain preTotal)
+                        elif check = 0 then
+                            result <- result + (string count)
+                            remain <- ""
+                        else
+                            result <- result + (string (count - 1))
+                            remain <- (SubtractUInt remain preTotal)
+
+            result
+
+    let DivideModUInt (dividend: string) (divisor: string) =
+        if divisor = "0" then
+            raise (System.DivideByZeroException())
+        elif divisor = "1" then
+            "0"
+        else
+            let mutable result = "0"
+
+            for cDividend in dividend do
+                if result = "0" then
+                    result <- (string cDividend)
+                else
+                    result <- result + (string cDividend)
+
+                let resultCompare = UIntCompare result divisor
+
+                if resultCompare = 0 then
+                    result <- "0"
+                elif resultCompare = 1 then
+                    let mutable preTotal = divisor
+                    let mutable total = AddUInt divisor divisor
+                    let mutable check = UIntCompare total result
+
+                    while check = -1 do
+                        preTotal <- total
+                        total <- AddUInt total divisor
+                        check <- UIntCompare total result
+
+                    if check = 0 then
+                        result <- "0"
+                    else
+                        result <- SubtractUInt result preTotal
+
+            FormatUInt result
+
+    let RealDivideUInt (dividend: string) (divisor: string) =
+        (DivideUInt dividend divisor, DivideModUInt dividend divisor)

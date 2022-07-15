@@ -2,4 +2,5 @@
 open MyNumber.Service.Int
 open MyNumber.Service.Decimal
 
-"-.0012345600" |> FormatDecimal |> printfn "%A"
+// printfn "%s" (DivideModUInt "100" "3")
+printfn "%A" (RealDivideUInt "123412341234" "123")
