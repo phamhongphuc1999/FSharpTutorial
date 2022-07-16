@@ -69,6 +69,16 @@ module UIntNumber =
             let (integerPart, decimalPart) = RealDivideUInt sDividend sDivisor
             (integerPart |> UIntNumber, decimalPart |> UIntNumber)
 
+        static member Multiply10 (number1: UIntNumber) (number2: UIntNumber) =
+            let sNumber1 = number1.ToString()
+            let sNumber2 = number2.ToString()
+            (MultiplyUInt10 sNumber1 sNumber2) |> UIntNumber
+
+        static member Pow (number1: UIntNumber) (number2: UIntNumber) =
+            let sNumber1 = number1.ToString()
+            let sNumber2 = number2.ToString()
+            (PowUInt sNumber1 sNumber2) |> UIntNumber
+
 module IntNumber =
     type IntNumber(coreNumber: string) =
         inherit BaseIntegerNumber(coreNumber)
@@ -117,7 +127,17 @@ module IntNumber =
             let sNumber2 = number2.ToString()
             (MultiplyInt sNumber1 sNumber2) |> IntNumber
 
-        static member Divide (number1: IntNumber) (number2: IntNumber) =
+        static member Divide (dividend: IntNumber) (divisor: IntNumber) =
+            let sDividend = dividend.ToString()
+            let sDivisor = divisor.ToString()
+            (DivideInt sDividend sDivisor) |> IntNumber
+
+        static member Multiply10 (number1: IntNumber) (number2: UIntNumber.UIntNumber) =
             let sNumber1 = number1.ToString()
             let sNumber2 = number2.ToString()
-            (DivideInt sNumber1 sNumber2) |> IntNumber
+            (MultiplyInt10 sNumber1 sNumber2) |> IntNumber
+
+        static member Pow (number1: IntNumber) (number2: UIntNumber.UIntNumber) =
+            let sNumber1 = number1.ToString()
+            let sNumber2 = number2.ToString()
+            (PowInt sNumber1 sNumber2) |> IntNumber

@@ -232,3 +232,35 @@ module UInt =
 
     let RealDivideUInt (dividend: string) (divisor: string) =
         (DivideUInt dividend divisor, DivideModUInt dividend divisor)
+
+    let MultiplyUInt10 (number1: string) (number2: string) =
+        let mutable result = ""
+        let mutable temp = "0"
+        let mutable tNum2 = number2
+
+        while UIntCompare tNum2 "0" = 1 do
+            let (rInteger, rDecimal) = RealDivideUInt tNum2 "2"
+
+            if rDecimal = "1" then
+                result <- result + temp
+
+            temp <- temp + temp
+            tNum2 <- rInteger
+
+        number1 + result
+
+    let PowUInt (number1: string) (number2: string) =
+        let mutable result = "1"
+        let mutable tNum1 = number1
+        let mutable tNum2 = number2
+
+        while UIntCompare tNum2 "0" = 1 do
+            let (rInteger, rDecimal) = RealDivideUInt tNum2 "2"
+
+            if rDecimal = "1" then
+                result <- MultiplyUInt result tNum1
+
+            tNum1 <- MultiplyUInt tNum1 tNum1
+            tNum2 <- rInteger
+
+        result

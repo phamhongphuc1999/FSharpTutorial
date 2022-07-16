@@ -18,13 +18,15 @@ module Int =
         elif sign = 1 then result
         else "-" + result
 
+    let DeepGetIntNumber = FormatInt >> GetUIntNumber
+
     let IsInt (number: string) =
         let result = Regex.Match(number, "^[- | 0-9][0-9]*")
         result.Length = number.Length
 
     let IntCompare (number1: string) (number2: string) =
-        let (sign1, realNum1) = number1 |> FormatInt |> GetUIntNumber
-        let (sign2, realNum2) = number2 |> FormatInt |> GetUIntNumber
+        let (sign1, realNum1) = number1 |> DeepGetIntNumber
+        let (sign2, realNum2) = number2 |> DeepGetIntNumber
 
         if sign1 < sign2 then
             -1
@@ -36,8 +38,8 @@ module Int =
             -(UIntCompare realNum1 realNum2)
 
     let AddInt (number1: string) (number2: string) =
-        let (sign1, realNum1) = number1 |> FormatInt |> GetUIntNumber
-        let (sign2, realNum2) = number2 |> FormatInt |> GetUIntNumber
+        let (sign1, realNum1) = number1 |> DeepGetIntNumber
+        let (sign2, realNum2) = number2 |> DeepGetIntNumber
 
         if sign1 = -1 && sign2 = -1 then
             "-" + (AddUInt realNum1 realNum2)
@@ -59,8 +61,8 @@ module Int =
                 SubtractUInt realNum1 realNum2
 
     let SubtractInt (number1: string) (number2: string) =
-        let (sign1, realNum1) = number1 |> FormatInt |> GetUIntNumber
-        let (sign2, realNum2) = number2 |> FormatInt |> GetUIntNumber
+        let (sign1, realNum1) = number1 |> DeepGetIntNumber
+        let (sign2, realNum2) = number2 |> DeepGetIntNumber
 
         if sign1 = -1 && sign2 = 1 then
             "-" + (AddUInt realNum1 realNum2)
@@ -82,8 +84,8 @@ module Int =
                 SubtractUInt realNum2 realNum1
 
     let MultiplyInt (number1: string) (number2: string) =
-        let (sign1, realNum1) = number1 |> FormatInt |> GetUIntNumber
-        let (sign2, realNum2) = number2 |> FormatInt |> GetUIntNumber
+        let (sign1, realNum1) = number1 |> DeepGetIntNumber
+        let (sign2, realNum2) = number2 |> DeepGetIntNumber
         let rawResult = MultiplyUInt realNum1 realNum2
 
         if sign1 * sign2 > 0 then
@@ -92,11 +94,30 @@ module Int =
             "-" + rawResult
 
     let DivideInt (dividend: string) (divisor: string) =
-        let (sign1, realDividend) = dividend |> FormatInt |> GetUIntNumber
-        let (sign2, realDivisor) = divisor |> FormatInt |> GetUIntNumber
+        let (sign1, realDividend) = dividend |> DeepGetIntNumber
+        let (sign2, realDivisor) = divisor |> DeepGetIntNumber
         let rawResult = DivideUInt realDividend realDivisor
 
         if sign1 * sign2 > 0 then
             rawResult
         else
             "-" + rawResult
+
+    let MultiplyInt10 (number1: string) (number2: string) =
+        let (sign1, realNum1) = number1 |> DeepGetIntNumber
+        let result = MultiplyUInt10 realNum1 number2
+
+        if sign1 = -1 then
+            "-" + result
+        else
+            result
+
+    let PowInt (number1: string) (number2: string) =
+        let (sign1, realNum1) = number1 |> DeepGetIntNumber
+        let rawResult = PowUInt realNum1 number2
+        let modNum2 = DivideModUInt number2 "2"
+
+        if sign1 = -1 && modNum2 = "1" then
+            "-" + rawResult
+        else
+            rawResult
