@@ -1,33 +1,57 @@
 namespace MyNumber
 
+open System
 open MyNumber.Error
 open MyNumber.Service.UInt
-open MyNumber.Service.Int
-
-type BaseIntegerNumber(coreNumber: string) =
-    let coreNumber = FormatUInt coreNumber
-    override this.ToString() = coreNumber
 
 module UIntNumber =
     type UIntNumber(coreNumber: string) =
-
-        inherit BaseIntegerNumber(coreNumber)
+        let coreNumber = FormatUInt coreNumber
 
         do
             if not (IsUInt coreNumber) then
                 raise (NotANumber("Not A Number"))
 
+        interface IComparable<UIntNumber> with
+            member this.CompareTo obj =
+                let num1 = this.ToString()
+                let num2 = obj.ToString()
+                UIntCompare num1 num2
+
+        interface IComparable with
+            member this.CompareTo obj =
+                match obj with
+                | null -> 1
+                | :? UIntNumber as other -> (this :> IComparable<_>).CompareTo other
+                | _ -> invalidArg "obj" "not a Category"
+
+        interface IEquatable<UIntNumber> with
+            member this.Equals obj = this.IsEqual(obj)
+
+        override this.Equals obj =
+            match obj with
+            | :? UIntNumber as other -> (this :> IEquatable<_>).Equals other
+            | _ -> false
+
+        override this.GetHashCode() = this.GetHashCode()
+
         member this.IsLessThan(number: UIntNumber) =
             let result = UIntCompare coreNumber (number.ToString())
             if result = -1 then true else false
+
+        static member op_LessThan(number1: UIntNumber, number2: UIntNumber) = number1.IsLessThan(number2)
 
         member this.IsEqual(number: UIntNumber) =
             let result = UIntCompare coreNumber (number.ToString())
             if result = 0 then true else false
 
+        static member op_Equality(number1: UIntNumber, number2: UIntNumber) = number1.IsEqual(number2)
+
         member this.IsGresterThan(number: UIntNumber) =
             let result = UIntCompare coreNumber (number.ToString())
             if result = 1 then true else false
+
+        static member op_GreaterThan(number1: UIntNumber, number2: UIntNumber) = number1.IsGresterThan(number2)
 
         static member IsNumber(number: string) = IsUInt number
 
@@ -43,25 +67,35 @@ module UIntNumber =
             let sNumber2 = number2.ToString()
             (AddUInt sNumber1 sNumber2) |> UIntNumber
 
+        static member (+)(number1: UIntNumber, number2: UIntNumber) = UIntNumber.Add number1 number2
+
         static member Subtract (number1: UIntNumber) (number2: UIntNumber) =
             let sNumber1 = number1.ToString()
             let sNumber2 = number2.ToString()
             (SubtractUInt sNumber1 sNumber2) |> UIntNumber
+
+        static member (-)(number1: UIntNumber, number2: UIntNumber) = UIntNumber.Subtract number1 number2
 
         static member Multiply (number1: UIntNumber) (number2: UIntNumber) =
             let sNumber1 = number1.ToString()
             let sNumber2 = number2.ToString()
             (MultiplyUInt sNumber1 sNumber2) |> UIntNumber
 
+        static member (*)(number1: UIntNumber, number2: UIntNumber) = UIntNumber.Multiply number1 number2
+
         static member Divide (dividend: UIntNumber) (divisor: UIntNumber) =
             let sDividend = dividend.ToString()
             let sDivisor = divisor.ToString()
             (DivideUInt sDividend sDivisor) |> UIntNumber
 
+        static member (/)(number1: UIntNumber, number2: UIntNumber) = UIntNumber.Divide number1 number2
+
         static member DivideMod (dividend: UIntNumber) (divisor: UIntNumber) =
             let sDividend = dividend.ToString()
             let sDivisor = divisor.ToString()
             (DivideModUInt sDividend sDivisor) |> UIntNumber
+
+        static member (%)(number1: UIntNumber, number2: UIntNumber) = UIntNumber.DivideMod number1 number2
 
         static member RealDivide (dividend: UIntNumber) (divisor: UIntNumber) =
             let sDividend = dividend.ToString()
@@ -69,75 +103,18 @@ module UIntNumber =
             let (integerPart, decimalPart) = RealDivideUInt sDividend sDivisor
             (integerPart |> UIntNumber, decimalPart |> UIntNumber)
 
+        static member (/%)(number1: UIntNumber, number2: UIntNumber) = UIntNumber.RealDivide number1 number2
+
         static member Multiply10 (number1: UIntNumber) (number2: UIntNumber) =
             let sNumber1 = number1.ToString()
             let sNumber2 = number2.ToString()
             (MultiplyUInt10 sNumber1 sNumber2) |> UIntNumber
+
+        static member (.*)(number1: UIntNumber, number2: UIntNumber) = UIntNumber.Multiply10 number1 number2
 
         static member Pow (number1: UIntNumber) (number2: UIntNumber) =
             let sNumber1 = number1.ToString()
             let sNumber2 = number2.ToString()
             (PowUInt sNumber1 sNumber2) |> UIntNumber
 
-module IntNumber =
-    type IntNumber(coreNumber: string) =
-        inherit BaseIntegerNumber(coreNumber)
-
-        do
-            if not (IsInt coreNumber) then
-                raise (NotANumber("Not A Number"))
-
-        member this.IsLessThan(number: IntNumber) =
-            let result = IntCompare coreNumber (number.ToString())
-            if result = -1 then true else false
-
-        member this.IsEqual(number: IntNumber) =
-            let result = IntCompare coreNumber (number.ToString())
-            if result = 0 then true else false
-
-        member this.IsGresterThan(number: IntNumber) =
-            let result = IntCompare coreNumber (number.ToString())
-            if result = 1 then true else false
-
-        member this.GetUInt() =
-            let (sign, uintNumber) = GetUIntNumber coreNumber
-            (sign, UIntNumber.UIntNumber(uintNumber))
-
-        static member IsNumber(number: string) = IsInt number
-
-        static member Parse(coreNumber: string) = IntNumber(coreNumber)
-
-        static member Compare (number1: IntNumber) (number2: IntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            IntCompare sNumber1 sNumber2
-
-        static member Add (number1: IntNumber) (number2: IntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (AddInt sNumber1 sNumber2) |> IntNumber
-
-        static member Subtract (number1: IntNumber) (number2: IntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (SubtractInt sNumber1 sNumber2) |> IntNumber
-
-        static member Multiply (number1: IntNumber) (number2: IntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (MultiplyInt sNumber1 sNumber2) |> IntNumber
-
-        static member Divide (dividend: IntNumber) (divisor: IntNumber) =
-            let sDividend = dividend.ToString()
-            let sDivisor = divisor.ToString()
-            (DivideInt sDividend sDivisor) |> IntNumber
-
-        static member Multiply10 (number1: IntNumber) (number2: UIntNumber.UIntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (MultiplyInt10 sNumber1 sNumber2) |> IntNumber
-
-        static member Pow (number1: IntNumber) (number2: UIntNumber.UIntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (PowInt sNumber1 sNumber2) |> IntNumber
+        static member (.^) (number1: UIntNumber, number2: UIntNumber) = UIntNumber.Pow number1 number2

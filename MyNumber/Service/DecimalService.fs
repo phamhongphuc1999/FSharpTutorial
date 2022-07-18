@@ -4,6 +4,11 @@ open MyNumber.Service.UInt
 open MyNumber.Service.Int
 open System.Text.RegularExpressions
 
+type Mode =
+    | normal = 1
+    | multiply = 2
+    | divide = 3
+
 module Decimal =
     let GetIntegerAndDecimal (number: string) =
         let mutable sign = 1
@@ -180,7 +185,7 @@ module Decimal =
         else
             sign + DivideUIntDecimal10 num intNum[1..]
 
-    let private TransformInt (number1: string) (number2: string) (isTotal: bool) =
+    let private TransformInt (number1: string) (number2: string) (mode: Mode) =
         let (sign1, intNumber1, decimalNumber1) = number1 |> DeepGetIntegerAndDecimal
         let (sign2, intNumber2, decimalNumber2) = number2 |> DeepGetIntegerAndDecimal
 
@@ -188,8 +193,9 @@ module Decimal =
         let decimalLen2 = decimalNumber2.Length |> string
         let mutable tempNum1 = ""
         let mutable tempNum2 = ""
-        let mutable len = decimalLen1
         let decimalCompare = UIntCompare decimalLen1 decimalLen2
+        let mutable smallLen = decimalLen1
+        let mutable bigLen = decimalLen2
 
         if decimalCompare >= 0 then
             tempNum1 <- MultiplyUIntDecimal10 number1 decimalLen1
@@ -197,24 +203,42 @@ module Decimal =
         else
             tempNum1 <- MultiplyUIntDecimal10 number1 decimalLen2
             tempNum2 <- MultiplyDecimal10 number2 decimalLen2
-            len <- decimalLen2
+            smallLen <- decimalLen2
+            bigLen <- decimalLen1
 
-        if isTotal then
-            (tempNum1, tempNum2, AddUInt decimalLen1 decimalLen2)
-        else
-            (tempNum1, tempNum2, len)
+        match mode with
+        | Mode.normal -> (tempNum1, tempNum2, bigLen)
+        | Mode.multiply -> (tempNum1, tempNum2, AddInt decimalLen1 decimalLen2)
+        | _ -> (tempNum1, tempNum2, SubtractUInt bigLen smallLen)
 
     let AddDecimal (number1: string) (number2: string) =
-        let (tempNum1, tempNum2, len) = TransformInt number1 number2 false
+        let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.normal
 
         DivideUIntDecimal10 (AddInt tempNum1 tempNum2) len
 
     let SubtractDecimal (number1: string) (number2: string) =
-        let (tempNum1, tempNum2, len) = TransformInt number1 number2 false
+        let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.normal
         DivideUIntDecimal10 (AddInt tempNum1 tempNum2) len
 
     let MultiplyDecimal (number1: string) (number2: string) =
-        let (tempNum1, tempNum2, len) = TransformInt number1 number2 true
+        let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.multiply
         DivideUIntDecimal10 (MultiplyInt tempNum1 tempNum2) len
 
-    let DivideDecimal (number1: string) (number2: string) = ()
+    let DivideDecimal (number1: string) (number2: string) (accuracy: int) =
+        let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.divide
+        let (sign1, tNum1) = GetUIntNumber tempNum1
+        let (sign2, tNum2) = GetUIntNumber tempNum2
+        let (rawResult, reamin) = RealDivideUInt tNum1 tNum2
+        let mutable remainResult = ""
+        let mutable rRemain = reamin
+        let len2 = tNum2.Length
+        let mutable rAccuracy = 0
+
+        while rAccuracy < accuracy do
+            rRemain <- MultiplyUInt10 rRemain (string len2)
+            let (temp1, temp2) = RealDivideUInt rRemain tNum2
+            remainResult <- remainResult + temp1
+            rAccuracy <- remainResult.Length
+            rRemain <- temp2
+
+        rawResult + "." + remainResult

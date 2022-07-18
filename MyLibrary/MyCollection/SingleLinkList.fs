@@ -1,0 +1,1 @@
+namespace MyLibrary.MyCollection
