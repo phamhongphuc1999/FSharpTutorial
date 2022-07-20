@@ -1,17 +1,22 @@
-namespace MyNumber
+namespace MyNumber.Number
 
 open System
 open MyNumber.Error
 open MyNumber.Service.UInt
 open MyNumber.Service.Int
+open MyNumber.Number.UIntNumber
 
 module IntNumber =
     type IntNumber(coreNumber: string) =
-        let coreNumber = FormatInt coreNumber
+        let mutable coreNumber = FormatInt coreNumber
 
         do
             if not (IsInt coreNumber) then
                 raise (NotANumber("Not A Number"))
+
+        member this.CoreNumber
+            with get () = coreNumber
+            and set value = coreNumber <- value
 
         interface IComparable<IntNumber> with
             member this.CompareTo obj =
@@ -58,7 +63,7 @@ module IntNumber =
 
         member this.GetUInt() =
             let (sign, uintNumber) = GetUIntNumber coreNumber
-            (sign, UIntNumber.UIntNumber(uintNumber))
+            (sign, uintNumber |> UIntNumber.UIntNumber)
 
         static member IsNumber(number: string) = IsInt number
 
@@ -104,16 +109,16 @@ module IntNumber =
 
         static member (/)(number1: IntNumber, number2: IntNumber) = IntNumber.Divide number1 number2
 
-        static member Multiply10 (number1: IntNumber) (number2: UIntNumber.UIntNumber) =
+        static member Multiply10 (number1: IntNumber) (number2: UIntNumber) =
             let sNumber1 = number1.ToString()
             let sNumber2 = number2.ToString()
             (MultiplyInt10 sNumber1 sNumber2) |> IntNumber
 
-        static member (.*)(number1: IntNumber, number2: UIntNumber.UIntNumber) = IntNumber.Multiply10 number1 number2
+        static member (.*)(number1: IntNumber, number2: UIntNumber) = IntNumber.Multiply10 number1 number2
 
-        static member Pow (number1: IntNumber) (number2: UIntNumber.UIntNumber) =
+        static member Pow (number1: IntNumber) (number2: UIntNumber) =
             let sNumber1 = number1.ToString()
             let sNumber2 = number2.ToString()
             (PowInt sNumber1 sNumber2) |> IntNumber
 
-        static member (.^)(number1: IntNumber, number2: UIntNumber.UIntNumber) = IntNumber.Pow number1 number2
+        static member (.^)(number1: IntNumber, number2: UIntNumber) = IntNumber.Pow number1 number2

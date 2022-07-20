@@ -1,4 +1,4 @@
-namespace MyNumber
+namespace MyNumber.Number
 
 open System
 open MyNumber.Error
@@ -6,11 +6,15 @@ open MyNumber.Service.UInt
 
 module UIntNumber =
     type UIntNumber(coreNumber: string) =
-        let coreNumber = FormatUInt coreNumber
+        let mutable coreNumber = FormatUInt coreNumber
 
         do
             if not (IsUInt coreNumber) then
                 raise (NotANumber("Not A Number"))
+
+        member this.CoreNumber
+            with get () = coreNumber
+            and set value = coreNumber <- value
 
         interface IComparable<UIntNumber> with
             member this.CompareTo obj =
@@ -35,11 +39,19 @@ module UIntNumber =
 
         override this.GetHashCode() = this.GetHashCode()
 
+        override this.ToString() = coreNumber
+
         member this.IsLessThan(number: UIntNumber) =
             let result = UIntCompare coreNumber (number.ToString())
             if result = -1 then true else false
 
         static member op_LessThan(number1: UIntNumber, number2: UIntNumber) = number1.IsLessThan(number2)
+
+        member this.IsLessThanOrEqual(number: UIntNumber) =
+            let result = UIntCompare coreNumber (number.ToString())
+            if result <= 0 then true else false
+
+        static member op_LessThanOrEqual(number1: UIntNumber, number2: UIntNumber) = number1.IsLessThanOrEqual(number2)
 
         member this.IsEqual(number: UIntNumber) =
             let result = UIntCompare coreNumber (number.ToString())
@@ -52,6 +64,13 @@ module UIntNumber =
             if result = 1 then true else false
 
         static member op_GreaterThan(number1: UIntNumber, number2: UIntNumber) = number1.IsGresterThan(number2)
+
+        member this.IsGreaterThanOrEqual(number: UIntNumber) =
+            let result = UIntCompare coreNumber (number.ToString())
+            if result >= 0 then true else false
+
+        static member op_GreaterThanOrEqual(number1: UIntNumber, number2: UIntNumber) =
+            number1.IsGreaterThanOrEqual(number2)
 
         static member IsNumber(number: string) = IsUInt number
 
@@ -117,4 +136,4 @@ module UIntNumber =
             let sNumber2 = number2.ToString()
             (PowUInt sNumber1 sNumber2) |> UIntNumber
 
-        static member (.^) (number1: UIntNumber, number2: UIntNumber) = UIntNumber.Pow number1 number2
+        static member (.^)(number1: UIntNumber, number2: UIntNumber) = UIntNumber.Pow number1 number2

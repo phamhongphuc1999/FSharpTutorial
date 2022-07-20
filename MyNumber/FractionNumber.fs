@@ -1,4 +1,0 @@
-namespace MyNumber
-
-module Fraction =
-    ()

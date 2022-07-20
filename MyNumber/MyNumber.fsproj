@@ -10,10 +10,11 @@
     <Compile Include="./Service/DecimalService.fs" />
     <Compile Include="./Service/FractionService.fs" />
     <Compile Include="./Service/VectorService.fs" />
-    <Compile Include="UIntNumber.fs" />
-    <Compile Include="IntNumber.fs" />
-    <Compile Include="DecimalNumber.fs" />
-    <Compile Include="FractionNumber.fs" />
-    <Compile Include="Vector.fs" />
+    <Compile Include="./Number/UIntNumber.fs" />
+    <Compile Include="./Number/IntNumber.fs" />
+    <Compile Include="./Number/DecimalNumber.fs" />
+    <Compile Include="./Number/FractionNumber.fs" />
+    <Compile Include="./Vector/TwoDirectionVector.fs" />
+    <Compile Include="./Vector/ThreeDirectionVector.fs" />
   </ItemGroup>
 </Project>

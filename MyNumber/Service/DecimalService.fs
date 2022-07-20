@@ -73,6 +73,26 @@ module Decimal =
             let result2 = Regex.Match(number, "-[0-9]*.[0-9]*")
             result2.Length = number.Length
 
+    let DecimalCeiling (number: string) (exponent: int) =
+        let (sign, integerNum, decimalNum) = DeepGetIntegerAndDecimal number
+        let len = decimalNum.Length
+
+        if len <= exponent then
+            number
+        else
+            let mutable exDecimalNum = decimalNum[0..exponent]
+            let cNum = (decimalNum[exponent] |> int) - 48
+            let realUp = (sign = 1 && cNum >= 5) || (sign = -1 && cNum < 5)
+
+            match realUp with
+            | true -> exDecimalNum <- AddUInt exDecimalNum "1"
+            | false -> exDecimalNum <- SubtractUInt exDecimalNum "1"
+
+            if sign = 1 then
+                integerNum + "." + exDecimalNum
+            else
+                "-" + integerNum + "." + exDecimalNum
+
     let DecimalCompare (number1: string) (number2: string) =
         let (sign1, intNumber1, decimalNumber1) = number1 |> DeepGetIntegerAndDecimal
 
@@ -234,9 +254,13 @@ module Decimal =
         let len2 = tNum2.Length
         let mutable rAccuracy = 0
 
-        while rAccuracy < accuracy do
+        while rAccuracy < accuracy && rRemain <> "0" do
             rRemain <- MultiplyUInt10 rRemain (string len2)
-            let (temp1, temp2) = RealDivideUInt rRemain tNum2
+            let mutable (temp1, temp2) = RealDivideUInt rRemain tNum2
+
+            while temp1.Length < len2 do
+                temp1 <- "0" + temp1
+
             remainResult <- remainResult + temp1
             rAccuracy <- remainResult.Length
             rRemain <- temp2
