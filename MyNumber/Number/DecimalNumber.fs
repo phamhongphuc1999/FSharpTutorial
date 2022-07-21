@@ -46,10 +46,6 @@ module DecimalNumber =
             let temp = DecimalCeiling coreNumber exponent
             this.CoreNumber <- temp
 
-        static member StaticCeiling (number: DecimalNumber) (exponent: int) =
-            let sNum = number.CoreNumber
-            (DecimalCeiling sNum exponent) |> DecimalNumber
-
         member this.IsLessThan(number: DecimalNumber) =
             let result = DecimalCompare coreNumber (number.CoreNumber)
             if result = -1 then true else false
@@ -84,55 +80,38 @@ module DecimalNumber =
             | '-' -> sNumber[1..] |> DecimalNumber
             | _ -> ("-" + sNumber) |> DecimalNumber
 
-        static member Add (number1: DecimalNumber) (number2: DecimalNumber) =
-            let sNumber1 = number1.CoreNumber
-            let sNumber2 = number2.CoreNumber
-            (AddDecimal sNumber1 sNumber2) |> DecimalNumber
-
-        static member (+)(number1: DecimalNumber, number2: DecimalNumber) = DecimalNumber.Add number1 number2
-
-        static member Subtract (number1: DecimalNumber) (number2: DecimalNumber) =
-            let sNumber1 = number1.CoreNumber
-            let sNumber2 = number2.CoreNumber
-
-            (SubtractDecimal sNumber1 sNumber2)
+        member this.Add(number: DecimalNumber) =
+            (AddDecimal this.CoreNumber number.CoreNumber)
             |> DecimalNumber
 
-        static member (-)(number1: DecimalNumber, number2: DecimalNumber) = DecimalNumber.Subtract number1 number2
+        static member (+)(number1: DecimalNumber, number2: DecimalNumber) = number1.Add number2
 
-        static member Multiply10 (number1: DecimalNumber) (number2: UIntNumber) =
-            let sNumber1 = number1.CoreNumber
-            let sNumber2 = number2.CoreNumber
-
-            (MultiplyDecimal10 sNumber1 sNumber2)
+        member this.Subtract(number: DecimalNumber) =
+            (SubtractDecimal this.CoreNumber number.CoreNumber)
             |> DecimalNumber
 
-        static member (.*)(number1: DecimalNumber, number2: UIntNumber) =
-            DecimalNumber.Multiply10 number1 number2
+        static member (-)(number1: DecimalNumber, number2: DecimalNumber) = number1.Subtract number2
 
-        static member Multiply (number1: DecimalNumber) (number2: DecimalNumber) =
-            let sNumber1 = number1.CoreNumber
-            let sNumber2 = number2.CoreNumber
-
-            (MultiplyDecimal sNumber1 sNumber2)
+        member this.Multiply10(number: UIntNumber) =
+            (MultiplyDecimal10 this.CoreNumber number.CoreNumber)
             |> DecimalNumber
 
-        static member (*)(number1: DecimalNumber, number2: DecimalNumber) = DecimalNumber.Multiply number1 number2
+        static member (.*)(number1: DecimalNumber, number2: UIntNumber) = number1.Multiply10 number2
 
-        static member Divide10 (number1: DecimalNumber) (number2: UIntNumber) =
-            let sNumber1 = number1.CoreNumber
-            let sNumber2 = number2.CoreNumber
-
-            (MultiplyDecimal10 sNumber1 ("-" + sNumber2))
+        member this.Multiply(number: DecimalNumber) =
+            (MultiplyDecimal this.CoreNumber number.CoreNumber)
             |> DecimalNumber
 
-        static member (./)(number1: DecimalNumber, number2: UIntNumber) = DecimalNumber.Divide10 number1 number2
+        static member (*)(number1: DecimalNumber, number2: DecimalNumber) = number1.Multiply number2
 
-        static member Divide (number1: DecimalNumber) (number2: DecimalNumber) (accuracy: int) =
-            let sNumber1 = number1.CoreNumber
-            let sNumber2 = number2.CoreNumber
-
-            (DivideDecimal sNumber1 sNumber2 accuracy)
+        member this.Divide10(number: UIntNumber) =
+            (MultiplyDecimal10 this.CoreNumber ("-" + number.CoreNumber))
             |> DecimalNumber
 
-        static member (/)(number1: DecimalNumber, number2: DecimalNumber) = DecimalNumber.Divide number1 number2 10
+        static member (./)(number1: DecimalNumber, number2: UIntNumber) = number1.Divide10 number2
+
+        member this.Divide (divisor: DecimalNumber) (accuracy: int) =
+            (DivideDecimal this.CoreNumber divisor.CoreNumber accuracy)
+            |> DecimalNumber
+
+        static member (/)(dividend: DecimalNumber, divisor: DecimalNumber) = dividend.Divide divisor 10

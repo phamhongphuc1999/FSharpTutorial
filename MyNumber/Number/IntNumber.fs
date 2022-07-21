@@ -81,44 +81,38 @@ module IntNumber =
             | '-' -> sNumber[1..] |> IntNumber
             | _ -> ("-" + sNumber) |> IntNumber
 
-        static member Add (number1: IntNumber) (number2: IntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (AddInt sNumber1 sNumber2) |> IntNumber
+        member this.Add(number: IntNumber) =
+            (AddInt this.CoreNumber number.CoreNumber)
+            |> IntNumber
 
-        static member (+)(number1: IntNumber, number2: IntNumber) = IntNumber.Add number1 number2
+        static member (+)(number1: IntNumber, number2: IntNumber) = number1.Add number2
 
-        static member Subtract (number1: IntNumber) (number2: IntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (SubtractInt sNumber1 sNumber2) |> IntNumber
+        member this.Subtract(number: IntNumber) =
+            (SubtractInt this.CoreNumber number.CoreNumber)
+            |> IntNumber
 
-        static member (-)(number1: IntNumber, number2: IntNumber) = IntNumber.Subtract number1 number2
+        static member (-)(number1: IntNumber, number2: IntNumber) = number1.Subtract number2
 
-        static member Multiply (number1: IntNumber) (number2: IntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (MultiplyInt sNumber1 sNumber2) |> IntNumber
+        member this.Multiply(number: IntNumber) =
+            (MultiplyInt this.CoreNumber number.CoreNumber)
+            |> IntNumber
 
-        static member (*)(number1: IntNumber, number2: IntNumber) = IntNumber.Multiply number1 number2
+        static member (*)(number1: IntNumber, number2: IntNumber) = number1.Multiply number2
 
-        static member Divide (dividend: IntNumber) (divisor: IntNumber) =
-            let sDividend = dividend.ToString()
-            let sDivisor = divisor.ToString()
-            (DivideInt sDividend sDivisor) |> IntNumber
+        member this.Divide(divisor: IntNumber) =
+            (DivideInt this.CoreNumber divisor.CoreNumber)
+            |> IntNumber
 
-        static member (/)(number1: IntNumber, number2: IntNumber) = IntNumber.Divide number1 number2
+        static member (/)(dividend: IntNumber, divisor: IntNumber) = dividend.Divide divisor
 
-        static member Multiply10 (number1: IntNumber) (number2: UIntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (MultiplyInt10 sNumber1 sNumber2) |> IntNumber
+        member this.Multiply10(number: UIntNumber) =
+            (MultiplyInt10 this.CoreNumber number.CoreNumber)
+            |> IntNumber
 
-        static member (.*)(number1: IntNumber, number2: UIntNumber) = IntNumber.Multiply10 number1 number2
+        static member (.*)(number1: IntNumber, number2: UIntNumber) = number1.Multiply10 number2
 
-        static member Pow (number1: IntNumber) (number2: UIntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            (PowInt sNumber1 sNumber2) |> IntNumber
+        member this.Pow(number: UIntNumber) =
+            (PowInt this.CoreNumber number.CoreNumber)
+            |> IntNumber
 
-        static member (.^)(number1: IntNumber, number2: UIntNumber) = IntNumber.Pow number1 number2
+        static member (.^)(number1: IntNumber, number2: UIntNumber) = number1.Pow number2

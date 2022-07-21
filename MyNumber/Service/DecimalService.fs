@@ -79,14 +79,15 @@ module Decimal =
 
         if len <= exponent then
             number
+        elif exponent = 0 then
+            integerNum
         else
-            let mutable exDecimalNum = decimalNum[0..exponent]
+            let mutable exDecimalNum = decimalNum[0 .. (exponent - 1)]
             let cNum = (decimalNum[exponent] |> int) - 48
             let realUp = (sign = 1 && cNum >= 5) || (sign = -1 && cNum < 5)
 
-            match realUp with
-            | true -> exDecimalNum <- AddUInt exDecimalNum "1"
-            | false -> exDecimalNum <- SubtractUInt exDecimalNum "1"
+            if realUp then
+                exDecimalNum <- AddUInt exDecimalNum "1"
 
             if sign = 1 then
                 integerNum + "." + exDecimalNum
@@ -265,4 +266,4 @@ module Decimal =
             rAccuracy <- remainResult.Length
             rRemain <- temp2
 
-        rawResult + "." + remainResult
+        DecimalCeiling (rawResult + "." + remainResult) accuracy
