@@ -3,13 +3,24 @@ on:
   push:
     branches:
       - "main"
+      - "develop"
 jobs:
   job1:
     steps:
-      -run: echo "Run step in job1"
+      - name: Checkout repository
+        run: echo "Checkout repository"
+        uses: actions/checkout@v2
+      - name: Step1
+        run: echo "Run step2 in job1"
   job2:
     steps:
-      -run: echo "Run step in job2"
+      - name: Step1 in job2
+        run: echo "Run step1 in job2"
+      - name: Step2 in job2
+        run: echo "Run step2 in job2"
   job3:
     steps:
-      -run: echo "Run step in job3"
+      - name: Step1 in job3
+        run: echo "Run step1 in job3"
+      - name: Step2 in job3
+        run: echo "Run step2 in job3"
