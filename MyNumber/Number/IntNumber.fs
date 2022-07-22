@@ -85,47 +85,73 @@ module IntNumber =
             (AddInt this.CoreNumber number.CoreNumber)
             |> IntNumber
 
-        member this.Add(number: UIntNumber) =
-            (AddInt this.CoreNumber number.CoreNumber)
+        static member (+)(number1: IntNumber, number2: IntNumber) = number1.Add number2
+
+        static member (+=)(number1: IntNumber, number2: IntNumber) =
+            number1.CoreNumber <- AddInt number1.CoreNumber number2.CoreNumber
+
+        static member (+)(number1: UIntNumber, number2: IntNumber) =
+            (number1.CoreNumber, number2.CoreNumber)
+            ||> AddInt
             |> IntNumber
 
-        static member (+)(number1: IntNumber, number2: IntNumber) = number1.Add number2
-        static member (+)(number1: IntNumber, number2: UIntNumber) = number1.Add number2
+        static member (+)(number1: IntNumber, number2: UIntNumber) =
+            (number1.CoreNumber, number2.CoreNumber)
+            ||> AddInt
+            |> IntNumber
 
         member this.Subtract(number: IntNumber) =
             (SubtractInt this.CoreNumber number.CoreNumber)
             |> IntNumber
 
-        member this.Subtract(number: UIntNumber) =
-            (SubtractInt this.CoreNumber number.CoreNumber)
+        static member (-)(number1: IntNumber, number2: IntNumber) = number1.Subtract number2
+
+        static member (-=)(number1: IntNumber, number2: IntNumber) =
+            number1.CoreNumber <- SubtractInt number1.CoreNumber number2.CoreNumber
+
+        static member (-)(number1: IntNumber, number2: UIntNumber) =
+            (number1.CoreNumber, number2.CoreNumber)
+            ||> SubtractInt
             |> IntNumber
 
-        static member (-)(number1: IntNumber, number2: IntNumber) = number1.Subtract number2
-        static member (-)(number1: IntNumber, number2: UIntNumber) = number1.Subtract number2
+        static member (-)(number1: UIntNumber, number2: IntNumber) =
+            (number1.CoreNumber, number2.CoreNumber)
+            ||> SubtractInt
+            |> IntNumber
 
         member this.Multiply(number: IntNumber) =
             (MultiplyInt this.CoreNumber number.CoreNumber)
             |> IntNumber
 
-        member this.Multiply(number: UIntNumber) =
-            (MultiplyInt this.CoreNumber number.CoreNumber)
+        static member (*)(number1: IntNumber, number2: IntNumber) = number1.Multiply number2
+
+        static member op_MultiplyAssignment(number1: IntNumber, number2: IntNumber) =
+            number1.CoreNumber <- (MultiplyUInt number1.CoreNumber number2.CoreNumber)
+
+        static member (*)(number1: IntNumber, number2: UIntNumber) =
+            (number1.CoreNumber, number2.CoreNumber)
+            ||> MultiplyInt
             |> IntNumber
 
-        static member (*)(number1: IntNumber, number2: IntNumber) = number1.Multiply number2
-        static member (*)(number1: IntNumber, number2: UIntNumber) = number1.Multiply number2
+        static member (*)(number1: UIntNumber, number2: IntNumber) =
+            (number1.CoreNumber, number2.CoreNumber)
+            ||> MultiplyInt
+            |> IntNumber
 
         member this.Divide(divisor: IntNumber) =
             (DivideInt this.CoreNumber divisor.CoreNumber)
             |> IntNumber
 
-        member this.Divide(divisor: UIntNumber) =
-            (DivideInt this.CoreNumber divisor.CoreNumber)
-            |> IntNumber
-
         static member (/)(dividend: IntNumber, divisor: IntNumber) = dividend.Divide divisor
-        static member (/)(dividend: IntNumber, divisor: UIntNumber) = dividend.Divide divisor
+
+        static member (/=)(dividend: IntNumber, divisor: IntNumber) =
+            dividend.CoreNumber <- (DivideUInt dividend.CoreNumber divisor.CoreNumber)
 
         static member (/)(dividend: UIntNumber, divisor: IntNumber) =
+            (DivideInt dividend.CoreNumber divisor.CoreNumber)
+            |> IntNumber
+
+        static member (/)(dividend: IntNumber, divisor: UIntNumber) =
             (DivideInt dividend.CoreNumber divisor.CoreNumber)
             |> IntNumber
 

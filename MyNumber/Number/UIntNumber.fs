@@ -85,12 +85,18 @@ module UIntNumber =
 
         static member (+)(number1: UIntNumber, number2: UIntNumber) = number1.Add number2
 
+        static member (+=)(number1: UIntNumber, number2: UIntNumber) =
+            number1.CoreNumber <- (AddUInt number1.CoreNumber number2.CoreNumber)
+
         member this.Subtract(number: UIntNumber) =
             (this.CoreNumber, number.CoreNumber)
             ||> SubtractUInt
             |> UIntNumber
 
         static member (-)(number1: UIntNumber, number2: UIntNumber) = number1.Subtract number2
+
+        static member (-=)(number1: UIntNumber, number2: UIntNumber) =
+            number1.CoreNumber <- (SubtractUInt number1.CoreNumber number2.CoreNumber)
 
         member this.Multiply(number: UIntNumber) =
             (this.CoreNumber, number.CoreNumber)
@@ -99,11 +105,17 @@ module UIntNumber =
 
         static member (*)(number1: UIntNumber, number2: UIntNumber) = number1.Multiply number2
 
+        static member op_MultiplyAssignment(number1: UIntNumber, number2: UIntNumber) =
+            number1.CoreNumber <- (MultiplyUInt number1.CoreNumber number2.CoreNumber)
+
         member this.Divide(divisor: UIntNumber) =
             (DivideUInt this.CoreNumber divisor.CoreNumber)
             |> UIntNumber
 
         static member (/)(dividend: UIntNumber, divisor: UIntNumber) = dividend.Divide divisor
+
+        static member (/=)(dividend: UIntNumber, divisor: UIntNumber) =
+            dividend.CoreNumber <- (DivideUInt dividend.CoreNumber divisor.CoreNumber)
 
         member this.DivideMod(divisor: UIntNumber) =
             (DivideModUInt this.CoreNumber divisor.CoreNumber)

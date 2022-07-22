@@ -1,6 +1,7 @@
 namespace MyNumber.Vector
 
 open MyNumber.Number.DecimalNumber
+open MyNumber.Number.UIntNumber
 
 module ThreeDirectionVector =
     type ThreeDirectionVector(x: DecimalNumber, y: DecimalNumber, z: DecimalNumber) =
@@ -27,6 +28,14 @@ module ThreeDirectionVector =
 
         static member op_Equality(vector1: ThreeDirectionVector, vector2: ThreeDirectionVector) =
             vector1.IsEqual vector2
+
+        member this.Length() =
+            let twoNumber = UIntNumber "2"
+
+            ((this.X .^ twoNumber)
+             + (this.Y .^ twoNumber)
+             + (this.Z .^ twoNumber))
+            ^^ twoNumber
 
         member this.Add(vector: ThreeDirectionVector) =
             (this.X + vector.X, this.Y + vector.Y, this.Z + vector.Z)

@@ -267,3 +267,21 @@ module Decimal =
             rRemain <- temp2
 
         DecimalCeiling (rawResult + "." + remainResult) accuracy
+
+    let PowDecimal (number: string) (uintNum: string) =
+        let (sign, intNumber, decimalNumber) = number |> DeepGetIntegerAndDecimal
+        let decimalLen = decimalNumber.Length |> string
+        let temp = PowUInt (intNumber + decimalNumber) uintNum
+
+        let result =
+            (temp, MultiplyDecimal decimalLen uintNum)
+            ||> DivideUIntDecimal10
+
+        if sign = 1 then
+            result
+        else
+            "-" + result
+
+    let SquareDecimal (number: string) (uintNum: string) (accuracy: int) =
+        ("1", (number, uintNum) ||> PowDecimal, accuracy)
+        |||> DivideDecimal

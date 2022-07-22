@@ -1,6 +1,7 @@
 namespace MyNumber.Number
 
 open System
+open MyNumber.Number.IntNumber
 open MyNumber.Number.UIntNumber
 open MyNumber.Service.Decimal
 open MyNumber.Error
@@ -86,11 +87,43 @@ module DecimalNumber =
 
         static member (+)(number1: DecimalNumber, number2: DecimalNumber) = number1.Add number2
 
+        static member (+)(number1: DecimalNumber, number2: UIntNumber) =
+            (AddDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
+        static member (+)(number1: UIntNumber, number2: DecimalNumber) =
+            (AddDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
+        static member (+)(number1: DecimalNumber, number2: IntNumber) =
+            (AddDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
+        static member (+)(number1: IntNumber, number2: DecimalNumber) =
+            (AddDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
         member this.Subtract(number: DecimalNumber) =
             (SubtractDecimal this.CoreNumber number.CoreNumber)
             |> DecimalNumber
 
         static member (-)(number1: DecimalNumber, number2: DecimalNumber) = number1.Subtract number2
+
+        static member (-)(number1: DecimalNumber, number2: UIntNumber) =
+            (SubtractDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
+        static member (-)(number1: UIntNumber, number2: DecimalNumber) =
+            (SubtractDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
+        static member (-)(number1: DecimalNumber, number2: IntNumber) =
+            (SubtractDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
+        static member (-)(number1: IntNumber, number2: DecimalNumber) =
+            (SubtractDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
 
         member this.Multiply10(number: UIntNumber) =
             (MultiplyDecimal10 this.CoreNumber number.CoreNumber)
@@ -104,6 +137,22 @@ module DecimalNumber =
 
         static member (*)(number1: DecimalNumber, number2: DecimalNumber) = number1.Multiply number2
 
+        static member (*)(number1: DecimalNumber, number2: UIntNumber) =
+            (MultiplyDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
+        static member (*)(number1: UIntNumber, number2: DecimalNumber) =
+            (MultiplyDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
+        static member (*)(number1: DecimalNumber, number2: IntNumber) =
+            (MultiplyDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
+        static member (*)(number1: IntNumber, number2: DecimalNumber) =
+            (MultiplyDecimal number1.CoreNumber number2.CoreNumber)
+            |> DecimalNumber
+
         member this.Divide10(number: UIntNumber) =
             (MultiplyDecimal10 this.CoreNumber ("-" + number.CoreNumber))
             |> DecimalNumber
@@ -115,3 +164,34 @@ module DecimalNumber =
             |> DecimalNumber
 
         static member (/)(dividend: DecimalNumber, divisor: DecimalNumber) = dividend.Divide divisor 10
+
+        static member (/)(dividend: DecimalNumber, divisor: UIntNumber) =
+            (DivideDecimal dividend.CoreNumber divisor.CoreNumber 10)
+            |> DecimalNumber
+
+        static member (/)(dividend: UIntNumber, divisor: DecimalNumber) =
+            (DivideDecimal dividend.CoreNumber divisor.CoreNumber 10)
+            |> DecimalNumber
+
+        static member (/)(dividend: DecimalNumber, divisor: IntNumber) =
+            (DivideDecimal dividend.CoreNumber divisor.CoreNumber 10)
+            |> DecimalNumber
+
+        static member (/)(dividend: IntNumber, divisor: DecimalNumber) =
+            (dividend.CoreNumber, divisor.CoreNumber, 10)
+            |||> DivideDecimal
+            |> DecimalNumber
+
+        member this.Pow(number: UIntNumber) =
+            (this.CoreNumber, number.CoreNumber)
+            ||> PowDecimal
+            |> DecimalNumber
+
+        static member (.^)(number1: DecimalNumber, number2: UIntNumber) = number1.Pow number2
+
+        member this.Square (number: UIntNumber) (accuracy: int) =
+            (this.CoreNumber, number.CoreNumber, accuracy)
+            |||> SquareDecimal
+            |> DecimalNumber
+
+        static member (^^)(number1: DecimalNumber, number2: UIntNumber) = number1.Square number2 10
