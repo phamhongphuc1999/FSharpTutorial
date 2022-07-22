@@ -16,7 +16,7 @@ module IntNumber =
 
         member this.CoreNumber
             with get () = coreNumber
-            and set value = coreNumber <- value
+            and set value = coreNumber <- FormatInt value
 
         interface IComparable<IntNumber> with
             member this.CompareTo obj =
@@ -85,25 +85,49 @@ module IntNumber =
             (AddInt this.CoreNumber number.CoreNumber)
             |> IntNumber
 
+        member this.Add(number: UIntNumber) =
+            (AddInt this.CoreNumber number.CoreNumber)
+            |> IntNumber
+
         static member (+)(number1: IntNumber, number2: IntNumber) = number1.Add number2
+        static member (+)(number1: IntNumber, number2: UIntNumber) = number1.Add number2
 
         member this.Subtract(number: IntNumber) =
             (SubtractInt this.CoreNumber number.CoreNumber)
             |> IntNumber
 
+        member this.Subtract(number: UIntNumber) =
+            (SubtractInt this.CoreNumber number.CoreNumber)
+            |> IntNumber
+
         static member (-)(number1: IntNumber, number2: IntNumber) = number1.Subtract number2
+        static member (-)(number1: IntNumber, number2: UIntNumber) = number1.Subtract number2
 
         member this.Multiply(number: IntNumber) =
             (MultiplyInt this.CoreNumber number.CoreNumber)
             |> IntNumber
 
+        member this.Multiply(number: UIntNumber) =
+            (MultiplyInt this.CoreNumber number.CoreNumber)
+            |> IntNumber
+
         static member (*)(number1: IntNumber, number2: IntNumber) = number1.Multiply number2
+        static member (*)(number1: IntNumber, number2: UIntNumber) = number1.Multiply number2
 
         member this.Divide(divisor: IntNumber) =
             (DivideInt this.CoreNumber divisor.CoreNumber)
             |> IntNumber
 
+        member this.Divide(divisor: UIntNumber) =
+            (DivideInt this.CoreNumber divisor.CoreNumber)
+            |> IntNumber
+
         static member (/)(dividend: IntNumber, divisor: IntNumber) = dividend.Divide divisor
+        static member (/)(dividend: IntNumber, divisor: UIntNumber) = dividend.Divide divisor
+
+        static member (/)(dividend: UIntNumber, divisor: IntNumber) =
+            (DivideInt dividend.CoreNumber divisor.CoreNumber)
+            |> IntNumber
 
         member this.Multiply10(number: UIntNumber) =
             (MultiplyInt10 this.CoreNumber number.CoreNumber)

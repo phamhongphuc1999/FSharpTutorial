@@ -239,7 +239,7 @@ module Decimal =
 
     let SubtractDecimal (number1: string) (number2: string) =
         let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.normal
-        DivideUIntDecimal10 (AddInt tempNum1 tempNum2) len
+        DivideUIntDecimal10 (SubtractInt tempNum1 tempNum2) len
 
     let MultiplyDecimal (number1: string) (number2: string) =
         let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.multiply

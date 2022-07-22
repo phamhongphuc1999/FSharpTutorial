@@ -14,13 +14,11 @@ module UIntNumber =
 
         member this.CoreNumber
             with get () = coreNumber
-            and set value = coreNumber <- value
+            and set value = coreNumber <- FormatUInt value
 
         interface IComparable<UIntNumber> with
             member this.CompareTo obj =
-                let num1 = this.ToString()
-                let num2 = obj.ToString()
-                UIntCompare num1 num2
+                (this.CoreNumber, obj.CoreNumber) ||> UIntCompare
 
         interface IComparable with
             member this.CompareTo obj =
@@ -77,24 +75,26 @@ module UIntNumber =
         static member Parse(coreNumber: string) = UIntNumber(coreNumber)
 
         static member Compare (number1: UIntNumber) (number2: UIntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
-            UIntCompare sNumber1 sNumber2
+            (number1.CoreNumber, number2.CoreNumber)
+            ||> UIntCompare
 
         member this.Add(number: UIntNumber) =
-            (AddUInt this.CoreNumber number.CoreNumber)
+            (this.CoreNumber, number.CoreNumber)
+            ||> AddUInt
             |> UIntNumber
 
         static member (+)(number1: UIntNumber, number2: UIntNumber) = number1.Add number2
 
         member this.Subtract(number: UIntNumber) =
-            (SubtractUInt this.CoreNumber number.CoreNumber)
+            (this.CoreNumber, number.CoreNumber)
+            ||> SubtractUInt
             |> UIntNumber
 
         static member (-)(number1: UIntNumber, number2: UIntNumber) = number1.Subtract number2
 
         member this.Multiply(number: UIntNumber) =
-            (MultiplyUInt this.CoreNumber number.CoreNumber)
+            (this.CoreNumber, number.CoreNumber)
+            ||> MultiplyUInt
             |> UIntNumber
 
         static member (*)(number1: UIntNumber, number2: UIntNumber) = number1.Multiply number2

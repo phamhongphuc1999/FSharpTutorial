@@ -12,6 +12,7 @@
     <Compile Include="./Number/UIntNumber.fs" />
     <Compile Include="./Number/IntNumber.fs" />
     <Compile Include="./Number/DecimalNumber.fs" />
+    <Compile Include="./Number/ComplexNumber.fs" />
     <Compile Include="./Number/FractionNumber.fs" />
     <Compile Include="./Vector/TwoDirectionVector.fs" />
     <Compile Include="./Vector/ThreeDirectionVector.fs" />

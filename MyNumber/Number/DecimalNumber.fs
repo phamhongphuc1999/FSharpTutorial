@@ -15,7 +15,7 @@ module DecimalNumber =
 
         member this.CoreNumber
             with get () = coreNumber
-            and set value = coreNumber <- value
+            and set value = coreNumber <- FormatDecimal value
 
         override this.ToString() = this.CoreNumber
 

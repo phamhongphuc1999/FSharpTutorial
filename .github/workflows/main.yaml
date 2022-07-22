@@ -1,0 +1,15 @@
+name: main-workflow
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  job1:
+    steps:
+      -run: echo "Run step in job1"
+  job2:
+    steps:
+      -run: echo "Run step in job2"
+  job3:
+    steps:
+      -run: echo "Run step in job3"
