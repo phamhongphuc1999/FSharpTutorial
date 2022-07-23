@@ -29,13 +29,13 @@ module ThreeDirectionVector =
         static member op_Equality(vector1: ThreeDirectionVector, vector2: ThreeDirectionVector) =
             vector1.IsEqual vector2
 
-        member this.Length() =
-            let twoNumber = UIntNumber "2"
+        member this.Length() = ()
+        // let twoNumber = UIntNumber "2"
 
-            ((this.X .^ twoNumber)
-             + (this.Y .^ twoNumber)
-             + (this.Z .^ twoNumber))
-            ^^ twoNumber
+        // ((this.X .^ twoNumber)
+        //  + (this.Y .^ twoNumber)
+        //  + (this.Z .^ twoNumber))
+        // ^^ twoNumber
 
         member this.Add(vector: ThreeDirectionVector) =
             (this.X + vector.X, this.Y + vector.Y, this.Z + vector.Z)

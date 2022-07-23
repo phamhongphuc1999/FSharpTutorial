@@ -38,16 +38,16 @@ module NDirectionVector =
 
         static member op_Equality(vector1: NDirectionVector, vector2: NDirectionVector) = vector1.IsEqual vector2
 
-        member this.Length() =
-            let twoNumber = UIntNumber "2"
-            let mutable result = DecimalNumber "0"
-            let mutable count = 0
+        member this.Length() = ()
+        // let twoNumber = UIntNumber "2"
+        // let mutable result = DecimalNumber "0"
+        // let mutable count = 0
 
-            while count < this.Direction do
-                result <- result + (this.Location[count] .^ twoNumber)
-                count <- count + 1
+        // while count < this.Direction do
+        //     result <- result + (this.Location[count] .^ twoNumber)
+        //     count <- count + 1
 
-            result ^^ twoNumber
+        // result ^^ twoNumber
 
         member this.Add(vector: NDirectionVector) =
             if this.Direction <> vector.Direction then

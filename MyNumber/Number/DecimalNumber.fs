@@ -189,9 +189,15 @@ module DecimalNumber =
 
         static member (.^)(number1: DecimalNumber, number2: UIntNumber) = number1.Pow number2
 
-        member this.Square (number: UIntNumber) (accuracy: int) =
-            (this.CoreNumber, number.CoreNumber, accuracy)
-            |||> SquareDecimal
-            |> DecimalNumber
+        member this.Pow(number: IntNumber) =
+            let (sign, num) = number.GetUInt()
+            let result = (this.CoreNumber, num.CoreNumber) ||> PowDecimal
 
-        static member (^^)(number1: DecimalNumber, number2: UIntNumber) = number1.Square number2 10
+            match sign with
+            | 1 -> result |> DecimalNumber
+            | _ ->
+                ("1", result, 10)
+                |||> DivideDecimal
+                |> DecimalNumber
+
+        static member (.^)(number1: DecimalNumber, number2: IntNumber) = number1.Pow number2

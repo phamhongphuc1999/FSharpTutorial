@@ -21,11 +21,11 @@ module TwoDirectionVector =
 
         static member op_Equality(vector1: TwoDirectionVector, vector2: TwoDirectionVector) = vector1.IsEqual vector2
 
-        member this.Length() =
-            let twoNumber = UIntNumber "2"
+        member this.Length() = ()
+            // let twoNumber = UIntNumber "2"
 
-            ((this.X .^ twoNumber) + (this.Y .^ twoNumber))
-            ^^ twoNumber
+            // ((this.X .^ twoNumber) + (this.Y .^ twoNumber))
+            // ^^ twoNumber
 
         member this.Add(vector: TwoDirectionVector) =
             (this.X + vector.X, this.Y + vector.Y)

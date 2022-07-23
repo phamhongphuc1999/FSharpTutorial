@@ -140,3 +140,15 @@ module UIntNumber =
             |> UIntNumber
 
         static member (.^)(number1: UIntNumber, number2: UIntNumber) = number1.Pow number2
+
+        member this.Factorial() =
+            let mutable temp = this.CoreNumber
+            let mutable result = "1"
+
+            while (UIntCompare temp "1") = 1 do
+                result <- MultiplyUInt result temp
+                temp <- SubtractUInt temp "1"
+
+            result |> UIntNumber
+
+        static member (!)(number: UIntNumber) = number.Factorial()

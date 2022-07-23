@@ -1,6 +1,8 @@
 namespace MyNumber.Number
 
 open MyNumber.Number.DecimalNumber
+open MyNumber.Number.UIntNumber
+open MyNumber.Number.IntNumber
 
 module ComplexNumber =
     type ComplexNumber(realPart: DecimalNumber, imaginaryPart: DecimalNumber) =
@@ -58,11 +60,59 @@ module ComplexNumber =
 
         static member (+)(number1: ComplexNumber, number2: ComplexNumber) = number1.Add number2
 
+        static member (+)(number1: ComplexNumber, number2: UIntNumber) =
+            (number1.RealPart + number2, number1.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (+)(number1: UIntNumber, number2: ComplexNumber) =
+            (number1 + number2.RealPart, number2.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (+)(number1: ComplexNumber, number2: IntNumber) =
+            (number1.RealPart + number2, number1.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (+)(number1: IntNumber, number2: ComplexNumber) =
+            (number1 + number2.RealPart, number2.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (+)(number1: ComplexNumber, number2: DecimalNumber) =
+            (number1.RealPart + number2, number1.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (+)(number1: DecimalNumber, number2: ComplexNumber) =
+            (number1 + number2.RealPart, number2.ImaginaryPart)
+            |> ComplexNumber
+
         member this.Subtract(number: ComplexNumber) =
             (this.RealPart - number.RealPart, this.ImaginaryPart - number.ImaginaryPart)
             |> ComplexNumber
 
         static member (-)(number1: ComplexNumber, number2: ComplexNumber) = number1.Subtract number2
+
+        static member (-)(number1: ComplexNumber, number2: UIntNumber) =
+            (number1.RealPart - number2, number1.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (-)(number1: UIntNumber, number2: ComplexNumber) =
+            (number1 - number2.RealPart, -number2.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (-)(number1: ComplexNumber, number2: IntNumber) =
+            (number1.RealPart - number2, number1.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (-)(number1: IntNumber, number2: ComplexNumber) =
+            (number1 - number2.RealPart, -number2.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (-)(number1: ComplexNumber, number2: DecimalNumber) =
+            (number1.RealPart - number2, number1.ImaginaryPart)
+            |> ComplexNumber
+
+        static member (-)(number1: DecimalNumber, number2: ComplexNumber) =
+            (number1 - number2.RealPart, -number2.ImaginaryPart)
+            |> ComplexNumber
 
         member this.Multiple(number: ComplexNumber) =
             ((this.RealPart * number.RealPart)
@@ -73,19 +123,74 @@ module ComplexNumber =
 
         static member (*)(number1: ComplexNumber, number2: ComplexNumber) = number1.Multiple number2
 
-        member this.Divide(number: ComplexNumber) =
+        static member (*)(number1: ComplexNumber, number2: UIntNumber) =
+            (number1.RealPart * number2, number1.ImaginaryPart * number2)
+            |> ComplexNumber
+
+        static member (*)(number1: UIntNumber, number2: ComplexNumber) =
+            (number2.RealPart * number1, number2.ImaginaryPart * number1)
+            |> ComplexNumber
+
+        static member (*)(number1: ComplexNumber, number2: IntNumber) =
+            (number1.RealPart * number2, number1.ImaginaryPart * number2)
+            |> ComplexNumber
+
+        static member (*)(number1: IntNumber, number2: ComplexNumber) =
+            (number2.RealPart * number1, number2.ImaginaryPart * number1)
+            |> ComplexNumber
+
+        static member (*)(number1: ComplexNumber, number2: DecimalNumber) =
+            (number1.RealPart * number2, number1.ImaginaryPart * number2)
+            |> ComplexNumber
+
+        static member (*)(number1: DecimalNumber, number2: ComplexNumber) =
+            (number2.RealPart * number1, number2.ImaginaryPart * number1)
+            |> ComplexNumber
+
+        member this.Divide(divisor: ComplexNumber) =
             let temp1 =
-                (number.RealPart * number.RealPart)
-                + (number.ImaginaryPart * number.ImaginaryPart)
+                (divisor.RealPart * divisor.RealPart)
+                + (divisor.ImaginaryPart * divisor.ImaginaryPart)
 
             let xTemp =
-                (this.RealPart * number.RealPart)
-                + (this.ImaginaryPart * number.ImaginaryPart)
+                (this.RealPart * divisor.RealPart)
+                + (this.ImaginaryPart * divisor.ImaginaryPart)
 
             let yTemp =
-                (this.ImaginaryPart * number.RealPart)
-                - (this.RealPart * number.ImaginaryPart)
+                (this.ImaginaryPart * divisor.RealPart)
+                - (this.RealPart * divisor.ImaginaryPart)
 
             (xTemp / temp1, yTemp / temp1) |> ComplexNumber
 
-        static member (/)(number1: ComplexNumber, number2: ComplexNumber) = number1.Divide number2
+        static member (/)(dividend: ComplexNumber, divisor: ComplexNumber) = dividend.Divide divisor
+
+        static member (/)(dividend: ComplexNumber, divisor: UIntNumber) =
+            (dividend.RealPart / divisor, dividend.ImaginaryPart / divisor)
+            |> ComplexNumber
+
+        static member (/)(dividend: UIntNumber, divisor: ComplexNumber) =
+            let realDividend =
+                (dividend.CoreNumber |> DecimalNumber, "0" |> DecimalNumber)
+                |> ComplexNumber
+
+            realDividend / divisor
+
+        static member (/)(dividend: ComplexNumber, divisor: IntNumber) =
+            (dividend.RealPart / divisor, dividend.ImaginaryPart / divisor)
+            |> ComplexNumber
+
+        static member (/)(dividend: IntNumber, divisor: ComplexNumber) =
+            let realDividend =
+                (dividend.CoreNumber |> DecimalNumber, "0" |> DecimalNumber)
+                |> ComplexNumber
+
+            realDividend / divisor
+
+        static member (/)(dividend: ComplexNumber, divisor: DecimalNumber) =
+            (dividend.RealPart / divisor, dividend.ImaginaryPart / divisor)
+            |> ComplexNumber
+
+        static member (/)(dividend: DecimalNumber, divisor: ComplexNumber) =
+            let realDividend = (dividend, "0" |> DecimalNumber) |> ComplexNumber
+
+            realDividend / divisor

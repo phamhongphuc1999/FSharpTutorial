@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - "main"
+  pull_request:
+    branches:
+      - main
 jobs:
   job1:
     runs-on: ubuntu-latest
@@ -12,6 +15,7 @@ jobs:
       - name: Step1
         run: echo "Run step2 in job1"
   job2:
+    needs: job1
     runs-on: ubuntu-latest
     steps:
       - name: Step1 in job2
@@ -19,6 +23,7 @@ jobs:
       - name: Step2 in job2
         run: echo "Run step2 in job2"
   job3:
+    need: job2
     runs-on: ubuntu-latest
     steps:
       - name: Step1 in job3
