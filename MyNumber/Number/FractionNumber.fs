@@ -2,38 +2,54 @@ namespace MyNumber.Number
 
 open MyNumber.Number.IntNumber
 open MyNumber.Number.UIntNumber
+open MyNumber.Service.Fraction
 open MyNumber.Error
 
-module Fraction =
-    type Fraction(numerator: IntNumber, denominator: UIntNumber) =
-        let mutable numerator = numerator
-        let mutable denominator = denominator
+module FractionNumber =
+    type FractionNumber(numerator: string, denominator: string) =
+        let mutable coreNumber = (numerator, denominator)
 
         do
-            if denominator.CoreNumber = "0" then
+            let (numerator, denominator) = coreNumber
+
+            if denominator = "0" then
                 raise (NotANumber("Not A Number"))
 
-        new(numerator: string, denominator: string) = Fraction(IntNumber numerator, UIntNumber denominator)
+        new(numerator: IntNumber, denominator: UIntNumber) =
+            FractionNumber(numerator.CoreNumber, denominator.CoreNumber)
 
-        member this.Numerator
-            with get () = numerator
-            and set value = numerator <- value
+        member this.CoreNumber
+            with get () = coreNumber
+            and set value = coreNumber <- FormatFraction value
 
-        member this.Denominator
-            with get () = denominator
-            and set value =
-                denominator <- value
+        override this.ToString() =
+            let (numerator, denominator) = coreNumber
 
-                if denominator.CoreNumber = "0" then
-                    raise (NotANumber("Not A Number"))
-
-        member this.CoreNumber =
-            match (numerator.CoreNumber, denominator.CoreNumber) with
+            match (numerator, denominator) with
             | ("0", _) -> "0"
-            | (_, "1") -> numerator.CoreNumber
-            | _ ->
-                numerator.CoreNumber
-                + "/"
-                + denominator.CoreNumber
+            | (_, "1") -> numerator
+            | _ -> numerator + "/" + denominator
 
-        override this.ToString() = this.CoreNumber
+        member this.Add(number: FractionNumber) =
+            (AddFraction this.CoreNumber number.CoreNumber)
+            |> FractionNumber
+
+        static member (+)(number1: FractionNumber, number2: FractionNumber) = number1.Add(number2)
+
+        member this.Subtract(number: FractionNumber) =
+            (SubtractFraction this.CoreNumber number.CoreNumber)
+            |> FractionNumber
+
+        static member (-)(number1: FractionNumber, number2: FractionNumber) = number1.Subtract(number2)
+
+        member this.Multiple(number: FractionNumber) =
+            (MultipleFraction this.CoreNumber number.CoreNumber)
+            |> FractionNumber
+
+        static member (*)(number1: FractionNumber, number2: FractionNumber) = number1.Multiple(number2)
+
+        member this.Divide(number: FractionNumber) =
+            (DivideFraction this.CoreNumber number.CoreNumber)
+            |> FractionNumber
+
+        static member (/)(number1: FractionNumber, number2: FractionNumber) = number1.Divide(number2)

@@ -74,12 +74,21 @@ module IntNumber =
             let sNumber2 = number2.ToString()
             IntCompare sNumber1 sNumber2
 
+        static member (~+)(number: IntNumber) = number
+
         static member (~-)(number: IntNumber) =
             let sNumber = number.ToString()
 
             match sNumber[0] with
             | '-' -> sNumber[1..] |> IntNumber
             | _ -> ("-" + sNumber) |> IntNumber
+
+        member this.Abs() =
+            let sNum = this.CoreNumber
+
+            match sNum[0] with
+            | '-' -> sNum[1..] |> UIntNumber
+            | _ -> sNum |> UIntNumber
 
         member this.Add(number: IntNumber) =
             (AddInt this.CoreNumber number.CoreNumber)

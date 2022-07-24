@@ -1,10 +1,9 @@
-﻿open MyNumber.Number.DecimalNumber
-open MyNumber.Number.IntNumber
-open MyNumber.Number.UIntNumber
+﻿open MyNumber.Number.ComplexNumber
+open MyNumber.Number.DecimalNumber
 
-let num1 = DecimalNumber "2.2"
-let num2 = IntNumber "-3"
-let num3 = UIntNumber "100"
+let num1 = ComplexNumber("123", "123")
+let num2 = ComplexNumber("1", "1")
 
-printfn "%s" (num1 .^ num2).CoreNumber
-printfn "%s" (num3.Factorial().CoreNumber)
+printfn "%s" (num1 + num2).CoreNumber
+printfn "%s" (num1 - num2).CoreNumber
+printfn "%s" (num1 / num2).CoreNumber

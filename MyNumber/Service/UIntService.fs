@@ -122,7 +122,7 @@ module UInt =
 
         result
 
-    let private SignerMultiply (number: string) (cNumber: char) =
+    let private SingleMultiply (number: string) (cNumber: char) =
         let mutable result = "0"
         let cNum = (int cNumber) - 48
 
@@ -141,7 +141,7 @@ module UInt =
             let mutable result = ""
 
             for cNum1 in fNum1 do
-                let temp = SignerMultiply fNum2 cNum1
+                let temp = SingleMultiply fNum2 cNum1
                 result <- result + "0"
                 result <- (AddUInt temp result)
 

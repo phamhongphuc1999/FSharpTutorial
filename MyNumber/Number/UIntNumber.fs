@@ -78,6 +78,8 @@ module UIntNumber =
             (number1.CoreNumber, number2.CoreNumber)
             ||> UIntCompare
 
+        static member (~+)(number: UIntNumber) = number
+
         member this.Add(number: UIntNumber) =
             (this.CoreNumber, number.CoreNumber)
             ||> AddUInt

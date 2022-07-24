@@ -54,6 +54,12 @@ module ComplexNumber =
 
         static member op_Equality(number1: ComplexNumber, number2: ComplexNumber) = number1.IsEqual number2
 
+        static member (~+)(number: ComplexNumber) = number
+
+        static member (~-)(number: ComplexNumber) =
+            (-number.RealPart, -number.ImaginaryPart)
+            |> ComplexNumber
+
         member this.Add(number: ComplexNumber) =
             (this.RealPart + number.RealPart, this.ImaginaryPart + number.ImaginaryPart)
             |> ComplexNumber

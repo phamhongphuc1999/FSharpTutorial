@@ -38,7 +38,7 @@ module DecimalNumber =
 
         override this.Equals obj =
             match obj with
-            | :? UIntNumber as other -> (this :> IEquatable<_>).Equals other
+            | :? DecimalNumber as other -> (this :> IEquatable<_>).Equals other
             | _ -> false
 
         override this.GetHashCode() = this.GetHashCode()
@@ -74,6 +74,8 @@ module DecimalNumber =
             let sNumber2 = number2.CoreNumber
             DecimalCompare sNumber1 sNumber2
 
+        static member (~+)(number: DecimalNumber) = number
+
         static member (~-)(number: DecimalNumber) =
             let sNumber = number.CoreNumber
 
@@ -86,6 +88,9 @@ module DecimalNumber =
             |> DecimalNumber
 
         static member (+)(number1: DecimalNumber, number2: DecimalNumber) = number1.Add number2
+
+        static member (+=)(number1: DecimalNumber, number2: DecimalNumber) =
+            number1.CoreNumber <- AddDecimal number1.CoreNumber number2.CoreNumber
 
         static member (+)(number1: DecimalNumber, number2: UIntNumber) =
             (AddDecimal number1.CoreNumber number2.CoreNumber)
@@ -108,6 +113,9 @@ module DecimalNumber =
             |> DecimalNumber
 
         static member (-)(number1: DecimalNumber, number2: DecimalNumber) = number1.Subtract number2
+
+        static member (-=)(number1: DecimalNumber, number2: DecimalNumber) =
+            number1.CoreNumber <- SubtractDecimal number1.CoreNumber number2.CoreNumber
 
         static member (-)(number1: DecimalNumber, number2: UIntNumber) =
             (SubtractDecimal number1.CoreNumber number2.CoreNumber)
@@ -137,6 +145,9 @@ module DecimalNumber =
 
         static member (*)(number1: DecimalNumber, number2: DecimalNumber) = number1.Multiply number2
 
+        static member op_MultiplyAssignment(number1: DecimalNumber, number2: DecimalNumber) =
+            number1.CoreNumber = MultiplyDecimal number1.CoreNumber number2.CoreNumber
+
         static member (*)(number1: DecimalNumber, number2: UIntNumber) =
             (MultiplyDecimal number1.CoreNumber number2.CoreNumber)
             |> DecimalNumber
@@ -164,6 +175,9 @@ module DecimalNumber =
             |> DecimalNumber
 
         static member (/)(dividend: DecimalNumber, divisor: DecimalNumber) = dividend.Divide divisor 10
+
+        static member (/=)(number1: DecimalNumber, number2: DecimalNumber) =
+            number1.CoreNumber = DivideDecimal number1.CoreNumber number2.CoreNumber 10
 
         static member (/)(dividend: DecimalNumber, divisor: UIntNumber) =
             (DivideDecimal dividend.CoreNumber divisor.CoreNumber 10)
