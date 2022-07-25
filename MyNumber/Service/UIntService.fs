@@ -1,9 +1,17 @@
 namespace MyNumber.Service
 
 open System.Text.RegularExpressions
+open MyNumber.Error
 
 module UInt =
+    let IsUInt (number: string) =
+        let result = Regex.Match(number, "[0-9]*")
+        result.Length = number.Length
+
     let FormatUInt (number: string) =
+        if not (IsUInt number) then
+            raise (NotANumber("Not A Number"))
+
         let mutable check = true
         let len = number.Length
         let mutable count = 0
@@ -18,10 +26,6 @@ module UInt =
             number[count..]
         else
             "0"
-
-    let IsUInt (number: string) =
-        let result = Regex.Match(number, "[0-9]*")
-        result.Length = number.Length
 
     let UIntCompare (number1: string) (number2: string) =
         let fNum1 = FormatUInt number1

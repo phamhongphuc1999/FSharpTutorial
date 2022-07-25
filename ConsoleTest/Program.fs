@@ -1,5 +1,4 @@
 ﻿open MyNumber.Number.ComplexNumber
-open MyNumber.Number.DecimalNumber
 
 let num1 = ComplexNumber("123", "123")
 let num2 = ComplexNumber("1", "1")

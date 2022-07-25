@@ -14,6 +14,12 @@ module IntNumber =
             if not (IsInt coreNumber) then
                 raise (NotANumber("Not A Number"))
 
+        new(sign: int, number: UIntNumber) =
+            if sign < 0 then
+                IntNumber("-" + number.CoreNumber)
+            else
+                IntNumber number.CoreNumber
+
         member this.CoreNumber
             with get () = coreNumber
             and set value = coreNumber <- FormatInt value
