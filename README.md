@@ -12,7 +12,7 @@ dotnet new sln
 ```
 
 ```shell
-dotnet new console -lang "F#" -o ConsoleTest
+dotnet new console -lang "F#" -o ConsoleApp
 ```
 
 ```shell

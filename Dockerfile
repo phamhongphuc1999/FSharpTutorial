@@ -1,16 +1,11 @@
-FROM mcr.microsoft.com/dotnet/core/sdk AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
 WORKDIR /app
-
-# Copy csproj and restore
-COPY *.csproj ./
-RUN dotnet restore .
-
-# Copy everything else and build
 COPY . ./
+RUN dotnet restore .
 RUN dotnet publish -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/runtime
+FROM mcr.microsoft.com/dotnet/runtime:6.0
 WORKDIR /app
 COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "ConsoleText.dll"]
+ENTRYPOINT ["dotnet", "ConsoleApp.dll"]

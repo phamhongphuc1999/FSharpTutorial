@@ -2,11 +2,11 @@
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ConsoleTest", "ConsoleTest\ConsoleTest.fsproj", "{47036869-CBFD-45DD-9EAC-C50AC52A99DF}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MyLibrary", "MyLibrary\MyLibrary.fsproj", "{1A36F4E4-7502-42D4-AAD6-D3836E4968D5}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MyNumber", "MyNumber\MyNumber.fsproj", "{4D7081FC-F4E8-405C-A795-34C7044C4A45}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ConsoleApp", "ConsoleApp\ConsoleApp.fsproj", "{73BBDDC3-4183-482E-9FD1-0A571FB7A83E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,5 +33,9 @@ Global
 		{4D7081FC-F4E8-405C-A795-34C7044C4A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D7081FC-F4E8-405C-A795-34C7044C4A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D7081FC-F4E8-405C-A795-34C7044C4A45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73BBDDC3-4183-482E-9FD1-0A571FB7A83E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73BBDDC3-4183-482E-9FD1-0A571FB7A83E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73BBDDC3-4183-482E-9FD1-0A571FB7A83E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73BBDDC3-4183-482E-9FD1-0A571FB7A83E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
