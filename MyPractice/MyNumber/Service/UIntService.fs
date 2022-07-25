@@ -268,3 +268,21 @@ module UInt =
             tNum2 <- rInteger
 
         result
+    
+    let CalculateGreatestCommonFactor (uintNum1: string) (uintNum2: string) =
+        match (uintNum1, uintNum2) with
+        | ("0", _)
+        | ("1", _) -> uintNum1
+        | (_, "0")
+        | (_, "1") -> uintNum2
+        | _ ->
+            let mutable num1 = uintNum1
+            let mutable num2 = uintNum2
+            let check = UIntCompare num1 num2
+
+            while check <> 0 do
+                match check with
+                | 1 -> num1 <- SubtractUInt num1 num2
+                | _ -> num2 <- SubtractUInt num2 num1
+
+            num1

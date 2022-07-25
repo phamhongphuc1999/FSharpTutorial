@@ -59,13 +59,23 @@ module DecimalNumber =
 
         static member op_Equality(number1: DecimalNumber, number2: DecimalNumber) = number1.IsEqual(number2)
 
+        member this.IsNotEqual(number: DecimalNumber) =
+            let result = DecimalCompare this.CoreNumber number.CoreNumber
+            if result <> 0 then true else false
+
+        static member op_Inequality(number1: DecimalNumber, number2: DecimalNumber) = number1.IsNotEqual(number2)
+
         member this.IsGresterThan(number: DecimalNumber) =
             let result = DecimalCompare coreNumber (number.CoreNumber)
             if result = 1 then true else false
 
         static member op_GreaterThan(number1: DecimalNumber, number2: DecimalNumber) = number1.IsGresterThan(number2)
 
-        static member IsDecimal(number: string) = IsDecimal number
+        member this.GetIntegerAndDecimal() =
+            let (sign, integerPart, decimalPart) = GetIntegerAndDecimal this.CoreNumber
+            (sign, integerPart |> UIntNumber, decimalPart |> UIntNumber)
+
+        static member IsNumber(number: string) = IsDecimal number
 
         static member Parst(coreNumber: string) = DecimalNumber(coreNumber)
 

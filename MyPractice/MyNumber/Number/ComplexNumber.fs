@@ -200,3 +200,32 @@ module ComplexNumber =
             let realDividend = (dividend, "0" |> DecimalNumber) |> ComplexNumber
 
             realDividend / divisor
+
+        member private this.UintPow(number: UIntNumber) =
+            let mutable result = ("1", "0") |> ComplexNumber
+            let mutable tNum1 = this
+            let mutable tNum2 = number
+            let uintZero = UIntNumber "0"
+            let uintTwo = UIntNumber "2"
+
+            while tNum2 > uintZero do
+                let (rInteger, rDecimal) = tNum2 /% uintTwo
+
+                if rDecimal.CoreNumber = "1" then
+                    result <- result * tNum1
+
+                tNum1 <- tNum1 * tNum1
+                tNum2 <- rInteger
+
+            result
+
+        member this.Pow(number: IntNumber) =
+            let (sign, integerNum) = number.GetUInt()
+
+            match sign with
+            | 1 -> this.UintPow integerNum
+            | _ ->
+                (("1", "0") |> ComplexNumber)
+                / (this.UintPow integerNum)
+
+        static member (.^)(number1: ComplexNumber, number2: IntNumber) = number1.Pow number2

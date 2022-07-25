@@ -229,8 +229,8 @@ module Decimal =
 
         match mode with
         | Mode.normal -> (tempNum1, tempNum2, bigLen)
-        | Mode.multiply -> (tempNum1, tempNum2, AddInt decimalLen1 decimalLen2)
-        | _ -> (tempNum1, tempNum2, SubtractUInt bigLen smallLen)
+        | Mode.multiply -> (tempNum1, tempNum2, (AddInt bigLen bigLen))
+        | _ -> (tempNum1, tempNum2, bigLen)
 
     let AddDecimal (number1: string) (number2: string) =
         let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.normal
@@ -265,7 +265,10 @@ module Decimal =
             rAccuracy <- remainResult.Length
             rRemain <- temp2
 
-        DecimalCeiling (rawResult + "." + remainResult) accuracy
+        if sign1 * sign2 > 0 then
+            DecimalCeiling (rawResult + "." + remainResult) accuracy
+        else
+            DecimalCeiling ("-" + rawResult + "." + remainResult) accuracy
 
     let PowDecimal (number: string) (uintNum: string) =
         let (sign, intNumber, decimalNumber) = number |> DeepGetIntegerAndDecimal

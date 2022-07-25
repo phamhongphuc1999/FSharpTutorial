@@ -61,6 +61,12 @@ module IntNumber =
 
         static member op_Equality(number1: IntNumber, number2: IntNumber) = number1.IsEqual(number2)
 
+        member this.IsNotEqual(number: IntNumber) =
+            let result = IntCompare this.CoreNumber number.CoreNumber
+            if result <> 0 then true else false
+
+        static member op_Inequality(number1: IntNumber, number2: IntNumber) = number1.IsNotEqual(number2)
+
         member this.IsGresterThan(number: IntNumber) =
             let result = IntCompare coreNumber (number.ToString())
             if result = 1 then true else false

@@ -40,31 +40,37 @@ module UIntNumber =
         override this.ToString() = coreNumber
 
         member this.IsLessThan(number: UIntNumber) =
-            let result = UIntCompare coreNumber (number.ToString())
+            let result = UIntCompare this.CoreNumber number.CoreNumber
             if result = -1 then true else false
 
         static member op_LessThan(number1: UIntNumber, number2: UIntNumber) = number1.IsLessThan(number2)
 
         member this.IsLessThanOrEqual(number: UIntNumber) =
-            let result = UIntCompare coreNumber (number.ToString())
+            let result = UIntCompare this.CoreNumber number.CoreNumber
             if result <= 0 then true else false
 
         static member op_LessThanOrEqual(number1: UIntNumber, number2: UIntNumber) = number1.IsLessThanOrEqual(number2)
 
         member this.IsEqual(number: UIntNumber) =
-            let result = UIntCompare coreNumber (number.ToString())
+            let result = UIntCompare this.CoreNumber number.CoreNumber
             if result = 0 then true else false
 
         static member op_Equality(number1: UIntNumber, number2: UIntNumber) = number1.IsEqual(number2)
 
+        member this.IsNotEqual(number: UIntNumber) =
+            let result = UIntCompare this.CoreNumber number.CoreNumber
+            if result <> 0 then true else false
+
+        static member op_Inequality(number1: UIntNumber, number2: UIntNumber) = number1.IsNotEqual(number2)
+
         member this.IsGresterThan(number: UIntNumber) =
-            let result = UIntCompare coreNumber (number.ToString())
+            let result = UIntCompare this.CoreNumber number.CoreNumber
             if result = 1 then true else false
 
         static member op_GreaterThan(number1: UIntNumber, number2: UIntNumber) = number1.IsGresterThan(number2)
 
         member this.IsGreaterThanOrEqual(number: UIntNumber) =
-            let result = UIntCompare coreNumber (number.ToString())
+            let result = UIntCompare this.CoreNumber number.CoreNumber
             if result >= 0 then true else false
 
         static member op_GreaterThanOrEqual(number1: UIntNumber, number2: UIntNumber) =
@@ -154,3 +160,8 @@ module UIntNumber =
             result |> UIntNumber
 
         static member (!)(number: UIntNumber) = number.Factorial()
+
+        static member CalculateGreatestCommonFactor(number1: UIntNumber, number2: UIntNumber) =
+            (number1.CoreNumber, number2.CoreNumber)
+            ||> CalculateGreatestCommonFactor
+            |> UIntNumber
