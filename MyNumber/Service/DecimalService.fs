@@ -215,8 +215,8 @@ module Decimal =
         let mutable tempNum1 = ""
         let mutable tempNum2 = ""
         let decimalCompare = UIntCompare decimalLen1 decimalLen2
-        let mutable smallLen = decimalLen1
-        let mutable bigLen = decimalLen2
+        let mutable bigLen = decimalLen1
+        let mutable smallLen = decimalLen2
 
         if decimalCompare >= 0 then
             tempNum1 <- MultiplyUIntDecimal10 number1 decimalLen1
@@ -224,8 +224,8 @@ module Decimal =
         else
             tempNum1 <- MultiplyUIntDecimal10 number1 decimalLen2
             tempNum2 <- MultiplyDecimal10 number2 decimalLen2
-            smallLen <- decimalLen2
-            bigLen <- decimalLen1
+            bigLen <- decimalLen2
+            smallLen <- decimalLen1
 
         match mode with
         | Mode.normal -> (tempNum1, tempNum2, bigLen)
@@ -234,7 +234,6 @@ module Decimal =
 
     let AddDecimal (number1: string) (number2: string) =
         let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.normal
-
         DivideUIntDecimal10 (AddInt tempNum1 tempNum2) len
 
     let SubtractDecimal (number1: string) (number2: string) =
