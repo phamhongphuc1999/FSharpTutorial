@@ -278,11 +278,13 @@ module UInt =
         | _ ->
             let mutable num1 = uintNum1
             let mutable num2 = uintNum2
-            let check = UIntCompare num1 num2
+            let mutable check = UIntCompare num1 num2
 
             while check <> 0 do
                 match check with
                 | 1 -> num1 <- SubtractUInt num1 num2
                 | _ -> num2 <- SubtractUInt num2 num1
+
+                check <- UIntCompare num1 num2
 
             num1

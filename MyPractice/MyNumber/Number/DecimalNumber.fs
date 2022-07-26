@@ -45,7 +45,7 @@ module DecimalNumber =
 
         member this.Ceiling(exponent: int) =
             let temp = DecimalCeiling coreNumber exponent
-            this.CoreNumber <- temp
+            temp |> DecimalNumber
 
         member this.IsLessThan(number: DecimalNumber) =
             let result = DecimalCompare coreNumber (number.CoreNumber)

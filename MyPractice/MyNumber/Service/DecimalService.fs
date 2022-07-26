@@ -89,21 +89,18 @@ module Decimal =
             if realUp then
                 exDecimalNum <- AddUInt exDecimalNum "1"
 
-            if sign = 1 then
-                integerNum + "." + exDecimalNum
-            else
-                "-" + integerNum + "." + exDecimalNum
+            match sign with
+            | 1 -> integerNum + "." + exDecimalNum
+            | _ -> "-" + integerNum + "." + exDecimalNum
 
     let DecimalCompare (number1: string) (number2: string) =
         let (sign1, intNumber1, decimalNumber1) = number1 |> DeepGetIntegerAndDecimal
-
         let (sign2, intNumber2, decimalNumber2) = number2 |> DeepGetIntegerAndDecimal
 
-        if sign1 = -1 && sign2 = 1 then
-            -1
-        elif sign1 = 1 && sign2 = -1 then
-            1
-        else
+        match (sign1, sign2) with
+        | (-1, 1) -> -1
+        | (1, -1) -> 1
+        | _ ->
             let temp = UIntCompare intNumber1 intNumber2
 
             if temp <> 0 then
@@ -150,10 +147,9 @@ module Decimal =
                 let temp = MultiplyUInt10 decimalNumber (SubtractUInt uintNum lenDecimal)
                 result <- intNumber + temp
 
-        if sign = 1 then
-            FormatDecimal result
-        else
-            "-" + FormatDecimal result
+        match sign with
+        | 1 -> FormatDecimal result
+        | _ -> "-" + FormatDecimal result
 
     let private DivideUInt10 (number: string) (uintNum: string) =
         let lenInt = number.Length

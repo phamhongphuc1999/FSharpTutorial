@@ -12,13 +12,8 @@ module ComplexNumber =
         new(realPart: string, imaginaryPart: string) =
             ComplexNumber(DecimalNumber realPart, DecimalNumber imaginaryPart)
 
-        member this.RealPart
-            with get () = realPart
-            and set value = realPart <- value
-
-        member this.ImaginaryPart
-            with get () = imaginaryPart
-            and set value = imaginaryPart <- value
+        member this.RealPart = realPart
+        member this.ImaginaryPart = imaginaryPart
 
         member this.CoreNumber =
             let sReal = realPart.CoreNumber
