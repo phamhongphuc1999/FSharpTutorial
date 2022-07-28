@@ -197,7 +197,7 @@ module UInt =
                             result <- result + (string (count - 1))
                             remain <- (SubtractUInt remain preTotal)
 
-            result
+            if result = "" then "0" else result
 
     let DivideModUInt (dividend: string) (divisor: string) =
         if divisor = "0" then
@@ -268,7 +268,7 @@ module UInt =
             tNum2 <- rInteger
 
         result
-    
+
     let CalculateGreatestCommonFactor (uintNum1: string) (uintNum2: string) =
         match (uintNum1, uintNum2) with
         | ("0", _)

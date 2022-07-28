@@ -5,6 +5,7 @@ open MyNumber.Number.IntNumber
 open MyNumber.Number.UIntNumber
 open MyNumber.Service.Decimal
 open MyNumber.Error
+open MyNumber.EUtils
 
 module DecimalNumber =
     type DecimalNumber(coreNumber: string) =
@@ -42,6 +43,16 @@ module DecimalNumber =
             | _ -> false
 
         override this.GetHashCode() = this.GetHashCode()
+
+        static member ENumber (uintNum: string) (accuracy: int) =
+            (uintNum, accuracy)
+            ||> GetENumber
+            |> DecimalNumber
+
+        static member EPow (x: string) (uintNum: string) (accuracy: int) =
+            (x, uintNum, accuracy)
+            |||> GetEPow
+            |> DecimalNumber
 
         member this.Ceiling(exponent: int) =
             let temp = DecimalCeiling coreNumber exponent

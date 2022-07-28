@@ -1,21 +1,20 @@
-namespace UserAPI
+﻿namespace UserAPI
 
-#nowarn "20"
-
-open Microsoft.AspNetCore.Builder
-open Microsoft.Extensions.DependencyInjection
+open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 
 module Program =
     let exitCode = 0
 
+    let CreateHostBuilder args =
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(fun webBuilder ->
+                webBuilder.UseStartup<Startup>() |> ignore
+            )
+
     [<EntryPoint>]
     let main args =
-        let builder = WebApplication.CreateBuilder(args)
-        builder.Services.AddControllers()
-        let app = builder.Build()
-        app.UseHttpsRedirection()
-        app.UseAuthorization()
-        app.MapControllers()
-        app.Run()
+        CreateHostBuilder(args).Build().Run()
+
         exitCode
+

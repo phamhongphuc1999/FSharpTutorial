@@ -73,25 +73,33 @@ module Decimal =
             let result2 = Regex.Match(number, "-[0-9]*.[0-9]*")
             result2.Length = number.Length
 
-    let DecimalCeiling (number: string) (exponent: int) =
-        let (sign, integerNum, decimalNum) = DeepGetIntegerAndDecimal number
-        let len = decimalNum.Length
+    let DivideUInt10 (number: string) (uintNum: string) =
+        let lenInt = number.Length
+        let len = lenInt |> string
+        let lenCompare = UIntCompare len uintNum
 
-        if len <= exponent then
-            number
-        elif exponent = 0 then
-            integerNum
+        if lenCompare = 0 then
+            "0." + number
+        elif lenCompare = 1 then
+            let index = (uintNum |> int)
+            let integerPart = number[0 .. (lenInt - index - 1)]
+            let decimalPart = number[(lenInt - index) ..]
+            integerPart + "." + decimalPart
         else
-            let mutable exDecimalNum = decimalNum[0 .. (exponent - 1)]
-            let cNum = (decimalNum[exponent] |> int) - 48
-            let realUp = (sign = 1 && cNum >= 5) || (sign = -1 && cNum < 5)
+            let mutable result = ""
+            let mutable temp = "0"
+            let mutable tNum2 = SubtractUInt uintNum len
 
-            if realUp then
-                exDecimalNum <- AddUInt exDecimalNum "1"
+            while UIntCompare tNum2 "0" = 1 do
+                let (rInteger, rDecimal) = RealDivideUInt tNum2 "2"
 
-            match sign with
-            | 1 -> integerNum + "." + exDecimalNum
-            | _ -> "-" + integerNum + "." + exDecimalNum
+                if rDecimal = "1" then
+                    result <- result + temp
+
+                temp <- temp + temp
+                tNum2 <- rInteger
+
+            "0." + result + number
 
     let DecimalCompare (number1: string) (number2: string) =
         let (sign1, intNumber1, decimalNumber1) = number1 |> DeepGetIntegerAndDecimal
@@ -150,34 +158,6 @@ module Decimal =
         match sign with
         | 1 -> FormatDecimal result
         | _ -> "-" + FormatDecimal result
-
-    let private DivideUInt10 (number: string) (uintNum: string) =
-        let lenInt = number.Length
-        let len = lenInt |> string
-        let lenCompare = UIntCompare len uintNum
-
-        if lenCompare = 0 then
-            "0." + number
-        elif lenCompare = 1 then
-            let index = (uintNum |> int)
-            let integerPart = number[0 .. (lenInt - index - 1)]
-            let decimalPart = number[(lenInt - index) ..]
-            integerPart + "." + decimalPart
-        else
-            let mutable result = ""
-            let mutable temp = "0"
-            let mutable tNum2 = SubtractUInt uintNum len
-
-            while UIntCompare tNum2 "0" = 1 do
-                let (rInteger, rDecimal) = RealDivideUInt tNum2 "2"
-
-                if rDecimal = "1" then
-                    result <- result + temp
-
-                temp <- temp + temp
-                tNum2 <- rInteger
-
-            "0." + result + number
 
     let private DivideUIntDecimal10 (number: string) (uintNum: string) =
         let (sign, intNumber, decimalNumber) = number |> DeepGetIntegerAndDecimal
@@ -240,31 +220,63 @@ module Decimal =
         let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.multiply
         DivideUIntDecimal10 (MultiplyInt tempNum1 tempNum2) len
 
+    let DecimalCeiling (number: string) (exponent: int) =
+        let (sign, integerNum, decimalNum) = DeepGetIntegerAndDecimal number
+        let len = decimalNum.Length
+
+        if len <= exponent then
+            number
+        elif exponent = 0 then
+            integerNum
+        else
+            let mutable exDecimalNum = decimalNum[0 .. (exponent - 1)]
+            let cNum = (decimalNum[exponent] |> int) - 48
+            let realUp = (sign = 1 && cNum >= 5) || (sign = -1 && cNum < 5)
+            printfn "exDecimalNum: %s" exDecimalNum
+            let exDecimalNumLen = exDecimalNum.Length |> string
+
+            if realUp then
+                let moreUint = DivideUInt10 "1" exDecimalNumLen
+                exDecimalNum <- AddDecimal ("0." + exDecimalNum) moreUint
+
+                match sign with
+                | 1 -> integerNum + "." + exDecimalNum[2..]
+                | _ -> "-" + integerNum + "." + exDecimalNum[2..]
+            else
+                match sign with
+                | 1 -> integerNum + "." + exDecimalNum
+                | _ -> "-" + integerNum + "." + exDecimalNum
+
+
     let DivideDecimal (number1: string) (number2: string) (accuracy: int) =
         let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.divide
         let (sign1, tNum1) = GetUIntNumber tempNum1
         let (sign2, tNum2) = GetUIntNumber tempNum2
-        let (rawResult, reamin) = RealDivideUInt tNum1 tNum2
+        let mutable (rawResult, reamin) = RealDivideUInt tNum1 tNum2
         let mutable remainResult = ""
-        let mutable rRemain = reamin
-        let len2 = tNum2.Length
+        let _len = (tNum2.Length + 1)
+        let sLen = _len |> string
         let mutable rAccuracy = 0
 
-        while rAccuracy < accuracy && rRemain <> "0" do
-            rRemain <- MultiplyUInt10 rRemain (string len2)
-            let mutable (temp1, temp2) = RealDivideUInt rRemain tNum2
+        while rAccuracy < accuracy && reamin <> "0" do
+            reamin <- MultiplyUInt10 reamin sLen
+            let mutable (temp1, temp2) = RealDivideUInt reamin tNum2
 
-            while temp1.Length < len2 do
+            while temp1.Length < _len do
                 temp1 <- "0" + temp1
 
             remainResult <- remainResult + temp1
             rAccuracy <- remainResult.Length
-            rRemain <- temp2
+            reamin <- temp2
 
+        // if sign1 * sign2 > 0 then
+        //     DecimalCeiling (rawResult + "." + remainResult) accuracy
+        // else
+        //     DecimalCeiling ("-" + rawResult + "." + remainResult) accuracy
         if sign1 * sign2 > 0 then
-            DecimalCeiling (rawResult + "." + remainResult) accuracy
+            rawResult + "." + remainResult
         else
-            DecimalCeiling ("-" + rawResult + "." + remainResult) accuracy
+            "-" + rawResult + "." + remainResult
 
     let PowDecimal (number: string) (uintNum: string) =
         let (sign, intNumber, decimalNumber) = number |> DeepGetIntegerAndDecimal

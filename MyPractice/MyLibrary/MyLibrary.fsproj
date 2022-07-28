@@ -5,7 +5,5 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Sort/CommonSort.fs" />
-    <Compile Include="MyCollection/LinkingCollection/SingleLinkedList.fs" />
-    <Compile Include="MyCollection/LinkingCollection/DoubleLinkedList.fs" />
   </ItemGroup>
 </Project>
