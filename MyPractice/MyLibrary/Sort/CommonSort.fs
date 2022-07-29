@@ -12,10 +12,10 @@ module Sort =
 
         for i = 0 to length - 2 do
             for j = i + 1 to length - 1 do
-                if not (compare tempArr[i] tempArr[j]) then
-                    let temp = tempArr[i]
-                    tempArr[i] <- tempArr[j]
-                    tempArr[j] <- temp
+                if not (compare tempArr.[i] tempArr.[j]) then
+                    let temp = tempArr.[i]
+                    tempArr.[i] <- tempArr.[j]
+                    tempArr.[j] <- temp
 
         tempArr
 
@@ -24,14 +24,14 @@ module Sort =
         let length = tempArr.Length
 
         for i = 1 to length - 1 do
-            let value = tempArr[i]
+            let value = tempArr.[i]
             let mutable index = i - 1
 
-            while index >= 0 && (compare value tempArr[index]) do
-                tempArr[index + 1] <- tempArr[index]
+            while index >= 0 && (compare value tempArr.[index]) do
+                tempArr.[index + 1] <- tempArr.[index]
                 index <- index - 1
 
-            tempArr[index] <- value
+            tempArr.[index] <- value
 
         tempArr
 
@@ -43,13 +43,13 @@ module Sort =
             let mutable key = i
 
             for j = i + 1 to length - 1 do
-                if (compare tempArr[j] tempArr[i]) then
+                if (compare tempArr.[j] tempArr.[i]) then
                     key <- j
 
             if key <> i then
-                let temp = tempArr[i]
-                tempArr[i] <- tempArr[key]
-                tempArr[key] <- temp
+                let temp = tempArr.[i]
+                tempArr.[i] <- tempArr.[key]
+                tempArr.[key] <- temp
 
         tempArr
 
@@ -62,22 +62,22 @@ module Sort =
         =
         let mutable low = beginPivot
         let mutable hight = endPivot
-        let value = source[pivot]
+        let value = source.[pivot]
 
         let mutable result = 0
         let mutable check = true
 
         while check do
-            while (compare source[low] value) do
+            while (compare source.[low] value) do
                 low <- low + 1
 
-            while (compare value source[hight]) do
+            while (compare value source.[hight]) do
                 hight <- hight - 1
 
             if low < hight then
-                let temp = source[low]
-                source[low] <- source[hight]
-                source[hight] <- temp
+                let temp = source.[low]
+                source.[low] <- source.[hight]
+                source.[hight] <- temp
             else
                 result <- hight
                 check <- false

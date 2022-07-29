@@ -14,24 +14,24 @@ module Decimal =
         let mutable sign = 1
         let mutable realNum = number
 
-        if realNum[0] = '-' then
+        if realNum.[0] = '-' then
             sign <- -1
-            realNum <- realNum[1..]
+            realNum <- realNum.[1..]
 
-        if realNum[0] = '.' then
-            (sign, "0", realNum[1..])
+        if realNum.[0] = '.' then
+            (sign, "0", realNum.[1..])
         else
             let len = realNum.Length
 
-            if realNum[len - 1] = '.' then
-                (sign, realNum[0 .. (len - 2)], "")
+            if realNum.[len - 1] = '.' then
+                (sign, realNum.[0 .. (len - 2)], "")
             else
                 let parts = realNum.Split([| '.' |])
 
                 if parts.Length > 1 then
-                    (sign, parts[0], parts[1])
+                    (sign, parts.[0], parts.[1])
                 else
-                    (sign, parts[0], "")
+                    (sign, parts.[0], "")
 
     let FormatDecimal (number: string) =
         let (sign, intNumber, decimalNumber) = GetIntegerAndDecimal number
@@ -42,13 +42,13 @@ module Decimal =
         let mutable decimalNumberFormat = ""
 
         while (count <= len) && check do
-            if decimalNumber[len - count] = '0' then
+            if decimalNumber.[len - count] = '0' then
                 count <- count + 1
             else
                 check <- false
 
         if not check then
-            decimalNumberFormat <- decimalNumber[0 .. (len - count)]
+            decimalNumberFormat <- decimalNumber.[0 .. (len - count)]
         else
             decimalNumberFormat <- ""
 
@@ -82,8 +82,8 @@ module Decimal =
             "0." + number
         elif lenCompare = 1 then
             let index = (uintNum |> int)
-            let integerPart = number[0 .. (lenInt - index - 1)]
-            let decimalPart = number[(lenInt - index) ..]
+            let integerPart = number.[0 .. (lenInt - index - 1)]
+            let decimalPart = number.[(lenInt - index) ..]
             integerPart + "." + decimalPart
         else
             let mutable result = ""
@@ -121,10 +121,10 @@ module Decimal =
                 let mutable result = 1
 
                 while count < len1 && count < len2 && check do
-                    if decimalNumber1[count] < decimalNumber2[count] then
+                    if decimalNumber1.[count] < decimalNumber2.[count] then
                         result <- -1
                         check <- false
-                    elif decimalNumber1[count] > decimalNumber2[count] then
+                    elif decimalNumber1.[count] > decimalNumber2.[count] then
                         check <- false
 
                     count <- count + 1
@@ -148,8 +148,8 @@ module Decimal =
                 result <- intNumber + decimalNumber
             elif decimalCompare = 1 then
                 let index = (uintNum |> int) - 1
-                let integerPart = intNumber + decimalNumber[0..index]
-                let decimalPart = decimalNumber[(index + 1) ..]
+                let integerPart = intNumber + decimalNumber.[0..index]
+                let decimalPart = decimalNumber.[(index + 1) ..]
                 result <- integerPart + "." + decimalPart
             else
                 let temp = MultiplyUInt10 decimalNumber (SubtractUInt uintNum lenDecimal)
@@ -173,14 +173,14 @@ module Decimal =
         let mutable sign = ""
         let mutable num = number
 
-        if number[0] = '-' then
+        if number.[0] = '-' then
             sign <- "-"
-            num <- number[1..]
+            num <- number.[1..]
 
-        if intNum[0] <> '-' then
+        if intNum.[0] <> '-' then
             sign + MultiplyUIntDecimal10 num intNum
         else
-            sign + DivideUIntDecimal10 num intNum[1..]
+            sign + DivideUIntDecimal10 num intNum.[1..]
 
     let private TransformInt (number1: string) (number2: string) (mode: Mode) =
         let (sign1, intNumber1, decimalNumber1) = number1 |> DeepGetIntegerAndDecimal
@@ -229,10 +229,9 @@ module Decimal =
         elif exponent = 0 then
             integerNum
         else
-            let mutable exDecimalNum = decimalNum[0 .. (exponent - 1)]
-            let cNum = (decimalNum[exponent] |> int) - 48
+            let mutable exDecimalNum = decimalNum.[0 .. (exponent - 1)]
+            let cNum = (decimalNum.[exponent] |> int) - 48
             let realUp = (sign = 1 && cNum >= 5) || (sign = -1 && cNum < 5)
-            printfn "exDecimalNum: %s" exDecimalNum
             let exDecimalNumLen = exDecimalNum.Length |> string
 
             if realUp then
@@ -240,8 +239,8 @@ module Decimal =
                 exDecimalNum <- AddDecimal ("0." + exDecimalNum) moreUint
 
                 match sign with
-                | 1 -> integerNum + "." + exDecimalNum[2..]
-                | _ -> "-" + integerNum + "." + exDecimalNum[2..]
+                | 1 -> integerNum + "." + exDecimalNum.[2..]
+                | _ -> "-" + integerNum + "." + exDecimalNum.[2..]
             else
                 match sign with
                 | 1 -> integerNum + "." + exDecimalNum
@@ -269,14 +268,10 @@ module Decimal =
             rAccuracy <- remainResult.Length
             reamin <- temp2
 
-        // if sign1 * sign2 > 0 then
-        //     DecimalCeiling (rawResult + "." + remainResult) accuracy
-        // else
-        //     DecimalCeiling ("-" + rawResult + "." + remainResult) accuracy
         if sign1 * sign2 > 0 then
-            rawResult + "." + remainResult
+            DecimalCeiling (rawResult + "." + remainResult) accuracy
         else
-            "-" + rawResult + "." + remainResult
+            DecimalCeiling ("-" + rawResult + "." + remainResult) accuracy
 
     let PowDecimal (number: string) (uintNum: string) =
         let (sign, intNumber, decimalNumber) = number |> DeepGetIntegerAndDecimal

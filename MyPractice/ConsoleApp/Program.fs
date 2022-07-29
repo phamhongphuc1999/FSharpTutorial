@@ -1,3 +1,4 @@
 ﻿open MyNumber.LogaritUtils
 
-printfn "%s" (GetLogarit "10" "10000" 10)
+let num1 = "123456789"
+printfn "%s" num1.[4..]

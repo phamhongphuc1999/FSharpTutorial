@@ -17,13 +17,13 @@ module UInt =
         let mutable count = 0
 
         while (count < len) && check do
-            if number[count] = '0' then
+            if number.[count] = '0' then
                 count <- count + 1
             else
                 check <- false
 
         if not check then
-            number[count..]
+            number.[count..]
         else
             "0"
 
@@ -43,10 +43,10 @@ module UInt =
             let mutable result = 0
 
             while (count < len1) && check do
-                if fNum1[count] < fNum2[count] then
+                if fNum1.[count] < fNum2.[count] then
                     check <- false
                     result <- -1
-                elif fNum1[count] > fNum2[count] then
+                elif fNum1.[count] > fNum2.[count] then
                     check <- false
                     result <- 1
                 else
@@ -64,22 +64,22 @@ module UInt =
         let mutable remain = 0
 
         while (count <= len1) && (count <= len2) do
-            let n1 = int fNum1[len1 - count] - 48
-            let n2 = int fNum2[len2 - count] - 48
+            let n1 = int fNum1.[len1 - count] - 48
+            let n2 = int fNum2.[len2 - count] - 48
             let temp = n1 + n2 + remain
             result <- (string (temp % 10)) + result
             remain <- temp / 10
             count <- count + 1
 
         while count <= len1 do
-            let n1 = int fNum1[len1 - count] - 48
+            let n1 = int fNum1.[len1 - count] - 48
             let temp = n1 + remain
             result <- (string (temp % 10)) + result
             remain <- temp / 10
             count <- count + 1
 
         while count <= len2 do
-            let n2 = int fNum2[len2 - count] - 48
+            let n2 = int fNum2.[len2 - count] - 48
             let temp = n2 + remain
             result <- (string (temp % 10)) + result
             remain <- temp / 10
@@ -100,8 +100,8 @@ module UInt =
         let mutable remain = 0
 
         while (count <= len1) && (count <= len2) do
-            let n1 = int fNum1[len1 - count] - 48
-            let n2 = int fNum2[len2 - count] - 48
+            let n1 = int fNum1.[len1 - count] - 48
+            let n2 = int fNum2.[len2 - count] - 48
 
             if n1 >= n2 + remain then
                 result <- (string (n1 - n2 - remain)) + result
@@ -113,7 +113,7 @@ module UInt =
             count <- count + 1
 
         while count <= len1 do
-            let n1 = int fNum1[len1 - count] - 48
+            let n1 = int fNum1.[len1 - count] - 48
 
             if n1 >= remain then
                 result <- (string (n1 - remain)) + result

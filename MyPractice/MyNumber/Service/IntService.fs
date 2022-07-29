@@ -10,8 +10,8 @@ module Int =
         result.Length = number.Length
 
     let GetUIntNumber (number: string) =
-        if number[0] = '-' then
-            (-1, number[1..])
+        if number.[0] = '-' then
+            (-1, number.[1..])
         else
             (1, number)
 

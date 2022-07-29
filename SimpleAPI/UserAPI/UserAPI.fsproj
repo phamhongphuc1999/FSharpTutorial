@@ -5,11 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Configuration\Config.fs" />
+    <Compile Include="Connector\ApiSqlConnector.fs" />
+    <Compile Include="Connector\ApiConnection.fs" />
     <Compile Include="Controllers\UserController.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
-    <Compile Include="Connector\ApiConnection.fs" />
-    <Compile Include="Connector\MySqlConnector.fs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,5 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Connector\" />
+    <Folder Include="Configuration\" />
   </ItemGroup>
 </Project>
