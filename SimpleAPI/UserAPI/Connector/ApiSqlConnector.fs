@@ -7,16 +7,19 @@ open MySqlConnector
 [<AllowNullLiteral>]
 type ApiSqlConnector private () =
     static let mutable connector: ApiSqlConnector = null
-    static member Connector with get() = connector and set value = connector <- value
-    member val Config: MySqlConfig = null with get, set
-    member val connection: MySqlConnection = null with get, set
+    let mutable config: MySqlConfig = null
+    let mutable connection: MySqlConnection = null
+
+    static member Connector with get() = connector and private set value = connector <- value
+    member this.Config with get() = config and private set value = config <- value
+    member this.Connection with get() = connection and private set value = connection <- value
 
     private new (configuration: IConfigurationSection) as this =
         ApiSqlConnector() then
             this.Config <- new MySqlConfig()
             configuration.Bind(this.Config)
-            this.connection <- new MySqlConnection(this.Config.ConnectString)
-            this.connection.Open()
+            this.Connection <- new MySqlConnection(this.Config.ConnectString)
+            this.Connection.Open()
 
     static member GetInstance(configuration: IConfigurationSection) =
         match ApiSqlConnector.Connector with

@@ -15,7 +15,6 @@ module Program =
     let CreateDbConnection () =
         let config = ConfigurationBuilder().AddJsonFile("appsettings.json", false).Build()
         let sqlConfig = config.GetSection("MySqlSetting")
-        printfn "%s" (sqlConfig.GetValue<string>("ConnectString"))
         APIConnection.GetConnection(sqlConfig)
 
     [<EntryPoint>]

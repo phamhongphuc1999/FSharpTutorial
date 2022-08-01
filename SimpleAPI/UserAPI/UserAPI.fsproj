@@ -1,24 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Connector\" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\SqlModel\" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Config.fs" />
+    <Compile Include="APIAttribute.fs" />
     <Compile Include="Connector\ApiSqlConnector.fs" />
     <Compile Include="Connector\ApiConnection.fs" />
+    <Compile Include="Models\SqlModel\Employee.fs" />
+    <Compile Include="Models\SqlModel\SqlDataSet.fs" />
     <Compile Include="Controllers\UserController.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="2.1.11" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Connector\" />
-    <Folder Include="Configuration\" />
   </ItemGroup>
 </Project>

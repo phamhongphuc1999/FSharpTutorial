@@ -4,6 +4,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Sort/CommonSort.fs" />
+    <Compile Include="Sort\CommonSort.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sort\" />
   </ItemGroup>
 </Project>
