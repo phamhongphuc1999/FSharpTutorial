@@ -1,7 +1,7 @@
 ### F Sharp libraries
 
-|ID|Project|Note|
-|:---:|:---|:---|
-|1|ConsoleTest|
-|2|MyLibrary|
-|3|MyNumber|
+| ID  | Project                     | Type     | Note |
+| :-: | :-------------------------- | :------- | :--- |
+|  1  | [ConsoleApp](./ConsoleApp/) | console  |
+|  2  | [MyLibrary](./MyLibrary/)   | classlib |
+|  3  | [MyNumber](./MyNumber/)     | classlib |

@@ -12,10 +12,11 @@
   <ItemGroup>
     <Compile Include="Configuration\Config.fs" />
     <Compile Include="APIAttribute.fs" />
-    <Compile Include="Connector\ApiSqlConnector.fs" />
-    <Compile Include="Connector\ApiConnection.fs" />
     <Compile Include="Models\SqlModel\Employee.fs" />
     <Compile Include="Models\SqlModel\SqlDataSet.fs" />
+    <Compile Include="Models\SqlModel\SqlData.fs" />
+    <Compile Include="Connector\ApiSqlConnector.fs" />
+    <Compile Include="Connector\ApiConnection.fs" />
     <Compile Include="Controllers\UserController.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />

@@ -7,13 +7,14 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 
 type Startup private () =
-    member val Configuration : IConfiguration = null with get, set
+    member val Configuration: IConfiguration = null with get, set
     member val _env: IWebHostEnvironment = null with get, set
 
-    new (configuration: IConfiguration, env: IWebHostEnvironment) as this =
-        Startup() then
-        this.Configuration <- configuration
-        this._env <- env
+    new(configuration: IConfiguration, env: IWebHostEnvironment) as this =
+        Startup()
+        then
+            this.Configuration <- configuration
+            this._env <- env
 
     // This method gets called by the runtime. Use this method to add services to the container.
     member this.ConfigureServices(services: IServiceCollection) =
@@ -32,6 +33,5 @@ type Startup private () =
 
         app.UseAuthorization() |> ignore
 
-        app.UseEndpoints(fun endpoints ->
-            endpoints.MapControllers() |> ignore
-            ) |> ignore
+        app.UseEndpoints(fun endpoints -> endpoints.MapControllers() |> ignore)
+        |> ignore
