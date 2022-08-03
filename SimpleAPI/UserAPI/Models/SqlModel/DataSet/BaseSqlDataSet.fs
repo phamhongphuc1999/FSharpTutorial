@@ -1,27 +1,17 @@
-﻿namespace UserAPI.Models.SqlModel
+﻿namespace UserAPI.Models.SqlModel.DataSet
 
 open System
 open UserAPI
 open System.Collections.Generic
 open MySqlConnector
 open System.Data
-
-type Data =
-    { Name: string
-      PropertyType: string
-      AttributeName: string }
-
-type FullData =
-    { ModuleName: string
-      ModuleInfo: List<Data> }
-
-type TableSchema = { Name: string; Type: string }
+open UserAPI.Configuration
 
 [<AllowNullLiteral>]
-type SqlDataSet<'T> private () =
+type BaseSqlDataSet<'T when 'T: (new: unit -> 'T)> private () =
     let mutable connection: MySqlConnection = null
     let mutable tableName: string = ""
-    let mutable tableInfo: List<Data> = new List<Data>()
+    let mutable tableInfo: List<TableInfo> = new List<TableInfo>()
 
     member this.Connection
         with get () = connection
@@ -36,13 +26,13 @@ type SqlDataSet<'T> private () =
         and private set value = tableInfo <- value
 
     new(connection: MySqlConnection) as this =
-        SqlDataSet()
+        BaseSqlDataSet()
         then
             this.Connection <- connection
             let moduleInfo: FullData = this.GetReflection()
             let tableSchema: List<string> = this.GetTableSchema(moduleInfo.ModuleName)
 
-            let result = new List<Data>()
+            let result = new List<TableInfo>()
 
             for item in moduleInfo.ModuleInfo do
                 let name =
@@ -65,7 +55,7 @@ type SqlDataSet<'T> private () =
     member private this.GetReflection() =
         let moduleInfo = typeof<'T>
         let properties = moduleInfo.GetProperties()
-        let result = new List<Data>()
+        let result = new List<TableInfo>()
 
         for _pro in properties do
             let _proAttribute = Attribute.GetCustomAttributes(_pro)
@@ -107,10 +97,10 @@ type SqlDataSet<'T> private () =
 
             count <- count + 1
 
-        { ModuleName = moduleName
-          ModuleInfo = result }
+        { FullData.ModuleName = moduleName
+          FullData.ModuleInfo = result }
 
-    member this.GetTableSchema(tableName: string) =
+    member private this.GetTableSchema(tableName: string) =
         let command =
             new MySqlCommand(
                 "select COLUMN_NAME, DATA_TYPE as 'name' from information_schema.columns where table_name=@t_name;",
@@ -130,5 +120,34 @@ type SqlDataSet<'T> private () =
 
         if result.Count = 0 then
             raise (Exception("123"))
+
+        result
+
+    member private this.SetObjectValue<'A>
+        (data: MySqlDataReader)
+        (tableName: string)
+        (obj: 'T)
+        (propertyName: string)
+        =
+        let _value = data.GetFieldValue<'A>(tableName)
+
+        obj
+            .GetType()
+            .GetProperty(propertyName)
+            .SetValue(obj, _value)
+
+    member this.ConvertDataSetToObject(data: MySqlDataReader) =
+        let result = new 'T()
+
+        for item in this.TableInfo do
+            let name = item.Name
+            let tableName = item.AttributeName
+            let _type = item.PropertyType
+
+            match _type with
+            | "String" -> this.SetObjectValue<string> data tableName result name
+            | "Int16" -> this.SetObjectValue<int16> data tableName result name
+            | "Int32" -> this.SetObjectValue<int32> data tableName result name
+            | _ -> this.SetObjectValue<string> data tableName result name
 
         result

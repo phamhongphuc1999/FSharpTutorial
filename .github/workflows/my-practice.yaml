@@ -1,0 +1,36 @@
+name: my-practice-workflow
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "!**.md"
+      - "!.gitignore"
+      - "!SimpleAPI/**"
+  pull_request:
+    branches:
+      - main
+jobs:
+  my-practice-job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Step1
+        run: echo "Run step2 in job1"
+  my-practice-job2:
+    needs: my-practice-job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step1 in job2
+        run: echo "Run step1 in job2"
+      - name: Step2 in job2
+        run: echo "Run step2 in job2"
+  my-practice-job3:
+    needs: my-practice-job2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step1 in job3
+        run: echo "Run step1 in job3"
+      - name: Step2 in job3
+        run: echo "Run step2 in job3"

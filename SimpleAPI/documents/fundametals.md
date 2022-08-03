@@ -9,7 +9,8 @@
    1. [Generic Host](#generic_host)
    2. [Web Host](#web_host)
 3. [Configuration](#configuration)
-4. [Database](#database)
+4. [Swagger](#swagger)
+5. [Database](#database)
    1. [Mysql Docker Container](#mysql_docker_container)
    2. [MySqlConnector](#mysqlconnector)
 
@@ -33,11 +34,9 @@ Nội dung bài viết này sẽ cũng cấp các thông tin về kiến trúc, 
 
 Có ba loại hosts khác nhau
 
-- .NET WebApplication Host, hay còn gọi là Minimal Host
-- .NET Generic Host
-- ASP.NET Core Web Host
-
-Trong đó chương trình Simple API sử dung .NET Core, ASP.NET Core Web Host
+- [.NET WebApplication Host](https://docs.microsoft.com/en-us/aspnet/core/migration/50-to-60?view=aspnetcore-6.0&tabs=visual-studio#new-hosting-model), hay còn gọi là Minimal Host
+- [.NET Generic Host](#generic_host)
+- [ASP.NET Core Web Host](#web_host)
 
 #### Generic Host <a name="generic_host"></a>
 
@@ -65,14 +64,38 @@ module Program =
 
 ### 3. Configuration <a name="configuration"></a>
 
+- Cấu hình ứng dụng ASP.NET được thể hiện bằng cách sử dụng một hoặc nhiều [configuration providers](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-6.0#cp). Các Configuration provider này đọc dữ liệu từ các cặp key-value từ nhiều nguồn khác nhau
+
+  - Settings files, such as `appsettings.json`
+  - Environment variables
+  - Azure Key Vault
+  - Azure App Configuration
+  - Command-line arguments
+  - Custom providers, installed or created
+  - Directory files
+  - In-memory .NET objects
+
+- Ứng dụng Simple API sử dụng các đơn giản nhất là dùng file cấu hình `appsettings.json`. Bằng việc sử dụng [ConfigurationBuilder](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.configuration.configurationbuilder?view=dotnet-plat-ext-6.0), chúng ta có thể lưu cấu hình thành file json sau đó lấy chúng ra trong lúc `run time`.
+
+```shell
+let CreateDbConnection () =
+        let config = ConfigurationBuilder().AddJsonFile("appsettings.json", false).Build()
+        let sqlConfig = config.GetSection("MySqlSetting")
+        APIConnection.GetConnection(sqlConfig)
+```
+
 ---
 
-### 4. Database <a name="database"></a>
+### 4. Swagger <a name="swagger"></a>
 
-Chương trình sử dụng cơ sở dữ liệu mysql thông qua docker. Phần 2 này sẽ đề cập đến hai vấn đề là
+---
 
-- Setup cho Mysql docker container
-- Kết nối API với mysql
+### 5. Database <a name="database"></a>
+
+Chương trình sử dụng cơ sở dữ liệu mysql thông qua docker. Phần này sẽ đề cập đến hai vấn đề là
+
+- [Setup cho Mysql docker container](#mysql_docker_container)
+- [Kết nối API với mysql](#mysqlconnector)
 
 #### Mysql Docker Container <a name="mysql_docker_container"></a>
 
@@ -80,7 +103,7 @@ Chương trình sử dụng cơ sở dữ liệu mysql thông qua docker. Phần
 docker-compose -f docker-compose-mysql.yaml up -d
 ```
 
-- file `docker-compose-mysql.yaml` chứa các config cho mysql
+- file `docker-compose-mysql.yaml` chứa các cài đặt cho mysql
   - MYSQL_ROOT_PASSWORD: đặt password cho user root là fsharp
   - ports: đặt port là 3306
   - volumes: sử dụng để khởi tạo một dữ liệu cho database

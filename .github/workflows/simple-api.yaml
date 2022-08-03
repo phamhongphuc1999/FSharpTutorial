@@ -1,29 +1,33 @@
-name: main-workflow
+name: simple-api-workflow
 on:
   push:
     branches:
       - "main"
+    paths:
+      - "!**.md"
+      - "!.gitignore"
+      - "!MyPractice/**"
   pull_request:
     branches:
       - main
 jobs:
-  job1:
+  simple-api-job1:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Step1
         run: echo "Run step2 in job1"
-  job2:
-    needs: job1
+  simple-api-job2:
+    needs: simple-api-job1
     runs-on: ubuntu-latest
     steps:
       - name: Step1 in job2
         run: echo "Run step1 in job2"
       - name: Step2 in job2
         run: echo "Run step2 in job2"
-  job3:
-    needs: job2
+  simple-api-job3:
+    needs: simple-api-job2
     runs-on: ubuntu-latest
     steps:
       - name: Step1 in job3

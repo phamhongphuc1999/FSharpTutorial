@@ -8,18 +8,23 @@
     <Folder Include="Configuration\" />
     <Folder Include="Models\" />
     <Folder Include="Models\SqlModel\" />
+    <Folder Include="Models\SqlModel\DataSet\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Config.fs" />
+    <Compile Include="Configuration\Constance.fs" />
     <Compile Include="APIAttribute.fs" />
     <Compile Include="Models\SqlModel\Employee.fs" />
-    <Compile Include="Models\SqlModel\SqlDataSet.fs" />
+    <Compile Include="Models\SqlModel\DataSet\BaseSqlDataSet.fs" />
+    <Compile Include="Models\SqlModel\DataSet\SqlDataSet.fs" />
     <Compile Include="Models\SqlModel\SqlData.fs" />
     <Compile Include="Connector\ApiSqlConnector.fs" />
     <Compile Include="Connector\ApiConnection.fs" />
     <Compile Include="Controllers\UserController.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
+    <None Include="Properties\UserAPI.xml" />
     <PackageReference Include="MySqlConnector" Version="2.1.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 </Project>

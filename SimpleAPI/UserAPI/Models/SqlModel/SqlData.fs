@@ -1,6 +1,7 @@
 ﻿namespace UserAPI.Models.SqlModel
 
 open MySqlConnector
+open UserAPI.Models.SqlModel.DataSet
 
 [<AllowNullLiteral>]
 type SqlData private () =

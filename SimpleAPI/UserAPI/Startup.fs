@@ -18,6 +18,24 @@ type Startup private () =
 
     // This method gets called by the runtime. Use this method to add services to the container.
     member this.ConfigureServices(services: IServiceCollection) =
+        // Add swagger service
+        services.AddSwaggerGen(fun options -> options.IncludeXmlComments("Properties/UserAPI.xml"))
+        |> ignore
+
+        // Add Cors service
+        services.AddCors (fun options ->
+            options.AddPolicy(
+                "MyCorsPolicy",
+                fun builder ->
+                    builder
+                        .WithOrigins("http://localhost:5000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                    |> ignore
+            ))
+        |> ignore
+
         // Add framework services.
         services.AddControllers() |> ignore
         services.AddHttpContextAccessor() |> ignore
@@ -27,10 +45,18 @@ type Startup private () =
     member this.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =
         if (env.IsDevelopment()) then
             app.UseDeveloperExceptionPage() |> ignore
+        elif (env.IsProduction()) then
+            app.UseExceptionHandler() |> ignore
 
-        app.UseHttpsRedirection() |> ignore
+        // Swagger for development
+        app.UseSwagger(fun options -> options.SerializeAsV2 <- true) |> ignore
+
+        app.UseSwaggerUI (fun options ->
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1")
+            options.RoutePrefix <- "")
+        |> ignore
+
         app.UseRouting() |> ignore
-
         app.UseAuthorization() |> ignore
 
         app.UseEndpoints(fun endpoints -> endpoints.MapControllers() |> ignore)
