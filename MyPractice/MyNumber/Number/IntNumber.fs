@@ -82,8 +82,8 @@ module IntNumber =
         static member Parse(coreNumber: string) = IntNumber(coreNumber)
 
         static member Compare (number1: IntNumber) (number2: IntNumber) =
-            let sNumber1 = number1.ToString()
-            let sNumber2 = number2.ToString()
+            let sNumber1 = number1.CoreNumber
+            let sNumber2 = number2.CoreNumber
             IntCompare sNumber1 sNumber2
 
         static member (~+)(number: IntNumber) = number

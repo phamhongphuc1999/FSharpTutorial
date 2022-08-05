@@ -55,17 +55,17 @@ module DecimalNumber =
             |> DecimalNumber
 
         member this.Ceiling(exponent: int) =
-            let temp = DecimalCeiling coreNumber exponent
+            let temp = DecimalCeiling this.CoreNumber exponent
             temp |> DecimalNumber
 
         member this.IsLessThan(number: DecimalNumber) =
-            let result = DecimalCompare coreNumber (number.CoreNumber)
+            let result = DecimalCompare this.CoreNumber (number.CoreNumber)
             if result = -1 then true else false
 
         static member op_LessThan(number1: DecimalNumber, number2: DecimalNumber) = number1.IsLessThan(number2)
 
         member this.IsEqual(number: DecimalNumber) =
-            let result = DecimalCompare coreNumber (number.CoreNumber)
+            let result = DecimalCompare this.CoreNumber (number.CoreNumber)
             if result = 0 then true else false
 
         static member op_Equality(number1: DecimalNumber, number2: DecimalNumber) = number1.IsEqual(number2)
@@ -77,7 +77,7 @@ module DecimalNumber =
         static member op_Inequality(number1: DecimalNumber, number2: DecimalNumber) = number1.IsNotEqual(number2)
 
         member this.IsGresterThan(number: DecimalNumber) =
-            let result = DecimalCompare coreNumber (number.CoreNumber)
+            let result = DecimalCompare this.CoreNumber (number.CoreNumber)
             if result = 1 then true else false
 
         static member op_GreaterThan(number1: DecimalNumber, number2: DecimalNumber) = number1.IsGresterThan(number2)
@@ -91,9 +91,7 @@ module DecimalNumber =
         static member Parst(coreNumber: string) = DecimalNumber(coreNumber)
 
         static member Compare (number1: DecimalNumber) (number2: DecimalNumber) =
-            let sNumber1 = number1.CoreNumber
-            let sNumber2 = number2.CoreNumber
-            DecimalCompare sNumber1 sNumber2
+            DecimalCompare number1.CoreNumber number2.CoreNumber
 
         static member (~+)(number: DecimalNumber) = number
 

@@ -59,8 +59,10 @@ module Decimal =
         else
             result <- intNumberFormat + "." + decimalNumberFormat
 
-        if sign = -1 then result <- "-" + result
-        result
+        if sign = -1 then
+            "-" + result
+        else
+            result
 
     let DeepGetIntegerAndDecimal = FormatDecimal >> GetIntegerAndDecimal
 
@@ -164,10 +166,9 @@ module Decimal =
         let temp = DivideUInt10 intNumber uintNum
         let result = temp + decimalNumber
 
-        if sign = 1 then
-            FormatDecimal result
-        else
-            "-" + FormatDecimal result
+        match sign with
+        | 1 -> FormatDecimal result
+        | _ -> "-" + FormatDecimal result
 
     let MultiplyDecimal10 (number: string) (intNum: string) =
         let mutable sign = ""
@@ -195,10 +196,10 @@ module Decimal =
         let mutable smallLen = decimalLen2
 
         if decimalCompare >= 0 then
-            tempNum1 <- MultiplyUIntDecimal10 number1 decimalLen1
+            tempNum1 <- MultiplyDecimal10 number1 decimalLen1
             tempNum2 <- MultiplyDecimal10 number2 decimalLen1
         else
-            tempNum1 <- MultiplyUIntDecimal10 number1 decimalLen2
+            tempNum1 <- MultiplyDecimal10 number1 decimalLen2
             tempNum2 <- MultiplyDecimal10 number2 decimalLen2
             bigLen <- decimalLen2
             smallLen <- decimalLen1

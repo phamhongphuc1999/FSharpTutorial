@@ -2,35 +2,36 @@ name: my-practice-workflow
 on:
   push:
     branches:
-      - "main"
+      - main
+      - develop
     paths:
       - "!**.md"
       - "!.gitignore"
       - "!SimpleAPI/**"
+      - "MyPractice/**"
   pull_request:
     branches:
       - main
+      - develop
 jobs:
-  my-practice-job1:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ["6.0.x"]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Step1
-        run: echo "Run step2 in job1"
-  my-practice-job2:
-    needs: my-practice-job1
-    runs-on: ubuntu-latest
-    steps:
-      - name: Step1 in job2
-        run: echo "Run step1 in job2"
-      - name: Step2 in job2
-        run: echo "Run step2 in job2"
-  my-practice-job3:
-    needs: my-practice-job2
-    runs-on: ubuntu-latest
-    steps:
-      - name: Step1 in job3
-        run: echo "Run step1 in job3"
-      - name: Step2 in job3
-        run: echo "Run step2 in job3"
+        uses: actions/checkout@v3
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Install dependencies
+        run: dotnet restore
+        working-directory: MyPractice
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+        working-directory: MyPractice
+      - name: Test
+        run: dotnet test ./MyPracticeTest --no-restore --verbosity normal
+        working-directory: MyPractice

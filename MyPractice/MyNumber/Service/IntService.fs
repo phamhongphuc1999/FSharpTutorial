@@ -36,10 +36,8 @@ module Int =
             -1
         elif sign1 > sign2 then
             1
-        elif sign1 = 1 then
-            UIntCompare realNum1 realNum2
         else
-            -(UIntCompare realNum1 realNum2)
+            sign1 * (UIntCompare realNum1 realNum2)
 
     let AddInt (number1: string) (number2: string) =
         let (sign1, realNum1) = number1 |> DeepGetIntNumber

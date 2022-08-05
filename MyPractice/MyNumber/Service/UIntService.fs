@@ -5,7 +5,7 @@ open MyNumber.Error
 
 module UInt =
     let IsUInt (number: string) =
-        let result = Regex.Match(number, "[0-9]*")
+        let result = Regex.Match(number, "[0-9]+")
         result.Length = number.Length
 
     let FormatUInt (number: string) =
@@ -269,15 +269,15 @@ module UInt =
 
         result
 
-    let CalculateGreatestCommonFactor (uintNum1: string) (uintNum2: string) =
-        match (uintNum1, uintNum2) with
+    let CalculateGreatestCommonFactor (number1: string) (number2: string) =
+        match (number1, number2) with
         | ("0", _)
-        | ("1", _) -> uintNum1
+        | ("1", _) -> number1
         | (_, "0")
-        | (_, "1") -> uintNum2
+        | (_, "1") -> number2
         | _ ->
-            let mutable num1 = uintNum1
-            let mutable num2 = uintNum2
+            let mutable num1 = number1
+            let mutable num2 = number2
             let mutable check = UIntCompare num1 num2
 
             while check <> 0 do
