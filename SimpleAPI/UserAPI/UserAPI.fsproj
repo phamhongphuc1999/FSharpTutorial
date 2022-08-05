@@ -15,12 +15,16 @@
     <Compile Include="Configuration\Constance.fs" />
     <Compile Include="APIAttribute.fs" />
     <Compile Include="Models\SqlModel\Employee.fs" />
+    <Compile Include="Models\SqlModel\Production.fs" />
+    <Compile Include="Models\SqlModel\Bill.fs" />
     <Compile Include="Models\SqlModel\DataSet\BaseSqlDataSet.fs" />
     <Compile Include="Models\SqlModel\DataSet\SqlDataSet.fs" />
     <Compile Include="Models\SqlModel\SqlData.fs" />
     <Compile Include="Connector\ApiSqlConnector.fs" />
     <Compile Include="Connector\ApiConnection.fs" />
-    <Compile Include="Controllers\UserController.fs" />
+    <Compile Include="Controllers\EmployeeController.fs" />
+    <Compile Include="Controllers\ProductionController.fs" />
+    <Compile Include="Controllers\BillController.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
     <None Include="Properties\UserAPI.xml" />

@@ -5,8 +5,8 @@ open Microsoft.Extensions.Logging
 open UserAPI.Connector
 
 [<ApiController>]
-[<Route("/user")>]
-type UserController(logger: ILogger<UserController>) =
+[<Route("/employee")>]
+type EmployeeController(logger: ILogger<EmployeeController>) =
     inherit ControllerBase()
 
     [<HttpGet>]

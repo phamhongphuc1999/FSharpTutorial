@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="NumberService\UIntServiceTest.fs" />
+    <Compile Include="NumberService\IntServiceTest.fs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NumberService\" />

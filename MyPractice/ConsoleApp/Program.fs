@@ -1,5 +1,5 @@
-﻿open MyNumber.Number.IntNumber
+﻿open MyNumber.Number.UIntNumber
 
-let num1 = IntNumber "12"
-let num2 = IntNumber "12"
-printfn "%s" (num1 + num2).CoreNumber
+let num1 = UIntNumber "30"
+let num2 = UIntNumber "20"
+printfn "%s" (num1 - num2).CoreNumber

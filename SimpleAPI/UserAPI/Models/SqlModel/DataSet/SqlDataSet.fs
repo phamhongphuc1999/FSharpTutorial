@@ -18,4 +18,5 @@ type SqlDataSet<'T when 'T: (new: unit -> 'T)>(connection: MySqlConnection) =
             let _item = this.ConvertDataSetToObject(reader)
             result.Add(_item)
 
+        reader.Close()
         result

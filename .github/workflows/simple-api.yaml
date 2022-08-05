@@ -2,15 +2,18 @@ name: simple-api-workflow
 on:
   push:
     branches:
-      - "main"
+      - main
+      - develop
     paths:
       - "!**.md"
+      - "!**.sql"
       - "!.gitignore"
       - "!MyPractice/**"
       - "SimpleAPI/**"
   pull_request:
     branches:
       - main
+      - develop
 jobs:
   simple-api-job1:
     runs-on: ubuntu-latest
