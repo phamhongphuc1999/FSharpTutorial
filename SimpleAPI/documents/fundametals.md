@@ -84,6 +84,8 @@ let CreateDbConnection () =
         APIConnection.GetConnection(sqlConfig)
 ```
 
+- Ở ví dụ trên, sử dụng ConfigurationBuilder để đọc dữ liệu trong file appsettings.json. Sau đó có thể sử dụng hàm GetSection để lấy ra các phần của các dữ liệu dưới dạng object.
+
 ---
 
 ### 4. Swagger <a name="swagger"></a>
@@ -92,7 +94,7 @@ let CreateDbConnection () =
 
 ### 5. Database <a name="database"></a>
 
-Chương trình sử dụng cơ sở dữ liệu mysql thông qua docker. Phần này sẽ đề cập đến hai vấn đề là
+Chương trình sử dụng cơ sở dữ liệu mysql thông qua docker. Phần này sẽ đề cập đến hai vấn đề như sau
 
 - [Setup cho Mysql docker container](#mysql_docker_container)
 - [Kết nối API với mysql](#mysqlconnector)
@@ -103,7 +105,7 @@ Chương trình sử dụng cơ sở dữ liệu mysql thông qua docker. Phần
 docker-compose -f docker-compose-mysql.yaml up -d
 ```
 
-- file `docker-compose-mysql.yaml` chứa các cài đặt cho mysql
+- file [docker-compose-mysql.yaml](../docker-compose-mysql.yaml) chứa các cài đặt cho mysql
   - MYSQL_ROOT_PASSWORD: đặt password cho user root là fsharp
   - ports: đặt port là 3306
   - volumes: sử dụng để khởi tạo một dữ liệu cho database

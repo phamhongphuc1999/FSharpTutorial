@@ -33,4 +33,5 @@ then
   docker rmi $IMAGE_NAME-old:v1
 fi
 
+printf "${Green}Step5: Run new container${NC}\n"
 docker run -d --name $CONTAINER_NAME $IMAGE_NAME:v1

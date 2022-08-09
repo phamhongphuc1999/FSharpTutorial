@@ -92,5 +92,11 @@ module UIntServiceTest =
     [<TestCase("12", "10", "61917364224")>]
     let PowUIntTest (number1: string) (number2: string) (expected: string) =
         let result = PowUInt number1 number2
-        printfn "%s" result
+        (result = expected) |> Assert.IsTrue
+
+    [<Test>]
+    [<TestCase("15", "5", "5")>]
+    [<TestCase("5", "1", "1")>]
+    let CalculateGreatestCommonFactorTest (number1: string) (number2: string) (expected: string) =
+        let result = (CalculateGreatestCommonFactor number1 number2) |> FormatUInt
         (result = expected) |> Assert.IsTrue

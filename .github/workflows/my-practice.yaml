@@ -6,6 +6,7 @@ on:
       - develop
     paths:
       - "!**.md"
+      - "!**.sh"
       - "!.gitignore"
       - "!SimpleAPI/**"
       - "MyPractice/**"

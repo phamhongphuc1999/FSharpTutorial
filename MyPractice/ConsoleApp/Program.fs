@@ -1,5 +1,4 @@
-﻿open MyNumber.Number.UIntNumber
+﻿open MyNumber.Service.UInt
 
-let num1 = UIntNumber "30"
-let num2 = UIntNumber "20"
-printfn "%s" (num1 - num2).CoreNumber
+// printfn "%s" (PowUInt "12" "10")
+printfn "%d" (UIntCompare "2" "10")
