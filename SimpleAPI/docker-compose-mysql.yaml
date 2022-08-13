@@ -9,3 +9,4 @@ services:
       - "3306:3306"
     volumes:
       - "./sql/setup.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./sql/data.sql:/docker-entrypoint-initdb.d/2.sql"
