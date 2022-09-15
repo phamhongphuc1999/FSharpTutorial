@@ -33,6 +33,6 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
         working-directory: MyPractice
-      - name: Test
+      - name: Unit Test
         run: dotnet test ./MyPracticeTest --no-restore --verbosity normal
         working-directory: MyPractice

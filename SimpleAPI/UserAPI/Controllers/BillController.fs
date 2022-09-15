@@ -4,12 +4,24 @@ open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
 open UserAPI.Connector
 
-[<ApiController>]
-[<Route("/bill")>]
-type BillController(logger: ILogger<BillController>) =
-    inherit ControllerBase()
+open UserAPI.Models.SqlModel
 
-    [<HttpGet>]
+[<ApiController>]
+type BillController =
+    inherit ControllerBase
+
+    val logger: ILogger<BillController>
+    val billModel: DataSet.SqlDataSet<Bill>
+
+    new(logger: ILogger<BillController>) =
+        { inherit ControllerBase()
+          logger = logger
+          billModel = APIConnection.Connection.SQL.SqlData.Bills }
+
+    [<HttpGet("/bill-list")>]
     member this.GetListBills() =
-        let employees = APIConnection.Connection.SQL.SqlData.Bills
-        employees.SelectAll()
+        let bills = APIConnection.Connection.SQL.SqlData.Bills
+        bills.SelectAll()
+
+    [<HttpGet("/bill/{billId}")>]
+    member this.getBill(billId: string) = ()

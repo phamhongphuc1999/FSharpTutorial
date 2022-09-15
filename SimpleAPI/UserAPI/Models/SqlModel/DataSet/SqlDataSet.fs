@@ -20,3 +20,17 @@ type SqlDataSet<'T when 'T: (new: unit -> 'T)>(connection: MySqlConnection) =
 
         reader.Close()
         result
+
+    member this.SelectWithFilter(filterCommand: string) =
+        let command =
+            new MySqlCommand($"SELECT * FROM %s{this.TableName} %s{filterCommand};", this.Connection)
+
+        let reader = command.ExecuteReader()
+        let result = new List<'T>()
+
+        while (reader.Read()) do
+            let _item = this.ConvertDataSetToObject(reader)
+            result.Add(_item)
+
+        reader.Close()
+        result

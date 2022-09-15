@@ -3,13 +3,21 @@ namespace UserAPI.Controllers
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
 open UserAPI.Connector
+open UserAPI.Models.SqlModel
 
 [<ApiController>]
-[<Route("/production")>]
-type ProductionController(logger: ILogger<ProductionController>) =
-    inherit ControllerBase()
+type ProductionController =
+    inherit ControllerBase
 
-    [<HttpGet>]
+    val logger: ILogger<ProductionController>
+    val productionModel: DataSet.SqlDataSet<Production>
+
+    new(logger: ILogger<ProductionController>) =
+        { inherit ControllerBase()
+          logger = logger
+          productionModel = APIConnection.Connection.SQL.SqlData.Productions }
+
+    [<HttpGet("/production-list")>]
     member this.GetListProductions() =
-        let employees = APIConnection.Connection.SQL.SqlData.Productions
-        employees.SelectAll()
+        let productions = APIConnection.Connection.SQL.SqlData.Productions
+        productions.SelectAll()
