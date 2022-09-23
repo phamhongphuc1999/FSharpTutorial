@@ -108,13 +108,13 @@ module UIntNumber =
 
         member this.Multiply(number: UIntNumber) =
             (this.CoreNumber, number.CoreNumber)
-            ||> MultiplyUInt
+            ||> MultipliedUInt
             |> UIntNumber
 
         static member (*)(number1: UIntNumber, number2: UIntNumber) = number1.Multiply number2
 
         static member op_MultiplyAssignment(number1: UIntNumber, number2: UIntNumber) =
-            number1.CoreNumber <- (MultiplyUInt number1.CoreNumber number2.CoreNumber)
+            number1.CoreNumber <- (MultipliedUInt number1.CoreNumber number2.CoreNumber)
 
         member this.Divide(divisor: UIntNumber) =
             (DivideUInt this.CoreNumber divisor.CoreNumber)
@@ -138,7 +138,7 @@ module UIntNumber =
         static member (/%)(dividend: UIntNumber, divisor: UIntNumber) = dividend.RealDivide divisor
 
         member this.Multiply10(number: UIntNumber) =
-            (MultiplyUInt10 this.CoreNumber number.CoreNumber)
+            (MultipliedUInt10 this.CoreNumber number.CoreNumber)
             |> UIntNumber
 
         static member (.*)(number1: UIntNumber, number2: UIntNumber) = number1.Multiply10 number2
@@ -154,7 +154,7 @@ module UIntNumber =
             let mutable result = "1"
 
             while (UIntCompare temp "1") = 1 do
-                result <- MultiplyUInt result temp
+                result <- MultipliedUInt result temp
                 temp <- SubtractUInt temp "1"
 
             result |> UIntNumber

@@ -14,23 +14,27 @@ type SqlDataSet<'T when 'T: (new: unit -> 'T)>(connection: MySqlConnection) =
         let reader = command.ExecuteReader()
         let result = new List<'T>()
 
-        while (reader.Read()) do
-            let _item = this.ConvertDataSetToObject(reader)
-            result.Add(_item)
+        try
+            while (reader.Read()) do
+                let _item = this.ConvertDataSetToObject(reader)
+                result.Add(_item)
+        finally
+            reader.Close()
 
-        reader.Close()
         result
 
-    member this.SelectWithFilter(filterCommand: string) =
+    member this.SelectWithFilter (filterCommand: string) (projectCommand: string) =
         let command =
-            new MySqlCommand($"SELECT * FROM %s{this.TableName} %s{filterCommand};", this.Connection)
+            new MySqlCommand($"SELECT %s{projectCommand} FROM %s{this.TableName} %s{filterCommand};", this.Connection)
 
         let reader = command.ExecuteReader()
         let result = new List<'T>()
 
-        while (reader.Read()) do
-            let _item = this.ConvertDataSetToObject(reader)
-            result.Add(_item)
+        try
+            while (reader.Read()) do
+                let _item = this.ConvertDataSetToObject(reader)
+                result.Add(_item)
+        finally
+            reader.Close()
 
-        reader.Close()
         result

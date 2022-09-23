@@ -141,22 +141,22 @@ module IntNumber =
             |> IntNumber
 
         member this.Multiply(number: IntNumber) =
-            (MultiplyInt this.CoreNumber number.CoreNumber)
+            (MultipliedInt this.CoreNumber number.CoreNumber)
             |> IntNumber
 
         static member (*)(number1: IntNumber, number2: IntNumber) = number1.Multiply number2
 
         static member op_MultiplyAssignment(number1: IntNumber, number2: IntNumber) =
-            number1.CoreNumber <- (MultiplyUInt number1.CoreNumber number2.CoreNumber)
+            number1.CoreNumber <- (MultipliedUInt number1.CoreNumber number2.CoreNumber)
 
         static member (*)(number1: IntNumber, number2: UIntNumber) =
             (number1.CoreNumber, number2.CoreNumber)
-            ||> MultiplyInt
+            ||> MultipliedInt
             |> IntNumber
 
         static member (*)(number1: UIntNumber, number2: IntNumber) =
             (number1.CoreNumber, number2.CoreNumber)
-            ||> MultiplyInt
+            ||> MultipliedInt
             |> IntNumber
 
         member this.Divide(divisor: IntNumber) =
@@ -177,7 +177,7 @@ module IntNumber =
             |> IntNumber
 
         member this.Multiply10(number: UIntNumber) =
-            (MultiplyInt10 this.CoreNumber number.CoreNumber)
+            (MultipliedInt10 this.CoreNumber number.CoreNumber)
             |> IntNumber
 
         static member (.*)(number1: IntNumber, number2: UIntNumber) = number1.Multiply10 number2

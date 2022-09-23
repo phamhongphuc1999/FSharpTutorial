@@ -80,7 +80,7 @@ module FractionNumber =
         static member (-)(number1: FractionNumber, number2: FractionNumber) = number1.Subtract(number2)
 
         member this.Multiple(number: FractionNumber) =
-            (MultipleFraction this.CoreNumber number.CoreNumber)
+            (MultipliedFraction this.CoreNumber number.CoreNumber)
             |> FractionNumber
 
         static member (*)(number1: FractionNumber, number2: FractionNumber) = number1.Multiple(number2)

@@ -141,7 +141,7 @@ module Decimal =
         let mutable result = ""
 
         if decimalNumber = "0" then
-            result <- MultiplyUInt10 number uintNum
+            result <- MultipliedUInt10 number uintNum
         else
             let lenDecimal = decimalNumber.Length |> string
             let decimalCompare = UIntCompare lenDecimal uintNum
@@ -154,7 +154,7 @@ module Decimal =
                 let decimalPart = decimalNumber.[(index + 1) ..]
                 result <- integerPart + "." + decimalPart
             else
-                let temp = MultiplyUInt10 decimalNumber (SubtractUInt uintNum lenDecimal)
+                let temp = MultipliedUInt10 decimalNumber (SubtractUInt uintNum lenDecimal)
                 result <- intNumber + temp
 
         match sign with
@@ -217,9 +217,9 @@ module Decimal =
         let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.normal
         DivideUIntDecimal10 (SubtractInt tempNum1 tempNum2) len
 
-    let MultiplyDecimal (number1: string) (number2: string) =
+    let MultipliedDecimal (number1: string) (number2: string) =
         let (tempNum1, tempNum2, len) = TransformInt number1 number2 Mode.multiply
-        DivideUIntDecimal10 (MultiplyInt tempNum1 tempNum2) len
+        DivideUIntDecimal10 (MultipliedInt tempNum1 tempNum2) len
 
     let DecimalCeiling (number: string) (exponent: int) =
         let (sign, integerNum, decimalNum) = DeepGetIntegerAndDecimal number
@@ -259,7 +259,7 @@ module Decimal =
         let mutable rAccuracy = 0
 
         while rAccuracy < accuracy && reamin <> "0" do
-            reamin <- MultiplyUInt10 reamin sLen
+            reamin <- MultipliedUInt10 reamin sLen
             let mutable (temp1, temp2) = RealDivideUInt reamin tNum2
 
             while temp1.Length < _len do
@@ -280,7 +280,7 @@ module Decimal =
         let temp = PowUInt (intNumber + decimalNumber) uintNum
 
         let result =
-            (temp, MultiplyDecimal decimalLen uintNum)
+            (temp, MultipliedDecimal decimalLen uintNum)
             ||> DivideUIntDecimal10
 
         match sign with

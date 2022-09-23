@@ -159,28 +159,28 @@ module DecimalNumber =
         static member (.*)(number1: DecimalNumber, number2: UIntNumber) = number1.Multiply10 number2
 
         member this.Multiply(number: DecimalNumber) =
-            (MultiplyDecimal this.CoreNumber number.CoreNumber)
+            (MultipliedDecimal this.CoreNumber number.CoreNumber)
             |> DecimalNumber
 
         static member (*)(number1: DecimalNumber, number2: DecimalNumber) = number1.Multiply number2
 
         static member op_MultiplyAssignment(number1: DecimalNumber, number2: DecimalNumber) =
-            number1.CoreNumber = MultiplyDecimal number1.CoreNumber number2.CoreNumber
+            number1.CoreNumber = MultipliedDecimal number1.CoreNumber number2.CoreNumber
 
         static member (*)(number1: DecimalNumber, number2: UIntNumber) =
-            (MultiplyDecimal number1.CoreNumber number2.CoreNumber)
+            (MultipliedDecimal number1.CoreNumber number2.CoreNumber)
             |> DecimalNumber
 
         static member (*)(number1: UIntNumber, number2: DecimalNumber) =
-            (MultiplyDecimal number1.CoreNumber number2.CoreNumber)
+            (MultipliedDecimal number1.CoreNumber number2.CoreNumber)
             |> DecimalNumber
 
         static member (*)(number1: DecimalNumber, number2: IntNumber) =
-            (MultiplyDecimal number1.CoreNumber number2.CoreNumber)
+            (MultipliedDecimal number1.CoreNumber number2.CoreNumber)
             |> DecimalNumber
 
         static member (*)(number1: IntNumber, number2: DecimalNumber) =
-            (MultiplyDecimal number1.CoreNumber number2.CoreNumber)
+            (MultipliedDecimal number1.CoreNumber number2.CoreNumber)
             |> DecimalNumber
 
         member this.Divide10(number: UIntNumber) =

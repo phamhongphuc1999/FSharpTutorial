@@ -52,8 +52,8 @@ module UIntServiceTest =
     [<TestCase("15", "2", "30")>]
     [<TestCase("99", "3", "297")>]
     [<TestCase("99", "1234", "122166")>]
-    let MultiplyUIntTest (number1: string) (number2: string) (expected: string) =
-        let result = MultiplyUInt number1 number2
+    let MultipliedUIntTest (number1: string) (number2: string) (expected: string) =
+        let result = MultipliedUInt number1 number2
         (result = expected) |> Assert.IsTrue
 
     [<Test>]
@@ -83,8 +83,8 @@ module UIntServiceTest =
     [<Test>]
     [<TestCase("15", "3", "15000")>]
     [<TestCase("12", "10", "120000000000")>]
-    let MultiplyUInt10Test (number1: string) (number2: string) (expected: string) =
-        let result = MultiplyUInt10 number1 number2
+    let MultipliedUInt10Test (number1: string) (number2: string) (expected: string) =
+        let result = MultipliedUInt10 number1 number2
         (result = expected) |> Assert.IsTrue
 
     [<Test>]

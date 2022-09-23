@@ -129,12 +129,19 @@ type BaseSqlDataSet<'T when 'T: (new: unit -> 'T)> private () =
         (obj: 'T)
         (propertyName: string)
         =
-        let _value = data.GetFieldValue<'A>(tableName)
+        try
+            let _value = data.GetFieldValue<'A>(tableName)
 
-        obj
-            .GetType()
-            .GetProperty(propertyName)
-            .SetValue(obj, _value)
+            obj
+                .GetType()
+                .GetProperty(propertyName)
+                .SetValue(obj, _value)
+        with
+        | _ ->
+            obj
+                .GetType()
+                .GetProperty(propertyName)
+                .SetValue(obj, null)
 
     member this.ConvertDataSetToObject(data: MySqlDataReader) =
         let result = new 'T()

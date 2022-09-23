@@ -9,6 +9,7 @@
     <Folder Include="Models\" />
     <Folder Include="Models\SqlModel\" />
     <Folder Include="Models\SqlModel\DataSet\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Config.fs" />
@@ -22,6 +23,7 @@
     <Compile Include="Models\SqlModel\SqlData.fs" />
     <Compile Include="Connector\ApiSqlConnector.fs" />
     <Compile Include="Connector\ApiConnection.fs" />
+    <Compile Include="Services\SqlService.fs" />
     <Compile Include="Controllers\EmployeeController.fs" />
     <Compile Include="Controllers\ProductionController.fs" />
     <Compile Include="Controllers\BillController.fs" />

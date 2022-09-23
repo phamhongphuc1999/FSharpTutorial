@@ -3,6 +3,7 @@ namespace UserAPI.Controllers
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
 open UserAPI.Connector
+open UserAPI.Services
 open UserAPI.Models.SqlModel
 
 [<ApiController>]
@@ -10,14 +11,16 @@ type ProductionController =
     inherit ControllerBase
 
     val logger: ILogger<ProductionController>
-    val productionModel: DataSet.SqlDataSet<Production>
+    val productionService: SqlService<Production>
 
     new(logger: ILogger<ProductionController>) =
         { inherit ControllerBase()
           logger = logger
-          productionModel = APIConnection.Connection.SQL.SqlData.Productions }
+          productionService = new SqlService<Production>(APIConnection.Connection.SQL.SqlData.Productions) }
 
     [<HttpGet("/production-list")>]
-    member this.GetListProductions() =
-        let productions = APIConnection.Connection.SQL.SqlData.Productions
-        productions.SelectAll()
+    member this.GetListProductions() = this.productionService.SelectAll()
+
+    [<HttpGet("/production/{productionId}")>]
+    member this.GetProductionById (productionId: string) ([<FromQuery>] fileds: string) =
+        this.productionService.SelectWithFilter $"WHERE Id=%s{productionId}" fileds

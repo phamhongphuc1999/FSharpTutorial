@@ -126,7 +126,7 @@ module UInt =
 
         result
 
-    let private SingleMultiply (number: string) (cNumber: char) =
+    let private SingleMultiplied (number: string) (cNumber: char) =
         let mutable result = "0"
         let cNum = (int cNumber) - 48
 
@@ -135,7 +135,7 @@ module UInt =
 
         result
 
-    let MultiplyUInt (number1: string) (number2: string) =
+    let MultipliedUInt (number1: string) (number2: string) =
         let fNum1 = FormatUInt number1
         let fNum2 = FormatUInt number2
 
@@ -145,7 +145,7 @@ module UInt =
             let mutable result = ""
 
             for cNum1 in fNum1 do
-                let temp = SingleMultiply fNum2 cNum1
+                let temp = SingleMultiplied fNum2 cNum1
                 result <- result + "0"
                 result <- (AddUInt temp result)
 
@@ -237,7 +237,7 @@ module UInt =
     let RealDivideUInt (dividend: string) (divisor: string) =
         (DivideUInt dividend divisor, DivideModUInt dividend divisor)
 
-    let MultiplyUInt10 (number1: string) (number2: string) =
+    let MultipliedUInt10 (number1: string) (number2: string) =
         let mutable result = ""
         let mutable temp = "0"
         let mutable tNum2 = number2
@@ -262,9 +262,9 @@ module UInt =
             let (rInteger, rDecimal) = RealDivideUInt tNum2 "2"
 
             if rDecimal = "1" then
-                result <- MultiplyUInt result tNum1
+                result <- MultipliedUInt result tNum1
 
-            tNum1 <- MultiplyUInt tNum1 tNum1
+            tNum1 <- MultipliedUInt tNum1 tNum1
             tNum2 <- rInteger
 
         result

@@ -73,10 +73,10 @@ module Int =
             | (-1, 1) -> "-" + (SubtractUInt realNum2 realNum1)
             | _ -> SubtractUInt realNum2 realNum1
 
-    let MultiplyInt (number1: string) (number2: string) =
+    let MultipliedInt (number1: string) (number2: string) =
         let (sign1, realNum1) = number1 |> DeepGetIntNumber
         let (sign2, realNum2) = number2 |> DeepGetIntNumber
-        let result = MultiplyUInt realNum1 realNum2
+        let result = MultipliedUInt realNum1 realNum2
 
         if sign1 * sign2 > 0 then
             result
@@ -93,9 +93,9 @@ module Int =
         else
             "-" + result
 
-    let MultiplyInt10 (number1: string) (number2: string) =
+    let MultipliedInt10 (number1: string) (number2: string) =
         let (sign1, realNum1) = number1 |> DeepGetIntNumber
-        let result = MultiplyUInt10 realNum1 number2
+        let result = MultipliedUInt10 realNum1 number2
 
         if sign1 = -1 then
             "-" + result

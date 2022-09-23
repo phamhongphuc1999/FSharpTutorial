@@ -14,7 +14,7 @@ module EUtils =
         let mutable temp = "1"
 
         while (UIntCompare count uintNum) <= 0 do
-            temp <- MultiplyUInt temp count
+            temp <- MultipliedUInt temp count
 
             result <-
                 ((DivideDecimal "1" temp accuracy), result)
@@ -37,8 +37,8 @@ module EUtils =
         let mutable xTemp = x
 
         while (UIntCompare count uintNum) <= 0 do
-            temp <- MultiplyUInt temp count
-            xTemp <- MultiplyDecimal xTemp x
+            temp <- MultipliedUInt temp count
+            xTemp <- MultipliedDecimal xTemp x
 
             result <-
                 ((DivideDecimal xTemp temp accuracy), result)
@@ -61,7 +61,7 @@ module LogaritUtils =
                 result <- AddDecimal result (DivideDecimal realX count accuracy)
 
             count <- AddUInt count "1"
-            realX <- MultiplyDecimal realX x
+            realX <- MultipliedDecimal realX x
 
         result
 
