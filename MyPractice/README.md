@@ -1,13 +1,19 @@
-### F Sharp libraries
+<h1 align="center">
+  F Sharp libraries
+</h1>
 
-| ID  | Project                             | Type     | Note                           |
-| :-: | :---------------------------------- | :------- | :----------------------------- |
-|  1  | [ConsoleApp](./ConsoleApp/)         | console  | Test libraries in console line |
-|  2  | [MyLibrary](./MyLibrary/)           | classlib |
-|  3  | [MyNumber](./MyNumber/)             | classlib | My simple big number library   |
-|  4  | [MyPracticeTest](./MyPracticeTest/) | nuint    | My uint test                   |
+### 1. Structure
 
-## How to package with docker
+| ID  | Project                             | Type     | Note                                    |
+| :-- | :---------------------------------- | :------- | :-------------------------------------- |
+| 1   | [ConsoleApp](./ConsoleApp/)         | console  | Test libraries in console line          |
+| 2   | [MyLibrary](./MyLibrary/)           | classlib |
+| 3   | [MyNumber](./MyNumber/)             | classlib | Simple big number library               |
+| 4   | [MyPracticeTest](./MyPracticeTest/) | nuint    | Simple uint test for big number library |
+
+---
+
+### 2. How to package with docker
 
 - I has write a simple [script](./scripts/main.sh) for run all necessary steps
 

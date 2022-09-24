@@ -1,5 +1,5 @@
 <h1 align="center">
-  :sparkles::sparkles::sparkles:Fundametals:sparkles::sparkles::sparkles:
+  Fundametals
 </h1>
 
 ## Mục lục
@@ -38,13 +38,13 @@ Có ba loại hosts khác nhau
 - [.NET Generic Host](#generic_host)
 - [ASP.NET Core Web Host](#web_host)
 
-#### Generic Host <a name="generic_host"></a>
+#### 2.1. Generic Host <a name="generic_host"></a>
 
 - ASP.NET Core templates cung cấp [WebApplicationBuilder](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.webapplicationbuilder?view=aspnetcore-6.0) và [WebApplication](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.webapplication?view=aspnetcore-6.0), những class này sẽ cung cấp các cách để config và run ứng dụng web mà không cần Starup class.
 
-#### Web Host <a name="web_host"></a>
+#### 2.2. Web Host <a name="web_host"></a>
 
-##### Setup a host
+#### _2.2.1. Setup a host_
 
 ```shell
 module Program =
@@ -99,7 +99,7 @@ Chương trình sử dụng cơ sở dữ liệu mysql thông qua docker. Phần
 - [Setup cho Mysql docker container](#mysql_docker_container)
 - [Kết nối API với mysql](#mysqlconnector)
 
-#### Mysql Docker Container <a name="mysql_docker_container"></a>
+#### 5.1. Mysql Docker Container <a name="mysql_docker_container"></a>
 
 ```shell
 docker-compose -f docker-compose-mysql.yaml up -d
@@ -112,7 +112,7 @@ docker-compose -f docker-compose-mysql.yaml up -d
 
 Thông tin chi tiết tại [đây](https://hub.docker.com/_/mysql)
 
-###### Chạy thử container
+#### _5.1.1. Chạy thử container_
 
 - Execute container
 
@@ -138,7 +138,7 @@ use SimpleApp
 SELECT * FROM Employees;
 ```
 
-#### MySqlConnector <a name="mysqlconnector"></a>
+#### 5.2. MySqlConnector <a name="mysqlconnector"></a>
 
 ```shell
 dotnet add package MySqlConnector

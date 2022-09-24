@@ -5,11 +5,12 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="NumberService\UIntServiceTest.fs" />
-    <Compile Include="NumberService\IntServiceTest.fs" />
+    <Folder Include="NumberService\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NumberService\" />
+    <Compile Include="NumberServiceTest\UIntServiceTest.fs" />
+    <Compile Include="NumberServiceTest\IntServiceTest.fs" />
+    <Compile Include="NumberServiceTest\DecimalServiceTest.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />

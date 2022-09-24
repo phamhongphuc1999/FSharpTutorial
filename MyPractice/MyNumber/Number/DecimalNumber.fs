@@ -153,7 +153,7 @@ module DecimalNumber =
             |> DecimalNumber
 
         member this.Multiply10(number: UIntNumber) =
-            (MultiplyDecimal10 this.CoreNumber number.CoreNumber)
+            (MultipliedDecimal10 this.CoreNumber number.CoreNumber)
             |> DecimalNumber
 
         static member (.*)(number1: DecimalNumber, number2: UIntNumber) = number1.Multiply10 number2
@@ -184,7 +184,7 @@ module DecimalNumber =
             |> DecimalNumber
 
         member this.Divide10(number: UIntNumber) =
-            (MultiplyDecimal10 this.CoreNumber ("-" + number.CoreNumber))
+            (MultipliedDecimal10 this.CoreNumber ("-" + number.CoreNumber))
             |> DecimalNumber
 
         static member (./)(number1: DecimalNumber, number2: UIntNumber) = number1.Divide10 number2

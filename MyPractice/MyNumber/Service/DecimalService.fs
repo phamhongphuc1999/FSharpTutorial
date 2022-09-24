@@ -136,7 +136,7 @@ module Decimal =
                 elif count < len2 then -sign1
                 else 0
 
-    let private MultiplyUIntDecimal10 (number: string) (uintNum: string) =
+    let private MultipliedUIntDecimal10 (number: string) (uintNum: string) =
         let (sign, intNumber, decimalNumber) = number |> DeepGetIntegerAndDecimal
         let mutable result = ""
 
@@ -170,7 +170,7 @@ module Decimal =
         | 1 -> FormatDecimal result
         | _ -> "-" + FormatDecimal result
 
-    let MultiplyDecimal10 (number: string) (intNum: string) =
+    let MultipliedDecimal10 (number: string) (intNum: string) =
         let mutable sign = ""
         let mutable num = number
 
@@ -179,7 +179,7 @@ module Decimal =
             num <- number.[1..]
 
         if intNum.[0] <> '-' then
-            sign + MultiplyUIntDecimal10 num intNum
+            sign + MultipliedUIntDecimal10 num intNum
         else
             sign + DivideUIntDecimal10 num intNum.[1..]
 
@@ -196,11 +196,11 @@ module Decimal =
         let mutable smallLen = decimalLen2
 
         if decimalCompare >= 0 then
-            tempNum1 <- MultiplyDecimal10 number1 decimalLen1
-            tempNum2 <- MultiplyDecimal10 number2 decimalLen1
+            tempNum1 <- MultipliedDecimal10 number1 decimalLen1
+            tempNum2 <- MultipliedDecimal10 number2 decimalLen1
         else
-            tempNum1 <- MultiplyDecimal10 number1 decimalLen2
-            tempNum2 <- MultiplyDecimal10 number2 decimalLen2
+            tempNum1 <- MultipliedDecimal10 number1 decimalLen2
+            tempNum2 <- MultipliedDecimal10 number2 decimalLen2
             bigLen <- decimalLen2
             smallLen <- decimalLen1
 
