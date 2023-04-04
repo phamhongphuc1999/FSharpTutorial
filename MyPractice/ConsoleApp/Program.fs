@@ -1,5 +1,9 @@
-﻿[<EntryPoint>]
+﻿open MyNumber.Service.Decimal
+
+[<EntryPoint>]
 let main args =
-    printfn "Arguments passed to function : %A" args
-    // Return 0. This indicates success.
+    let (sign: int, integer: string, decimal: string) = DeepGetIntegerAndDecimal "0.12"
+    printfn "%i" sign
+    printfn "%s" integer
+    printfn "%s" decimal
     0

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -7,6 +7,7 @@
     <Folder Include="Sort\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sort\CommonSort.fs" />
+    <Compile Include="Sort\BaseSort.fs" />
+    <Compile Include="Sort\Heap.fs" />
   </ItemGroup>
 </Project>

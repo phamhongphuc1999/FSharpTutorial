@@ -5,9 +5,10 @@ open MyNumber.Service.Decimal
 
 module DecimalServiceTest =
     [<Test>]
-    [<TestCase("123", 1, "123", "0")>]
+    [<TestCase("123", 1, "123", "")>]
     [<TestCase("-123.9", -1, "123", "9")>]
-    [<TestCase("-123", -1, "123", "0")>]
+    [<TestCase("-123", -1, "123", "")>]
+    [<TestCase("0.12", 1, "0", "12")>]
     let GetIntegerAndDecimalTest (number: string) (signExpected: int) (intExpected: string) (decExpected: string) =
         let (sign: int, integer: string, decimal: string) = GetIntegerAndDecimal number
 
@@ -24,9 +25,10 @@ module DecimalServiceTest =
         num = expected |> Assert.IsTrue
 
     [<Test>]
-    [<TestCase("123", 1, "123", "0")>]
+    [<TestCase("123", 1, "123", "")>]
     [<TestCase("-123.9", -1, "123", "9")>]
-    [<TestCase("-123", -1, "123", "0")>]
+    [<TestCase("-123", -1, "123", "")>]
+    [<TestCase("0.12", 1, "0", "12")>]
     let DeepGetIntegerAndDecimalTest (number: string) (signExpected: int) (intExpected: string) (decExpected: string) =
         let (sign: int, integer: string, decimal: string) = DeepGetIntegerAndDecimal number
 

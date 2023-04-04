@@ -1,4 +1,4 @@
-namespace MyLibrary
+namespace MyLibrary.Sort
 
 module Sort =
     type PivotType =
@@ -110,4 +110,48 @@ module Sort =
 
         QuickListSort tempArr 0 (length - 1) pivotType compare
 
+        tempArr
+
+    let private Merge<'T> (source: 'T[]) (startIndex: int) (split: int) (endIndex: int) (comparer: 'T -> 'T -> bool) = 
+        let lowerLen = split - startIndex + 1
+        let upperLen = endIndex - split
+        let (lowerArr: 'T array) = Array.zeroCreate lowerLen
+        let (upperArr: 'T array) = Array.zeroCreate upperLen
+        for i = 0 to lowerLen - 1 do
+            lowerArr[i] <- source[startIndex + i]
+        for i = 0 to upperLen - 1 do
+            upperArr[i] <- source[split + 1 + i]
+        let mutable lowerCounter = 0
+        let mutable upperCounter = 0
+        let mutable counter = startIndex
+        while lowerCounter < lowerLen && upperCounter < upperLen do
+            let lowerValue = lowerArr[lowerCounter]
+            let upperValue = upperArr[upperCounter]
+            if (comparer lowerValue upperValue) then
+                source[counter] <- lowerValue
+                lowerCounter <- lowerCounter + 1
+            else
+                source[counter] <- upperValue
+                upperCounter <- upperCounter + 1
+            counter <- counter + 1
+        while lowerCounter < lowerLen do
+            source[counter] <- lowerArr[lowerCounter]
+            lowerCounter <- lowerCounter + 1
+            counter <- counter + 1
+        while upperCounter < upperLen do
+            source[counter] <- upperArr[upperCounter]
+            upperCounter <- upperCounter + 1
+            counter <- counter + 1
+
+    let rec private MergeListSort<'T> (source: 'T[]) (startIndex: int) (endIndex: int) (comparer: 'T -> 'T -> bool) = 
+        if startIndex < endIndex then
+            let split = (startIndex + endIndex) / 2
+            MergeListSort source startIndex split comparer
+            MergeListSort source (split + 1) endIndex comparer
+            Merge source startIndex split endIndex comparer
+
+    let MergeSort<'T> (source: 'T[]) (comparer: 'T -> 'T -> bool) = 
+        let tempArr = source |> Array.copy
+        let length = tempArr.Length
+        MergeListSort tempArr 0 (length - 1) comparer
         tempArr
