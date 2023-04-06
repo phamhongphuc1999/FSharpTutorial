@@ -17,19 +17,21 @@
     <Compile Include="APIAttribute.fs" />
     <Compile Include="Models\SqlModel\Employee.fs" />
     <Compile Include="Models\SqlModel\Production.fs" />
-    <Compile Include="Models\SqlModel\Bill.fs" />
     <Compile Include="Models\SqlModel\DataSet\BaseSqlDataSet.fs" />
     <Compile Include="Models\SqlModel\DataSet\SqlDataSet.fs" />
     <Compile Include="Models\SqlModel\SqlData.fs" />
     <Compile Include="Connector\ApiSqlConnector.fs" />
     <Compile Include="Connector\ApiConnection.fs" />
     <Compile Include="Services\SqlService.fs" />
+    <Compile Include="Services\EmployeeService.fs" />
+    <Compile Include="Services\ProductionService.fs" />
     <Compile Include="Controllers\EmployeeController.fs" />
     <Compile Include="Controllers\ProductionController.fs" />
-    <Compile Include="Controllers\BillController.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
     <None Include="Properties\UserAPI.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="2.1.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>

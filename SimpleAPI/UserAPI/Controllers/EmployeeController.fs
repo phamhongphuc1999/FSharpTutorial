@@ -3,27 +3,27 @@
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
 open UserAPI.Services
-open UserAPI.Connector
-
 open UserAPI.Models.SqlModel
 
+[<Produces("application/json")>]
+[<Consumes("application/json")>]
 [<ApiController>]
 type EmployeeController =
     inherit ControllerBase
 
     val logger: ILogger<EmployeeController>
-    val employeeService: SqlService<Employee>
+    val employeeService: EmployeeService
 
     new(logger: ILogger<EmployeeController>) =
         { inherit ControllerBase()
           logger = logger
-          employeeService = new SqlService<Employee>(APIConnection.Connection.SQL.SqlData.Employees) }
+          employeeService = new EmployeeService() }
 
     [<HttpPost("/employee/login")>]
     member this.Login([<FromBody>] info: LoginEmployeeInfo) =
-        this.employeeService.SelectWithFilter($"WHERE Username=%s{info.Username} AND Password=%s{info.Password}")
+        this.employeeService.Login info.username info.password
 
 
-    [<HttpGet("/employee/{employeeId}")>]
-    member this.GetEmployeeById (emplyeeId: string) ([<FromQuery>] fileds: string) =
-        this.employeeService.SelectWithFilter $"WHERE Id=%s{emplyeeId}" fileds
+    [<HttpGet("/employee")>]
+    member this.GetEmployeeById ([<FromQuery>] employeeId: string) ([<FromQuery>] fileds: string) =
+        this.employeeService.SelectEmployeeById employeeId fileds

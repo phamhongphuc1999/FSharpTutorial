@@ -1,4 +1,4 @@
-namespace MyLibrary.Sort
+namespace MyLibrary.Sorting
 
 module Heap =
   let LEFT (i: int) =

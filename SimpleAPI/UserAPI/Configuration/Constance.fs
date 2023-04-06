@@ -12,3 +12,7 @@ type FullData =
       ModuleInfo: List<TableInfo> }
 
 type TableSchema = { Name: string; Type: string }
+
+module Config = 
+  let EmployeeElement = [|"id"; "username"; "password"; "email"|]
+  let ProductionElement = [|"id"; "name"; "amount"; "employeeId"|]

@@ -44,7 +44,7 @@ type BaseSqlDataSet<'T when 'T: (new: unit -> 'T)> private () =
                 let check = tableSchema.Exists(fun x -> x = name)
 
                 if not check then
-                    raise (Exception("134"))
+                    raise (Exception($"{name} element is not exists"))
 
                 result.Add({ item with AttributeName = name })
 

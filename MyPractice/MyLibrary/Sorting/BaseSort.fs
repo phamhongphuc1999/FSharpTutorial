@@ -1,4 +1,4 @@
-namespace MyLibrary.Sort
+namespace MyLibrary.Sorting
 
 module Sort =
     type PivotType =

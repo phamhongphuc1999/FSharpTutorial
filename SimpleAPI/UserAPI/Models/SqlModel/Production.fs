@@ -4,6 +4,7 @@ open UserAPI
 
 [<Table("Productions")>]
 type Production() =
-    member val NameProduction: string = "" with get, set
-    member val Amount: int32 = 0 with get, set
-    member val Status: int32 = 0 with get, set
+    member val id: int32 = 0 with get, set
+    member val name: string = "" with get, set
+    member val amount: int32 = 0 with get, set
+    member val employeeId: int32 = 0 with get, set

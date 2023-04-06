@@ -4,10 +4,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Sort\" />
+    <Folder Include="Sorting\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sort\BaseSort.fs" />
-    <Compile Include="Sort\Heap.fs" />
+    <Compile Include="Sorting\BaseSort.fs" />
+    <Compile Include="Sorting\Heap.fs" />
   </ItemGroup>
 </Project>

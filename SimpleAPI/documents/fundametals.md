@@ -126,10 +126,10 @@ docker exec -it dev_fsharp_sql_container bash
 mysql -u root -p
 ```
 
-- Chuyển sang cơ sở dữ liệu SimpleApp
+- Chuyển sang cơ sở dữ liệu simple_app
 
 ```shell
-use SimpleApp
+use simple_app;
 ```
 
 - Truy vấn vào bảng Employees
