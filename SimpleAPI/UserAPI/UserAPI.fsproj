@@ -15,6 +15,7 @@
     <Compile Include="Configuration\Config.fs" />
     <Compile Include="Configuration\Constance.fs" />
     <Compile Include="APIAttribute.fs" />
+    <Compile Include="Models\ActionResult.fs" />
     <Compile Include="Models\SqlModel\Employee.fs" />
     <Compile Include="Models\SqlModel\Production.fs" />
     <Compile Include="Models\SqlModel\DataSet\BaseSqlDataSet.fs" />
