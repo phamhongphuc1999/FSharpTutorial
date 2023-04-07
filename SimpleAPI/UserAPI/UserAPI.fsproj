@@ -22,6 +22,7 @@
     <Compile Include="Models\SqlModel\SqlData.fs" />
     <Compile Include="Connector\ApiSqlConnector.fs" />
     <Compile Include="Connector\ApiConnection.fs" />
+    <Compile Include="Services\Middleware.fs" />
     <Compile Include="Services\SqlService.fs" />
     <Compile Include="Services\EmployeeService.fs" />
     <Compile Include="Services\ProductionService.fs" />

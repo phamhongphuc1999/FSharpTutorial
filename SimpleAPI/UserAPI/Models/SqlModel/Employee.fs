@@ -12,3 +12,8 @@ type Employee() =
 type LoginEmployeeInfo() =
     member val username: string = "" with get, set
     member val password: string = "" with get, set
+
+type RegisterEmployeeInfo() =
+    member val username: string = "" with get, set
+    member val password: string = "" with get, set
+    member val email: string = "" with get, set

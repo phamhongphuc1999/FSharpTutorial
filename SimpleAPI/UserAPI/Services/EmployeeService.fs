@@ -8,7 +8,13 @@ type EmployeeService() =
   inherit SqlService<Employee>(APIConnection.Connection.SQL.SqlData.Employees)
 
   member this.Login (username: string) (password: string) = 
-    $"WHERE username=%s{username} AND password=%s{password}" |> this.SelectWithFilter
+    let result = this.SelectWithFilter $"WHERE username=%s{username} AND password=%s{password}" null
+    if result.Count > 0 then Some(result[0]) else None
+
+  member this.Register (username: string) (password: string) (email: string) = 
+    let result = this.InsertSingle "username, password, email" $"%s{username}, %s{password}, %s{email}"
+    if result.Count > 0 then Some(result[0]) else None
 
   member this.SelectEmployeeById (employeeId: string) (fileds: string) = 
-    ($"WHERE id=%s{employeeId}", fileds) ||> this.SelectWithFilter
+    let result = ($"WHERE id=%s{employeeId}", fileds) ||> this.SelectWithFilter
+    if result.Count > 0 then Some(result[0]) else None

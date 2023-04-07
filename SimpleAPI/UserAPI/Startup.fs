@@ -5,6 +5,7 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
+open UserAPI.Services
 
 type Startup private () =
     member val Configuration: IConfiguration = null with get, set
@@ -58,6 +59,11 @@ type Startup private () =
 
         app.UseRouting() |> ignore
         app.UseAuthorization() |> ignore
+
+        app.UseCors("MyCorsPolicy") |> ignore
+
+        let baseUrl = this.Configuration.GetValue<string>("Develop:ApplicationUrl")
+        app.UseMiddleware<LoggerMiddleware>(baseUrl) |> ignore
 
         app.UseEndpoints(fun endpoints -> endpoints.MapControllers() |> ignore)
         |> ignore

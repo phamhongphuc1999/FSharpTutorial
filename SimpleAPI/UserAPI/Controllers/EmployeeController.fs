@@ -19,11 +19,18 @@ type EmployeeController =
           logger = logger
           employeeService = new EmployeeService() }
 
-    [<HttpPost("/employee/login")>]
+    [<HttpPost("/login")>]
     member this.Login([<FromBody>] info: LoginEmployeeInfo) =
         this.employeeService.Login info.username info.password
 
+    [<HttpPost("/register")>]
+    member this.Register([<FromBody>] info: RegisterEmployeeInfo) = 
+        this.employeeService.Register info.username info.password info.email
 
-    [<HttpGet("/employee")>]
-    member this.GetEmployeeById ([<FromQuery>] employeeId: string) ([<FromQuery>] fileds: string) =
+    [<HttpGet("/employee/{employeeId}")>]
+    member this.GetEmployeeById (employeeId: string) ([<FromQuery>] fileds: string) =
         this.employeeService.SelectEmployeeById employeeId fileds
+
+    [<HttpGet("/employee-list")>]
+    member this.GetAllEmployees([<FromQuery>] fileds: string) = 
+        this.employeeService.SelectAll fileds

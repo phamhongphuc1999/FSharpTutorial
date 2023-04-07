@@ -18,9 +18,10 @@ type ProductionController =
           logger = logger
           productionService = new ProductionService() }
 
-    [<HttpGet("/production-list")>]
-    member this.GetListProductions() = this.productionService.SelectAll()
-
     [<HttpGet("/production/{productionId}")>]
     member this.GetProductionById (productionId: string) ([<FromQuery>] fileds: string) =
         this.productionService.GetProductionById productionId fileds
+
+    [<HttpGet("/production-list")>]
+    member this.GetListProductions([<FromQuery>] fileds: string) = 
+        this.productionService.SelectAll fileds
