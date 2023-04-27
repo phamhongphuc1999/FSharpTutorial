@@ -29,7 +29,7 @@ type EmployeeController =
 
     [<HttpGet("/employee/{employeeId}")>]
     member this.GetEmployeeById (employeeId: string) ([<FromQuery>] fileds: string) =
-        this.employeeService.SelectEmployeeById employeeId fileds
+        this.employeeService.GetEmployeeById employeeId fileds
 
     [<HttpGet("/employee-list")>]
     member this.GetAllEmployees([<FromQuery>] fileds: string) = 

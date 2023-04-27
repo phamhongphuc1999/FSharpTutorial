@@ -119,7 +119,7 @@ type BaseSqlDataSet<'T when 'T: (new: unit -> 'T)> private () =
             result.Add(_row.Item(0).ToString())
 
         if result.Count = 0 then
-            raise (Exception("123"))
+            raise (Exception("Row is empty"))
 
         result
 
