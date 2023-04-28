@@ -1,2 +1,41 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<rootElement></rootElement>
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>UserAPI</name></assembly>
+<members>
+<member name="M:UserAPI.Controllers.EmployeeController.Register(UserAPI.Models.SqlModel.RegisterEmployeeInfo)">
+ <summary>create new user</summary>
+ <remarks>create new user</remarks>
+ <param name="info">the information of new user you want to add in your database</param>
+ <returns></returns>
+ <response code="200">return information of new user</response>
+ <response code="400">if get mistake</response>
+</member>
+<member name="M:UserAPI.Controllers.EmployeeController.Login(UserAPI.Models.SqlModel.LoginEmployeeInfo)">
+ <summary>login</summary>
+ <remarks>login</remarks>
+ <returns>The token and basic information of user</returns>
+ <response code="200">return the new access token or announce already login</response>
+ <response code="400">Bad Request</response>
+ <response code="401">username or password is wrong</response>
+ <response code="403">This account is enable to login</response>
+</member>
+<member name="M:UserAPI.Controllers.EmployeeController.GetEmployeeById(System.String,System.String)">
+ <summary>get user by id</summary>
+ <remarks>get user by id</remarks>
+ <param name="employeeId">the id of employee you want to get</param>
+ <param name="fields">the specified fields you want to get</param>
+ <returns></returns>
+ <response code="200">return information of user with specified fields</response>
+ <response code="400">if get mistake</response>
+</member>
+<member name="M:UserAPI.Controllers.ProductionController.GetProductionById(System.String,System.String)">
+ <summary>get user by id</summary>
+ <remarks>get user by id</remarks>
+ <param name="productionId">the id of production you want to get</param>
+ <param name="fields">the specified fields you want to get</param>
+ <returns></returns>
+ <response code="200">return information of production with specified fields</response>
+ <response code="400">if get mistake</response>
+</member>
+</members>
+</doc>

@@ -2,6 +2,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>.\Properties\UserAPI.xml</DocumentationFile>
+		<OutputPath></OutputPath>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Connector\" />
@@ -16,6 +22,7 @@
     <Compile Include="Configuration\Constance.fs" />
     <Compile Include="APIAttribute.fs" />
     <Compile Include="Models\ActionResult.fs" />
+    <Compile Include="Models\Responder.fs" />
     <Compile Include="Models\SqlModel\Employee.fs" />
     <Compile Include="Models\SqlModel\Production.fs" />
     <Compile Include="Models\SqlModel\DataSet\BaseSqlDataSet.fs" />
