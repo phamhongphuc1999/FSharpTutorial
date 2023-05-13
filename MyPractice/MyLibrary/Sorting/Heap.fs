@@ -4,10 +4,10 @@ module Heap =
   let LEFT (i: int) =
     2 * i + 1
 
-  let RIGHT (i: int) = 
+  let RIGHT (i: int) =
     2 * i + 2
 
-  let rec Heapfy<'T> (source: 'T[]) (index: int) (length: int) (comparer: 'T -> 'T -> bool) = 
+  let rec Heapfy<'T> (source: 'T[]) (index: int) (length: int) (comparer: 'T -> 'T -> bool) =
     let left = LEFT index
     let right = RIGHT index
     let mutable largest = index
@@ -21,12 +21,12 @@ module Heap =
       source[largest] <- temp
       Heapfy source largest length comparer
 
-  let BuildHeap<'T> (source: 'T[]) (length: int) (comparer: 'T -> 'T -> bool) = 
+  let BuildHeap<'T> (source: 'T[]) (length: int) (comparer: 'T -> 'T -> bool) =
     let value = source.Length / 2;
     for i = value downto 0 do
       Heapfy source i length comparer
 
-  let HeapSort<'T> (source: 'T[]) (comparer: 'T -> 'T -> bool) = 
+  let HeapSort<'T> (source: 'T[]) (comparer: 'T -> 'T -> bool) =
     let tempArr = source |> Array.copy
     let length = tempArr.Length
     BuildHeap tempArr length comparer

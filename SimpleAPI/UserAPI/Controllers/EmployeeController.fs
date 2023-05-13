@@ -42,7 +42,7 @@ type EmployeeController =
     [<HttpPost("/register")>]
     [<ProducesResponseType(200, Type = typeof<ResponseSuccessType>)>]
     [<ProducesResponseType(400, Type = typeof<ResponseFailType>)>]
-    member this.Register([<FromBody>] info: RegisterEmployeeInfo) = 
+    member this.Register([<FromBody>] info: RegisterEmployeeInfo) =
         this.employeeService.Register info.username info.password info.email
 
     /// <summary>get user by id</summary>
@@ -59,5 +59,5 @@ type EmployeeController =
         this.employeeService.GetEmployeeById employeeId fileds
 
     [<HttpGet("/employee-list")>]
-    member this.GetAllEmployees([<FromQuery>] fileds: string) = 
+    member this.GetAllEmployees([<FromQuery>] fileds: string) =
         this.employeeService.SelectAll fileds

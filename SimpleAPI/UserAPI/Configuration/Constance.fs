@@ -13,6 +13,6 @@ type FullData =
 
 type TableSchema = { Name: string; Type: string }
 
-module Config = 
+module Config =
   let EmployeeElement = [|"id"; "username"; "password"; "email"|]
   let ProductionElement = [|"id"; "name"; "amount"; "employeeId"|]

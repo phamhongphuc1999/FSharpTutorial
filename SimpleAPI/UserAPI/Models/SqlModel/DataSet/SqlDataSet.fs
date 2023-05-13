@@ -31,7 +31,6 @@ type SqlDataSet<'T when 'T: (new: unit -> 'T)>(connection: MySqlConnection) =
             new MySqlCommand($"SELECT %s{projectCommand} FROM %s{this.TableName} %s{filterCommand};", this.Connection)
         command |> this.Execute
 
-    member this.InsertSingle (insertedElement: string) (insertedValue: string) = 
+    member this.InsertSingle (insertedElement: string) (insertedValue: string) =
         let command = new MySqlCommand($"INSERT INTO %s{this.TableName} (%s{insertedElement}) VALUES (%s{insertedValue});")
         command |> this.Execute
-

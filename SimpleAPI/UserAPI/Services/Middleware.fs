@@ -3,7 +3,7 @@ namespace UserAPI.Services
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.Logging
 
-type LoggerMiddleware private () = 
+type LoggerMiddleware private () =
   let mutable _next: RequestDelegate = null
   let mutable _logger: ILogger = null
   let mutable baseUrl: string = null
@@ -12,7 +12,7 @@ type LoggerMiddleware private () =
   member this.Logger with get() = _logger and private set value = _logger <- value
   member this.BaseUrl with get() = baseUrl and private set value = baseUrl <- value
 
-  new (next:  RequestDelegate, loggerFactory: ILoggerFactory, baseUrl: string) as this = 
+  new (next:  RequestDelegate, loggerFactory: ILoggerFactory, baseUrl: string) as this =
     LoggerMiddleware()
     then
       this.BaseUrl <- baseUrl

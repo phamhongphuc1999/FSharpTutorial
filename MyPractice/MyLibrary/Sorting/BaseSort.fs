@@ -112,7 +112,7 @@ module Sort =
 
         tempArr
 
-    let private Merge<'T> (source: 'T[]) (startIndex: int) (split: int) (endIndex: int) (comparer: 'T -> 'T -> bool) = 
+    let private Merge<'T> (source: 'T[]) (startIndex: int) (split: int) (endIndex: int) (comparer: 'T -> 'T -> bool) =
         let lowerLen = split - startIndex + 1
         let upperLen = endIndex - split
         let (lowerArr: 'T array) = Array.zeroCreate lowerLen
@@ -143,14 +143,14 @@ module Sort =
             upperCounter <- upperCounter + 1
             counter <- counter + 1
 
-    let rec private MergeListSort<'T> (source: 'T[]) (startIndex: int) (endIndex: int) (comparer: 'T -> 'T -> bool) = 
+    let rec private MergeListSort<'T> (source: 'T[]) (startIndex: int) (endIndex: int) (comparer: 'T -> 'T -> bool) =
         if startIndex < endIndex then
             let split = (startIndex + endIndex) / 2
             MergeListSort source startIndex split comparer
             MergeListSort source (split + 1) endIndex comparer
             Merge source startIndex split endIndex comparer
 
-    let MergeSort<'T> (source: 'T[]) (comparer: 'T -> 'T -> bool) = 
+    let MergeSort<'T> (source: 'T[]) (comparer: 'T -> 'T -> bool) =
         let tempArr = source |> Array.copy
         let length = tempArr.Length
         MergeListSort tempArr 0 (length - 1) comparer

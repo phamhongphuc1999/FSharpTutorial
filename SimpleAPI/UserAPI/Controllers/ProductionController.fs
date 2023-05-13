@@ -33,5 +33,5 @@ type ProductionController =
         this.productionService.GetProductionById productionId fileds
 
     [<HttpGet("/production-list")>]
-    member this.GetListProductions([<FromQuery>] fileds: string) = 
+    member this.GetListProductions([<FromQuery>] fileds: string) =
         this.productionService.SelectAll fileds

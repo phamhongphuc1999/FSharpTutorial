@@ -1,11 +1,11 @@
 namespace UserAPI.Models
 
-type ActionResult<'T>(data: 'T, statusCode: int) = 
+type ActionResult<'T>(data: 'T, statusCode: int) =
   let mutable data = data
   let mutable statusCode = statusCode
   let mutable message: string = ""
 
-  new (data: 'T, statusCode: int, _message: string) as this = 
+  new (data: 'T, statusCode: int, _message: string) as this =
     this.Message <- _message
     ActionResult(data, statusCode)
 
